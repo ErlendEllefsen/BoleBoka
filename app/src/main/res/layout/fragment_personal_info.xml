@@ -1,14 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Personal_info">
+    tools:context=".Personal_info" >
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/personaLINFO"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/personal_information"
+        android:textSize="30sp"
+        tools:layout_editor_absoluteX="64dp"
+        tools:layout_editor_absoluteY="110dp" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/height"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/height_in_cm"
+        android:inputType="number|numberDecimal"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="225dp" />
+
+    <EditText
+        android:id="@+id/weight"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/weight_in_kg"
+        android:inputType="number|numberDecimal"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="279dp" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_green_dark"
+        android:text="@string/save"
+        tools:layout_editor_absoluteX="81dp"
+        tools:layout_editor_absoluteY="343dp" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_red_dark"
+        android:text="@string/cancel"
+        tools:layout_editor_absoluteX="215dp"
+        tools:layout_editor_absoluteY="341dp" />
+
+    <CheckBox
+        android:id="@+id/checkBoxUnits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/feet_lbs"
+        tools:layout_editor_absoluteX="236dp"
+        tools:layout_editor_absoluteY="186dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,14 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".Signup">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/SignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_up"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="30sp"
+        tools:layout_editor_absoluteX="154dp"
+        tools:layout_editor_absoluteY="128dp" />
 
-</FrameLayout>
+    <AutoCompleteTextView
+        android:id="@+id/Username"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:completionHint="Username"
+        android:dropDownWidth="wrap_content"
+        android:text="@string/username"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="264dp" />
+
+    <AutoCompleteTextView
+        android:id="@+id/Firstname"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="@string/firstname"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="321dp" />
+
+    <AutoCompleteTextView
+        android:id="@+id/Lastname"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="@string/lastname"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="379dp" />
+
+    <EditText
+        android:id="@+id/Password"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:ems="9"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="437dp" />
+
+    <EditText
+        android:id="@+id/confirmPassword"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:hint="@string/confirm_password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="494dp" />
+
+    <Button
+        android:id="@+id/btnCreateUser"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_green_dark"
+        android:shadowColor="#FFFFFF"
+        android:text="@string/create_user"
+        tools:layout_editor_absoluteX="80dp"
+        tools:layout_editor_absoluteY="578dp" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="115dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_red_dark"
+        android:text="@string/cancel"
+        tools:layout_editor_absoluteX="215dp"
+        tools:layout_editor_absoluteY="578dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
