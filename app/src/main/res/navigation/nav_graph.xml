@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainActivity">
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.boleboka.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" >
+        <action
+            android:id="@+id/action_mainActivity_to_mainPage"
+            app:destination="@id/mainPage"
+            app:enterAnim="@anim/nav_default_enter_anim" />
+        <action
+            android:id="@+id/action_mainActivity_to_signup"
+            app:destination="@id/signup" />
+    </activity>
+    <fragment
+        android:id="@+id/mainPage"
+        android:name="com.example.boleboka.MainPage"
+        android:label="fragment_main_page"
+        tools:layout="@layout/fragment_main_page" >
+        <action
+            android:id="@+id/action_mainPage_to_active_workout"
+            app:destination="@id/active_workout" />
+        <action
+            android:id="@+id/action_mainPage_to_workouts"
+            app:destination="@id/workouts" />
+        <action
+            android:id="@+id/action_mainPage_to_stats"
+            app:destination="@id/stats" />
+        <action
+            android:id="@+id/action_mainPage_to_personal_info"
+            app:destination="@id/personal_info" />
+    </fragment>
+    <action android:id="@+id/action_global_mainPage" app:destination="@id/mainPage" />
+    <fragment
+        android:id="@+id/active_workout"
+        android:name="com.example.boleboka.Active_workout"
+        android:label="fragment_active_workout"
+        tools:layout="@layout/fragment_active_workout" />
+    <fragment
+        android:id="@+id/signup"
+        android:name="com.example.boleboka.Signup"
+        android:label="fragment_signup"
+        tools:layout="@layout/fragment_signup" >
+        <action
+            android:id="@+id/action_signup_to_mainPage2"
+            app:destination="@id/mainPage" />
+    </fragment>
+    <fragment
+        android:id="@+id/workouts"
+        android:name="com.example.boleboka.Workouts"
+        android:label="fragment_workouts"
+        tools:layout="@layout/fragment_workouts" >
+        <action
+            android:id="@+id/action_workouts_to_make_workout"
+            app:destination="@id/make_workout" />
+    </fragment>
+    <fragment
+        android:id="@+id/stats"
+        android:name="com.example.boleboka.Stats"
+        android:label="fragment_stats"
+        tools:layout="@layout/fragment_stats" />
+    <fragment
+        android:id="@+id/make_workout"
+        android:name="com.example.boleboka.Make_workout"
+        android:label="fragment_make_workout"
+        tools:layout="@layout/fragment_make_workout" />
+    <fragment
+        android:id="@+id/personal_info"
+        android:name="com.example.boleboka.Personal_info"
+        android:label="fragment_personal_info"
+        tools:layout="@layout/fragment_personal_info" />
+</navigation>
