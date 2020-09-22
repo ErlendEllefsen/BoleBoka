@@ -13,7 +13,7 @@
         android:layout_width="375dp"
         android:layout_height="60dp"
         android:background="@color/colorSuccess"
-        android:text="Button"
+        android:text="@string/startWorkout"
         android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

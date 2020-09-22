@@ -24,4 +24,5 @@
         <item>Core</item>
     </string-array>
     <string name="spinnerTitle">Select Workout</string>
+    <string name="startWorkout">Start Workout</string>
 </resources>
