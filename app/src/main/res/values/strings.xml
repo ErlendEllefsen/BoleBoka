@@ -11,6 +11,12 @@
     <string name="create_user">Create User</string>
     <string name="log_in">Login</string>
     <string name="cancel">Cancel</string>
+    <string name="stats">Stats</string>
+    <string name="all_time_label">All time</string>
+    <string name="monthly_label">Monthly</string>
+    <string name="by_workout_label">By workout</string>
+    <string name="graph_data_btn">Data displayed as graphs</string>
+    <string name="numeric_data_btn">Data displayed as numbers</string>
     <string name="personal_information">Personal Information</string>
     <string name="height_in_cm">Height in CM</string>
     <string name="weight_in_kg">Weight in KG</string>
