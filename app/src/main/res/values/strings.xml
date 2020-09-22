@@ -16,6 +16,7 @@
     <string name="weight_in_kg">Weight in KG</string>
     <string name="save">Save</string>
     <string name="feet_lbs"><![CDATA[Feet & Lbs]]></string>
+    <string name="workouts_headline">Workouts</string>
     <string-array name="workouts">
         <item>Back</item>
         <item>Legs</item>
