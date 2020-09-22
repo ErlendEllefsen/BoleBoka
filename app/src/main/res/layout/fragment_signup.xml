@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,80 +11,106 @@
         android:id="@+id/SignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="140dp"
         android:text="@string/sign_up"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="30sp"
-        tools:layout_editor_absoluteX="154dp"
-        tools:layout_editor_absoluteY="128dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <AutoCompleteTextView
         android:id="@+id/Username"
         android:layout_width="250dp"
         android:layout_height="50dp"
+        android:layout_marginTop="280dp"
         android:completionHint="Username"
         android:dropDownWidth="wrap_content"
-        android:text="@string/username"
+        android:hint="@string/username"
         android:textAlignment="center"
-        tools:layout_editor_absoluteX="80dp"
-        tools:layout_editor_absoluteY="264dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <AutoCompleteTextView
         android:id="@+id/Firstname"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:text="@string/firstname"
+        android:layout_marginTop="328dp"
+        android:hint="@string/firstname"
         android:textAlignment="center"
-        tools:layout_editor_absoluteX="80dp"
-        tools:layout_editor_absoluteY="321dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <AutoCompleteTextView
         android:id="@+id/Lastname"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:text="@string/lastname"
+        android:layout_marginTop="376dp"
+        android:hint="@string/lastname"
         android:textAlignment="center"
-        tools:layout_editor_absoluteX="80dp"
-        tools:layout_editor_absoluteY="379dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/Password"
         android:layout_width="250dp"
         android:layout_height="50dp"
+        android:layout_marginTop="424dp"
         android:ems="9"
         android:hint="@string/password"
         android:inputType="textPassword"
         android:textAlignment="center"
-        tools:layout_editor_absoluteX="80dp"
-        tools:layout_editor_absoluteY="437dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/confirmPassword"
         android:layout_width="250dp"
         android:layout_height="50dp"
+        android:layout_marginTop="472dp"
         android:ems="10"
         android:hint="@string/confirm_password"
         android:inputType="textPassword"
         android:textAlignment="center"
-        tools:layout_editor_absoluteX="80dp"
-        tools:layout_editor_absoluteY="494dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/btnCreateUser"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="115dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="576dp"
         android:background="@android:color/holo_green_dark"
         android:shadowColor="#FFFFFF"
         android:text="@string/create_user"
-        tools:layout_editor_absoluteX="80dp"
-        tools:layout_editor_absoluteY="578dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.27"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnCancel"
         android:layout_width="115dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="576dp"
         android:background="@android:color/holo_red_dark"
         android:text="@string/cancel"
-        tools:layout_editor_absoluteX="215dp"
-        tools:layout_editor_absoluteY="578dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.726"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
