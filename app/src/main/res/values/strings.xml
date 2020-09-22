@@ -15,4 +15,12 @@
     <string name="weight_in_kg">Weight in KG</string>
     <string name="save">Save</string>
     <string name="feet_lbs"><![CDATA[Feet & Lbs]]></string>
+    <string-array name="workouts">
+        <item>Back</item>
+        <item>Legs</item>
+        <item>Chest</item>
+        <item>Arms</item>
+        <item>Core</item>
+    </string-array>
+    <string name="spinnerTitle">Select Workout</string>
 </resources>
