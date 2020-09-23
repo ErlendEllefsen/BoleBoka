@@ -48,11 +48,11 @@
         android:id="@+id/imageView"
         android:layout_width="50dp"
         android:layout_height="46dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="108dp"
         android:src="@drawable/add_24px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.847"
+        app:layout_constraintHorizontal_bias="0.955"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
