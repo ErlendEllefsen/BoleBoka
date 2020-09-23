@@ -26,10 +26,19 @@
         android:id="@+id/workouts"
         android:name="com.example.boleboka.Workouts"
         android:label="fragment_workouts"
-        tools:layout="@layout/fragment_workouts" />
+        tools:layout="@layout/fragment_workouts" >
+        <action
+            android:id="@+id/action_workouts_to_make_workout"
+            app:destination="@id/make_workout" />
+    </fragment>
     <fragment
         android:id="@+id/active_workout"
         android:name="com.example.boleboka.Active_workout"
         android:label="fragment_active_workout"
         tools:layout="@layout/fragment_active_workout" />
+    <fragment
+        android:id="@+id/make_workout"
+        android:name="com.example.boleboka.Make_workout"
+        android:label="fragment_make_workout"
+        tools:layout="@layout/fragment_make_workout" />
 </navigation>

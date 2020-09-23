@@ -10,7 +10,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.fragment_main_page.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.example.android.navigation.databinding.startWorkout
 
 
 class MainPage : Fragment() {
@@ -20,10 +19,7 @@ class MainPage : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = DataBindingUtil.inflate<startWorkout>(inflater,
-            R.layout.fragment_main_page,container,false)
-
-        return binding.root
+        return inflater.inflate(R.layout.fragment_main_page, container, false)
     }
 
 }

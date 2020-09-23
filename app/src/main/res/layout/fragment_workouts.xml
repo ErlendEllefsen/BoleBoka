@@ -8,10 +8,10 @@
     android:layout_height="match_parent"
     android:background="@drawable/wallpaper"
     android:orientation="vertical"
-    tools:context="com.example.boleboka.Workouts.WorkoutFragment">
+    tools:context="com.example.boleboka.Workouts">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/chestButton"
         android:layout_width="250dp"
         android:layout_height="75dp"
         android:text="Chest"

@@ -9,7 +9,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.boleboka.android.navigation"
+        applicationId "com.example.boleboka"
         minSdkVersion 19
         targetSdkVersion 30
         vectorDrawables.useSupportLibrary = true
@@ -27,13 +27,6 @@ android {
     }
     buildFeatures {
         dataBinding true
-    }
-    sourceSets {
-        main {
-            res {
-                srcDirs 'src/main/res', 'src/main/res/navigation'
-            }
-        }
     }
     compileOptions{
         sourceCompatibility JavaVersion.VERSION_1_8

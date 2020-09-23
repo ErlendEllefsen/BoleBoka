@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView.setupWithNavController(navController)
     }
+    /*
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_menu,menu);
         return true
@@ -38,6 +39,11 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this,"Seeting clicked",Toast.LENGTH_SHORT).show()
             return true
         }
+
+
         return super.onOptionsItemSelected(item)
+
     }
+
+     */
 }
