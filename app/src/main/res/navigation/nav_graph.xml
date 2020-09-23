@@ -9,7 +9,14 @@
         android:id="@+id/startWorkout"
         android:name="com.example.boleboka.MainPage"
         android:label="fragment_main_page"
-        tools:layout="@layout/fragment_main_page" />
+        tools:layout="@layout/fragment_main_page" >
+        <action
+            android:id="@+id/action_startWorkout_to_active_workout"
+            app:destination="@id/active_workout"
+            app:enterAnim="@anim/fragment_close_enter"
+            app:exitAnim="@anim/fragment_close_exit"
+            app:launchSingleTop="false" />
+    </fragment>
     <fragment
         android:id="@+id/stats"
         android:name="com.example.boleboka.Stats"
@@ -20,4 +27,9 @@
         android:name="com.example.boleboka.Workouts"
         android:label="fragment_workouts"
         tools:layout="@layout/fragment_workouts" />
+    <fragment
+        android:id="@+id/active_workout"
+        android:name="com.example.boleboka.Active_workout"
+        android:label="fragment_active_workout"
+        tools:layout="@layout/fragment_active_workout" />
 </navigation>

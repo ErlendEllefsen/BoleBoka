@@ -6,7 +6,7 @@
         android:icon="@drawable/home"/>
     <item
         android:id="@+id/workouts"
-        android:title="Star"
+        android:title="Workhost"
         android:icon="@drawable/star"/>
     <item
         android:id="@+id/stats"
