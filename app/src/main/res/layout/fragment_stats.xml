@@ -26,7 +26,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.174"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statPageName" />
+        app:layout_constraintTop_toBottomOf="@+id/statPageName"
+        android:theme="@style/Theme.MaterialComponents.Light"/>
 
     <com.google.android.material.chip.Chip
         android:id="@+id/Monthly"
@@ -35,7 +36,8 @@
         android:layout_marginTop="144dp"
         app:layout_constraintEnd_toStartOf="@+id/ByWorkout"
         app:layout_constraintStart_toEndOf="@+id/allTimeButton"
-        app:layout_constraintTop_toBottomOf="@+id/statPageName" />
+        app:layout_constraintTop_toBottomOf="@+id/statPageName"
+        android:theme="@style/Theme.MaterialComponents.Light"/>
 
     <TextView
         android:id="@+id/allTimeText"
@@ -44,10 +46,9 @@
         android:text="@string/all_time_label"
         app:layout_constraintBottom_toTopOf="@+id/allTimeButton"
         app:layout_constraintEnd_toStartOf="@+id/monthlyText"
-        app:layout_constraintHorizontal_bias="0.426"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statPageName"
-        app:layout_constraintVertical_bias="0.865" />
+        app:layout_constraintVertical_bias="0.857" />
 
     <TextView
         android:id="@+id/monthlyText"
@@ -64,12 +65,12 @@
         android:id="@+id/byWorkoutText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="52dp"
+        android:layout_marginEnd="60dp"
         android:text="@string/by_workout_label"
         app:layout_constraintBottom_toTopOf="@+id/ByWorkout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statPageName"
-        app:layout_constraintVertical_bias="0.849" />
+        app:layout_constraintVertical_bias="0.857" />
 
     <Button
         android:id="@+id/graphDataBtn"
@@ -100,9 +101,10 @@
         android:id="@+id/ByWorkout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="68dp"
+        android:layout_marginEnd="72dp"
+        android:theme="@style/Theme.MaterialComponents.Light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.407" />
+        app:layout_constraintVertical_bias="0.417" />
 </androidx.constraintlayout.widget.ConstraintLayout>
