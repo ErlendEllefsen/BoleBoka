@@ -6,11 +6,11 @@
         android:icon="@drawable/home"/>
     <item
         android:id="@+id/workouts"
-        android:title="Workhost"
+        android:title="Workout"
         android:icon="@drawable/star"/>
     <item
         android:id="@+id/stats"
-        android:title="Chart"
+        android:title="Stats"
         android:icon="@drawable/chart"/>
 
 </menu>
