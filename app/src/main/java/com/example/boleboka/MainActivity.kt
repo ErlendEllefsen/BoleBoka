@@ -11,7 +11,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView.setupWithNavController(navController)
     }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+ /*   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.top_menu,menu);
         return true
     }
@@ -39,10 +37,6 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this,"Seeting clicked",Toast.LENGTH_SHORT).show()
             return true
         }
-
-
         return super.onOptionsItemSelected(item)
-
-    }
-    
+    }*/
 }
