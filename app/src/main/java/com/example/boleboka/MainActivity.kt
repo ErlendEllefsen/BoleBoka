@@ -33,10 +33,10 @@ class MainActivity : AppCompatActivity() {
         if (id == R.id.logout_action){
             Toast.makeText(this, "User will logout", Toast.LENGTH_SHORT).show()
             return true
-        }else{
-            Toast.makeText(this,"Seeting clicked",Toast.LENGTH_SHORT).show()
+        }else if (id == R.id.settings_action){
+            Toast.makeText(this,"Setting clicked",Toast.LENGTH_SHORT).show()
             return true
-        }
+        } else
         return super.onOptionsItemSelected(item)
     }
 }
