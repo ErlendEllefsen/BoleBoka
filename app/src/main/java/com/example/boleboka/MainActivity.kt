@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNav)
         val navController = findNavController(R.id.fragment)
         val appBarConfiguration = AppBarConfiguration(setOf(R.id.startWorkout, R.id.stats, R.id.workouts))
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        setupActionBarWithNavController(navController)
 
         bottomNavigationView.setupWithNavController(navController)
     }
