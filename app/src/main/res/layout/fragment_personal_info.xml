@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Personal_info" >
+    android:background="@drawable/wallpaper"
+    tools:context=".Personal_info">
 
     <TextView
         android:id="@+id/personaLINFO"
@@ -25,13 +26,13 @@
         android:layout_marginTop="224dp"
         android:ems="10"
         android:hint="@string/height_in_cm"
+        android:importantForAutofill="no"
         android:inputType="number|numberDecimal"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/weight"
@@ -40,20 +41,20 @@
         android:layout_marginTop="276dp"
         android:ems="10"
         android:hint="@string/weight_in_kg"
+        android:importantForAutofill="no"
         android:inputType="number|numberDecimal"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnSave"
         android:layout_width="115dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="340dp"
-        android:background="@android:color/holo_green_dark"
+        android:background="@color/colorSuccess"
         android:text="@string/save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.273"
