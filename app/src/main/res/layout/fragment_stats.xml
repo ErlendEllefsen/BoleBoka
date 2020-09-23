@@ -18,78 +18,54 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.chip.Chip
-        android:id="@+id/allTimeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="144dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.174"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statPageName"
-        android:theme="@style/Theme.MaterialComponents.Light"/>
-
-    <com.google.android.material.chip.Chip
-        android:id="@+id/Monthly"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="144dp"
-        app:layout_constraintEnd_toStartOf="@+id/ByWorkout"
-        app:layout_constraintStart_toEndOf="@+id/allTimeButton"
-        app:layout_constraintTop_toBottomOf="@+id/statPageName"
-        android:theme="@style/Theme.MaterialComponents.Light"/>
-
     <TextView
         android:id="@+id/allTimeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="76dp"
         android:text="@string/all_time_label"
-        app:layout_constraintBottom_toTopOf="@+id/allTimeButton"
         app:layout_constraintEnd_toStartOf="@+id/monthlyText"
+        app:layout_constraintHorizontal_bias="0.475"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statPageName"
-        app:layout_constraintVertical_bias="0.857" />
+        app:layout_constraintTop_toBottomOf="@+id/statPageName" />
 
     <TextView
         android:id="@+id/monthlyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="56dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="44dp"
         android:text="@string/monthly_label"
-        app:layout_constraintBottom_toTopOf="@+id/Monthly"
         app:layout_constraintEnd_toStartOf="@+id/byWorkoutText"
-        app:layout_constraintTop_toBottomOf="@+id/statPageName"
-        app:layout_constraintVertical_bias="0.857" />
+        app:layout_constraintTop_toBottomOf="@+id/statPageName" />
 
     <TextView
         android:id="@+id/byWorkoutText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="60dp"
+        android:layout_marginTop="76dp"
+        android:layout_marginEnd="64dp"
         android:text="@string/by_workout_label"
-        app:layout_constraintBottom_toTopOf="@+id/ByWorkout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/statPageName"
-        app:layout_constraintVertical_bias="0.857" />
+        app:layout_constraintTop_toBottomOf="@+id/statPageName" />
 
     <Button
         android:id="@+id/graphDataBtn"
         android:layout_width="246dp"
         android:layout_height="105dp"
+        android:layout_marginBottom="32dp"
         android:background="@android:color/holo_green_dark"
         android:text="@string/graph_data_btn"
         app:layout_constraintBottom_toTopOf="@+id/numberDataBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Monthly"
-        app:layout_constraintVertical_bias="0.813" />
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/numberDataBtn"
         android:layout_width="246dp"
         android:layout_height="105dp"
-        android:layout_marginBottom="108dp"
+        android:layout_marginBottom="104dp"
         android:background="@android:color/holo_green_dark"
         android:text="@string/numeric_data_btn"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -97,14 +73,36 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.google.android.material.chip.Chip
-        android:id="@+id/ByWorkout"
+    <RadioButton
+        android:id="@+id/allTimeRadio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="72dp"
-        android:theme="@style/Theme.MaterialComponents.Light"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="72dp"
+        app:layout_constraintBottom_toTopOf="@+id/graphDataBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/allTimeText"
+        app:layout_constraintVertical_bias="0.117" />
+
+    <RadioButton
+        android:id="@+id/monthlyRadio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/graphDataBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.417" />
+        app:layout_constraintHorizontal_bias="0.318"
+        app:layout_constraintStart_toEndOf="@+id/allTimeRadio"
+        app:layout_constraintTop_toBottomOf="@+id/monthlyText"
+        app:layout_constraintVertical_bias="0.117" />
+
+    <RadioButton
+        android:id="@+id/byWorkoutRadio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/graphDataBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.474"
+        app:layout_constraintStart_toEndOf="@+id/monthlyRadio"
+        app:layout_constraintTop_toBottomOf="@+id/byWorkoutText"
+        app:layout_constraintVertical_bias="0.117" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
