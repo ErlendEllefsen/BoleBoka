@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@drawable/wallpaper"
     tools:context=".Signup">
 
     <TextView
@@ -65,13 +65,13 @@
         android:layout_marginTop="424dp"
         android:ems="9"
         android:hint="@string/password"
+        android:importantForAutofill="no"
         android:inputType="textPassword"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/confirmPassword"
@@ -80,13 +80,13 @@
         android:layout_marginTop="472dp"
         android:ems="10"
         android:hint="@string/confirm_password"
+        android:importantForAutofill="no"
         android:inputType="textPassword"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnCreateUser"
@@ -94,7 +94,7 @@
         android:layout_width="115dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="576dp"
-        android:background="@android:color/holo_green_dark"
+        android:background="@color/colorSuccess"
         android:shadowColor="#FFFFFF"
         android:text="@string/create_user"
         app:layout_constraintEnd_toEndOf="parent"
