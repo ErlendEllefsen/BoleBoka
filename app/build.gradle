@@ -1,8 +1,13 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
+    dataBinding {
+    enabled = true
+    }
+
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
@@ -49,5 +54,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+    kapt "com.android.databinding:compiler:$android_plugin_version"
 
+}
+kapt {
+    generateStubs = true
 }
