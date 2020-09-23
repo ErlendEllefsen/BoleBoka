@@ -4,17 +4,15 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    dataBinding {
-    enabled = true
-    }
 
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.boleboka"
+        applicationId "com.example.boleboka.android.navigation"
         minSdkVersion 19
         targetSdkVersion 30
+        vectorDrawables.useSupportLibrary = true
         versionCode 1
         versionName "1.0"
 
@@ -27,7 +25,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
+    buildFeatures {
+        dataBinding true
+    }
+    sourceSets {
+        main {
+            res {
+                srcDirs 'src/main/res', 'src/main/res/navigation'
+            }
+        }
+    }
     compileOptions{
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
