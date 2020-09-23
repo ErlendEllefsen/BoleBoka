@@ -5,12 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.fragment_main_page.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.example.android.navigation.databinding.startWorkout
+import androidx.navigation.findNavController
+import com.example.boleboka.databinding.FragmentMainPageBinding
 
 
 class MainPage : Fragment() {
@@ -20,9 +17,12 @@ class MainPage : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = DataBindingUtil.inflate<startWorkout>(inflater,
+        val binding = DataBindingUtil.inflate<FragmentMainPageBinding>(inflater,
             R.layout.fragment_main_page,container,false)
 
+        binding.startBtn.setOnClickListener { view : View ->
+            view.findNavController().navigate(R.id.action_startWorkout_to_active_workout)
+        }
         return binding.root
     }
 
