@@ -37,7 +37,7 @@
         android:id="@+id/button2"
         android:layout_width="250dp"
         android:layout_height="75dp"
-        android:layout_marginBottom="388dp"
+        android:layout_marginBottom="328dp"
         android:text="Low-incline Bench Press"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"

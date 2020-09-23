@@ -26,13 +26,12 @@ class Workouts : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val binding = DataBindingUtil.inflate<FragmentWorkoutsBinding>(inflater,
             R.layout.fragment_workouts,container,false)
-        binding.chestButton.setOnClickListener {
             binding.chestButton.setOnClickListener { view: View ->
                 view.findNavController().navigate(R.id.action_workouts_to_make_workout)
-            }
+
         }
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_workouts, container, false)
+        return binding.root
     }
 
     }
