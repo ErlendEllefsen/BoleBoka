@@ -10,7 +10,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/wallpaper"
         android:orientation="horizontal"
         tools:context=".MainPage">
 
@@ -29,12 +28,12 @@
 
         <Spinner
             android:id="@+id/spinner"
-            android:prompt="@string/spinnerTitle"
             android:layout_width="375dp"
             android:layout_height="60dp"
             android:background="@color/colorWhite"
             android:entries="@array/workouts"
             android:popupBackground="@color/colorWhite"
+            android:prompt="@string/spinnerTitle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
