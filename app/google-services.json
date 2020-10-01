@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "830245232430",
+    "firebase_url": "https://gruppe10-treningsdagbok.firebaseio.com",
+    "project_id": "gruppe10-treningsdagbok",
+    "storage_bucket": "gruppe10-treningsdagbok.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830245232430:android:297057711c6265bc81e4bf",
+        "android_client_info": {
+          "package_name": "com.example.boleboka"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830245232430-7iv2a3580edv662v1votd67d3a40euld.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.boleboka",
+            "certificate_hash": "6004a1d0afed24d054f69e10c6b4a3ff387277b5"
+          }
+        },
+        {
+          "client_id": "830245232430-h1003p427jm9ju2f6j6mtg9tb8v68j1n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzm27Hk09Y0qfz5ArFfJ6pLadE-fMAIpM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830245232430-h1003p427jm9ju2f6j6mtg9tb8v68j1n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
