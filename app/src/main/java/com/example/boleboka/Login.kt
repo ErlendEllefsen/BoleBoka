@@ -1,6 +1,6 @@
-/*
-package com.example.boleboka
 
+package com.example.boleboka
+/*
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -98,5 +98,4 @@ open class Login : Fragment() {
             }
         }
     }
-}
-*/
+}*/
