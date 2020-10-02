@@ -22,6 +22,7 @@
     <string name="save">Save</string>
     <string name="feet_lbs"><![CDATA[Feet & Lbs]]></string>
     <string name="workouts_headline">Workouts</string>
+    <string name="fab_content_desc">Add Workout</string>
     <string-array name="workouts">
         <item>Back</item>
         <item>Legs</item>

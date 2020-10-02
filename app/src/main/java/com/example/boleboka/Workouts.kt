@@ -5,17 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_workouts.*
+import kotlin.random.Random
 
-class Workouts : Fragment() {
+class Workouts : Fragment(), Adapter.OnItemClickListener {
 
+    private val workoutList = generateDummyList(500)
+    private val adapter = Adapter(workoutList, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
     }
 
 
@@ -29,13 +30,43 @@ class Workouts : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val workoutList = generateDummyList(500)
-        recycler_view.adapter = Adapter(workoutList)
-        recycler_view.layoutManager = LinearLayoutManager(context)
-        //performance optimization
-        recycler_view.setHasFixedSize(true)
+            recycler_view.adapter = adapter
+            recycler_view.layoutManager = LinearLayoutManager(context)
+            //performance optimization
+            recycler_view.setHasFixedSize(true)
+            btn_insert.setOnClickListener() {
+                insertItem(view)
+            }
+            btn_remove.setOnClickListener() {
+                removeItem(view)
+            }
     }
-    private fun generateDummyList(size: Int): List<Workout_Item> {
+
+    private fun insertItem(view: View){
+        val index = Random.nextInt(1,8)
+        val newItem = Workout_Item("NEW ITEM AT $index", "DAMN DANIEL 2")
+        workoutList.add(index, newItem)
+        adapter.notifyItemInserted(index)
+    }
+    private fun removeItem(view: View){
+        val index = Random.nextInt(8)
+        workoutList.removeAt(index)
+        adapter.notifyItemRemoved(index)
+
+    }
+
+    override fun onItemClick(position: Int) {
+        Toast.makeText(context, "Item $position clicked", Toast.LENGTH_SHORT).show()
+        val clickedItem = workoutList[position]
+        clickedItem.text1 = "Clicked"
+        adapter.notifyItemChanged(position)
+        /*
+         * TODO: Her skal vi implementere hva som skjer når man trykker på en bestemt workout.
+         *       Man kan forwarde position herfra, som kanskje er det samme som ID til workouten i databasen?
+         */
+    }
+
+    private fun generateDummyList(size: Int): ArrayList<Workout_Item> {
 
         val list = ArrayList<Workout_Item>()
 

@@ -1,3 +1,3 @@
 package com.example.boleboka
 
-data class Workout_Item (val text1: String, val text2: String)
+data class Workout_Item (var text1: String, var text2: String)
