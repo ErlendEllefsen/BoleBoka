@@ -10,50 +10,35 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/workout_buttons"
-        android:layout_marginBottom="-2dp"
         android:clipToPadding="false"
         android:padding="4dp"
         tools:listitem="@layout/workout_items" />
 
     <LinearLayout
         android:id="@+id/workout_buttons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:padding="4dp"
-        android:clipToPadding="false"
-        android:layout_marginBottom="75dp">
-        <Button
-            android:id="@+id/btn_insert"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Insert Item"
-            android:layout_weight="1"
-            android:onClick="insertItem"/>
-        <Button
-            android:id="@+id/btn_remove"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Remove Item"
-            android:layout_weight="1"
-            android:onClick="removeItem"/>
-
-    </LinearLayout>
-
-   <!-- <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="135dp"
-        android:contentDescription="@string/fab_content_desc"
-        app:backgroundTint="@color/colorAccent"
-        app:srcCompat="@drawable/ic_plus_24" />-->
+        android:layout_marginBottom="75dp"
+        android:clipToPadding="false"
+
+        android:padding="4dp">
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_insert"
+            android:layout_width="147dp"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/fab_content_desc"
+
+            android:onClick="showDialog"
+            app:backgroundTint="@color/colorAccent"
+            app:srcCompat="@drawable/ic_plus_24" />
+
+    </LinearLayout>
+
+
 
 
 </RelativeLayout>

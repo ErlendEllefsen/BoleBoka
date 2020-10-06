@@ -15,12 +15,13 @@ class Adapter(private val exampleList: List<Workout_Item>, private val listner: 
         return ViewHolder(itemView)
     }
 
-    /*
-     *Blir called hver gang du scroller og nye views kommer inn.
-     *Ikke add noe kode i denne, da vil appen bli treg
-     *Bruk class ViewHolder
-     */
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        /*
+         *Blir called hver gang du scroller og nye views kommer inn.
+         *Ikke add noe kode i denne, da vil appen bli treg
+         *Bruk class ViewHolder
+         */
         val currentItem = exampleList[position]
         holder.textView1.text = currentItem.text1
         holder.textView2.text = currentItem.text2

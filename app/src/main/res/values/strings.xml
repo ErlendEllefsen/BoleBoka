@@ -32,4 +32,9 @@
     </string-array>
     <string name="spinnerTitle">Select Workout</string>
     <string name="startWorkout">Start Workout</string>
+    <string name="dialog_info">Add a Workout!</string>
+    <string name="tip_add_workout">Workout Name:</string>
+    <string name="tip_add_workout_tip">Description</string>
+    <string name="exercise_name">Exercise Name</string>
+    <string name="exercise_reps">Reps</string>
 </resources>

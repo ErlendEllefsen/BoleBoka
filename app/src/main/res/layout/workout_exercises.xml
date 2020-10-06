@@ -14,14 +14,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:text="Line 1" />
+            android:text="Exercise Name" />
 
         <TextView
             android:id="@+id/text_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_1"
-            android:text="Line 2" />
+            android:text="Reps" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
