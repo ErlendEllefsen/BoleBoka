@@ -10,17 +10,17 @@
         android:padding="20dp">
 
         <TextView
-            android:id="@+id/text_1"
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:text="Exercise Name" />
 
         <TextView
-            android:id="@+id/text_2"
+            android:id="@+id/reps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text_1"
+            android:layout_below="@+id/name"
             android:text="Reps" />
     </RelativeLayout>
 

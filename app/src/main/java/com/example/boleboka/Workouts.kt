@@ -1,9 +1,6 @@
 package com.example.boleboka
 
-import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,17 +9,21 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.boleboka.databinding.FragmentWorkoutsBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_workout.*
+import kotlinx.android.synthetic.main.edit_workout.*
 import kotlinx.android.synthetic.main.fragment_workouts.*
-import kotlin.random.Random
+import kotlinx.android.synthetic.main.fragment_workouts.btn_insert
 
 class Workouts : Fragment(), Adapter.OnItemClickListener {
 
-    private val workoutList = generateDummyList(20)
+    private val workoutList = generateWorkoutList(20)
+
     private val adapter = Adapter(workoutList, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,22 +35,28 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_workouts, container, false)
+
+        val binding = DataBindingUtil.inflate<FragmentWorkoutsBinding>(inflater,
+            R.layout.fragment_workouts,container,false)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-            recycler_view.adapter = adapter
-            recycler_view.layoutManager = LinearLayoutManager(context)
-            //performance optimization
-            recycler_view.setHasFixedSize(true)
-            btn_insert.setOnClickListener() {
-                showDialog(view)
-            }
-           /* btn_remove.setOnClickListener() {
-                removeItem(view)
-            }*/
+        recycler_view.adapter = adapter
+        recycler_view.layoutManager = LinearLayoutManager(context)
+        //performance optimization
+        recycler_view.setHasFixedSize(true)
+        btn_insert.setOnClickListener() {
+            showDialog(view)
+        }
+
+        /* btn_remove.setOnClickListener() {
+             removeItem(view)
+         }*/
+
+
     }
 
     private fun showDialog(view: View) {
@@ -64,20 +71,19 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
             val workoutDesc = inputDesc.text.toString()
             // Sjekker om EditText er tom
             if (workoutName == "") {
-                val noNameToast = Toast.makeText(context,"No name",Toast.LENGTH_SHORT)
+                val noNameToast = Toast.makeText(context, "No name", Toast.LENGTH_SHORT)
                 noNameToast.show()
-            }
-            else{
-                insertItem(view, workoutName, workoutDesc)
+            } else {
+                insertItem(workoutName, workoutDesc)
                 dialog.dismiss()
+                view.findNavController().navigate(R.id.action_workouts_to_exercise)
+
             }
         }
-
         dialog.show()
-
     }
 
-    private fun insertItem(view: View, name: String, desc: String){
+    private fun insertItem(name: String, desc: String) {
         /*
          * TODO: Jon, her må kode som legger til den nye workouten i databasen legges
          */
@@ -91,32 +97,49 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
             recycler_view.scrollToPosition(0)
         }
     }
-    private fun removeItem(view: View){
-        val index = Random.nextInt(8)
-        workoutList.removeAt(index)
-        adapter.notifyItemRemoved(index)
 
+    private fun removeItem(position: Int) {
+        workoutList.removeAt(position)
+        adapter.notifyItemRemoved(position)
+        val workoutName = workoutList[position].text1
+        Toast.makeText(context, "Workout $workoutName deleted", Toast.LENGTH_SHORT).show()
+       // TODO("Slette i databasen")
     }
+
 
     override fun onItemClick(position: Int) {
-        Toast.makeText(context, "Item $position clicked", Toast.LENGTH_SHORT).show()
-        val clickedItem = workoutList[position]
-        clickedItem.text1 = "Clicked"
-        adapter.notifyItemChanged(position)
-        /*
-         * TODO: Her skal vi implementere hva som skjer når man trykker på en bestemt workout.
-         *       Man kan forwarde position herfra, som kanskje er det samme som ID til workouten i databasen?
-         */
+        val exerciseDialog = Dialog(fragment.requireContext())
+        exerciseDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        exerciseDialog.setContentView(R.layout.edit_workout)
+        val btnDelete = exerciseDialog.btn_delete as com.google.android.material.floatingactionbutton.FloatingActionButton
+        val btnAdd = exerciseDialog.save_btn_ex as Button
+        exerciseDialog.show()
+        btnDelete.setOnClickListener {
+            removeItem(position)
+            exerciseDialog.dismiss()
+        }
+        btnAdd.setOnClickListener {
+            val workoutName = "Workoutname"
+            val workoutDesc = "Description"
+            insertItem(workoutName, workoutDesc)
+            exerciseDialog.dismiss()
+        }
+
     }
 
-    private fun generateDummyList(size: Int): ArrayList<Workout_Item> {
+
+    private fun generateWorkoutList(size: Int): ArrayList<Workout_Item> {
 
         val list = ArrayList<Workout_Item>()
 
-        for (i in 0 until size){
+        for (i in 0 until size) {
             val item = Workout_Item("Item $i", "Line $i")
-            list+=item
+            list += item
         }
         return list
     }
+
+
+
+
 }
