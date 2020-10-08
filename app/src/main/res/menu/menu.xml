@@ -2,15 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/startWorkout"
-        android:title="Home"
-        android:icon="@drawable/home"/>
+        android:title="Start"
+        android:icon="@drawable/lifter"/>
     <item
         android:id="@+id/workouts"
-        android:title="Workout"
-        android:icon="@drawable/star"/>
+        android:title="Workouts"
+        android:icon="@drawable/arm"/>
     <item
         android:id="@+id/stats"
-        android:title="Stats"
-        android:icon="@drawable/chart"/>
+        android:icon="@drawable/chart"
+        android:title="Stats" />
+    <item
+        android:id="@+id/personal_info"
+        android:icon="@drawable/profile"
+        android:title="Profile" />
 
 </menu>
