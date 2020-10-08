@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     buildFeatures {
@@ -40,6 +41,13 @@ android {
 
 dependencies {
 
+    //Firebase dependencies & loggin auth
+    //Firebase
+    implementation 'com.google.firebase:firebase-auth-ktx:19.4.0'
+
+    //Login
+    //Playservice auth
+    implementation 'com.google.android.gms:play-services-auth:18.1.0'
 
     def nav_version = "2.3.0"
 
@@ -62,13 +70,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 
-    //Firebase dependencies & loggin auth
-    //Firebase
-    implementation 'com.google.firebase:firebase-auth-ktx:19.4.0'
 
-    //Login
-    //Playservice auth
-    implementation 'com.google.android.gms:play-services-auth:18.1.0'
 
 
 }

@@ -3,14 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/startWorkout">
+    app:startDestination="@+id/startWorkout">
 
-    <fragment
-        android:id="@+id/login"
-        android:name="com.example.boleboka.Login"
-        android:label="Login"
-        tools:layout="@layout/fragment_login"
-        />
     <fragment
         android:id="@+id/startWorkout"
         android:name="com.example.boleboka.MainPage"
@@ -52,4 +46,14 @@
         android:name="com.example.boleboka.Personal_info"
         android:label="Personal Info"
         tools:layout="@layout/fragment_personal_info" />
+
+    <fragment
+        android:id="@+id/login"
+        android:name="com.example.boleboka.Login"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
+        <action
+
+            />
+    </fragment>
 </navigation>

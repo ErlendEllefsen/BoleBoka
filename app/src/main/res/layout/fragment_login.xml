@@ -17,10 +17,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.gms.common.internal.SignInButtonImpl
+    <Button
         android:id="@+id/google_button"
-        android:layout_width="67dp"
-        android:layout_height="38dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign in with Google"
+        android:drawableStart="@drawable/common_google_signin_btn_icon_dark_normal"
+        android:drawablePadding="4dp"
+        android:textColor="@color/common_google_signin_btn_text_light_default"
+        android:paddingEnd="4dp"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
