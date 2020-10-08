@@ -32,4 +32,5 @@
     </string-array>
     <string name="spinnerTitle">Select Workout</string>
     <string name="startWorkout">Start Workout</string>
+    <string name="click_here_to_logout">Logout</string>
 </resources>

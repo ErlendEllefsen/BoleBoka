@@ -6,6 +6,12 @@
     app:startDestination="@id/startWorkout">
 
     <fragment
+        android:id="@+id/login"
+        android:name="com.example.boleboka.Login"
+        android:label="Login"
+        tools:layout="@layout/fragment_login"
+        />
+    <fragment
         android:id="@+id/startWorkout"
         android:name="com.example.boleboka.MainPage"
         android:label="Main Page"
