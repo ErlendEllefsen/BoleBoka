@@ -2,13 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/coordinatorLayout"
+    android:id="@+id/coordinatorLayout_ex"
     android:layout_width="250dp"
-    android:layout_height="400dp"
+    android:layout_height="300dp"
     tools:context=".Workouts">
 
     <TextView
-        android:id="@+id/body"
+        android:id="@+id/body_ex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/workouts_headline"
@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.044" />
 
     <EditText
-        android:id="@+id/workoutName"
+        android:id="@+id/workoutName_ex"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:hint="@string/exercise_name"
@@ -29,10 +29,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.178" />
+        app:layout_constraintVertical_bias="0.253" />
 
     <EditText
-        android:id="@+id/workoutDesc"
+        android:id="@+id/workoutDesc_ex"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:hint="@string/exercise_reps"
@@ -40,22 +40,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.343" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.63"
-        tools:listitem="@layout/workout_exercises" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/save_btn"
+        android:id="@+id/save_btn_ex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
@@ -67,7 +55,7 @@
         app:layout_constraintVertical_bias="0.892" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_insert"
+        android:id="@+id/btn_delete"
         app:fabSize="mini"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

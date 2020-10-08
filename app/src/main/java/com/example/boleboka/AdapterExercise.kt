@@ -6,12 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.exercise_items.view.*
-import kotlinx.android.synthetic.main.workout_items.view.*
 
-class Adapter(private val workoutList: ArrayList<Workout_Item>, private val listner: OnItemClickListener) : RecyclerView.Adapter<Adapter.ViewHolder>() {
+class AdapterExercise(private val exerciseList: List<Exercise_Item>, private val listnerExercise: OnItemClickListener) : RecyclerView.Adapter<AdapterExercise.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.workout_items, parent, false)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.exercise_items, parent, false)
         return ViewHolder(itemView)
     }
 
@@ -22,19 +21,17 @@ class Adapter(private val workoutList: ArrayList<Workout_Item>, private val list
          *Ikke add noe kode i denne, da vil appen bli treg
          *Bruk class ViewHolder
          */
-
-        val currentWorkoutItem = workoutList[position]
-        holder.workoutView1.text = currentWorkoutItem.text1
-        holder.workoutView2.text = currentWorkoutItem.text2
+        val currentItem = exerciseList[position]
+        holder.textView1.text = currentItem.name
+        holder.textView2.text = currentItem.reps.toString()
     }
 
-    override fun getItemCount() = workoutList.size
+    override fun getItemCount() = exerciseList.size
 
     // "inner" gjør klassen non-static
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        val workoutView1: TextView = itemView.text_1
-        val workoutView2: TextView = itemView.text_2
-
+        val textView1: TextView = itemView.name
+        val textView2: TextView = itemView.reps
 
         //Konstruktør
         init {
@@ -49,13 +46,13 @@ class Adapter(private val workoutList: ArrayList<Workout_Item>, private val list
              * Derfor må vi sjekke med en if-setning for å unngå at appen krasjer
              */
             if(position != RecyclerView.NO_POSITION) {
-                listner.onItemClick(position)
+                listnerExercise.onExerciseClick(position)
             }
         }
     }
 
     //Brukes for å sende click event til andre plasser, ikke hensiktsmessig å ha det i adapteren
     interface OnItemClickListener{
-        fun onItemClick(position: Int)
+        fun onExerciseClick(position: Int)
     }
 }

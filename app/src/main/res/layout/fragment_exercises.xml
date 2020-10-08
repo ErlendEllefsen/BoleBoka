@@ -10,20 +10,28 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/fragment_workout"
-        tools:context=".Workouts">
+        android:id="@+id/fragment_exercise"
+        tools:context=".Exercise">
 
+        <TextView
+            android:id="@+id/workoutHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="workoutheader"
+            android:layout_centerHorizontal="true"
+            android:textSize="30sp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/recycler_view_exercise"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:padding="4dp"
-            tools:listitem="@layout/workout_items" />
+            android:layout_below="@+id/workoutHeader"
+            tools:listitem="@layout/exercise_items" />
 
         <LinearLayout
-            android:id="@+id/workout_buttons"
+            android:id="@+id/exercise_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -45,6 +53,8 @@
                 app:srcCompat="@drawable/ic_plus_24" />
 
         </LinearLayout>
+
+
 
 
     </RelativeLayout>

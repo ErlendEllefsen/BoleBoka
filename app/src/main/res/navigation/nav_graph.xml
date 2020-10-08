@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_workouts_to_make_workout"
             app:destination="@id/make_workout" />
+        <action
+            android:id="@+id/action_workouts_to_exercise"
+            app:destination="@id/exercise" />
     </fragment>
     <fragment
         android:id="@+id/active_workout"
@@ -46,4 +49,13 @@
         android:name="com.example.boleboka.Personal_info"
         android:label="Personal Info"
         tools:layout="@layout/fragment_personal_info" />
+    <fragment
+        android:id="@+id/exercise"
+        android:name="com.example.boleboka.Exercise"
+        android:label="fragment_exercises"
+        tools:layout="@layout/fragment_exercises" >
+        <action
+            android:id="@+id/action_exercise_to_workouts"
+            app:destination="@id/workouts" />
+    </fragment>
 </navigation>
