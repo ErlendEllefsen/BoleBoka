@@ -5,18 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.databinding.DataBindingUtil
+import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.boleboka.databinding.FragmentExercisesBinding
-import kotlinx.android.synthetic.main.edit_workout.*
 import kotlinx.android.synthetic.main.fragment_exercises.*
-import kotlinx.android.synthetic.main.fragment_exercises.view.*
 
 
 class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
-    private val exerciseList = generateExerciseList(5)
+    private val exerciseList = generateExerciseList(100)
     private val adapterEx = AdapterExercise(exerciseList, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +36,11 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         //performance optimization
         recycler_view_exercise.setHasFixedSize(true)
 
-
+        // Henter message i communicator
+        val model= ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
+        val txt = exerciseHeader as TextView
+        model.message.observe(viewLifecycleOwner,
+            { o -> txt.text = o!!.toString() })
     }
 
     private fun deleteItem(view: View, position: Int) {
@@ -58,7 +60,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val list = ArrayList<Exercise_Item>()
 
         for (i in 0 until size) {
-            val item = Exercise_Item("Exercise $i", i + 10)
+            val item = Exercise_Item("Exercise $i", 1)
             list += item
         }
         return list

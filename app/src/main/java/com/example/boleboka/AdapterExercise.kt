@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.exercise_items.view.*
 
-class AdapterExercise(private val exerciseList: List<Exercise_Item>, private val listnerExercise: OnItemClickListener) : RecyclerView.Adapter<AdapterExercise.ViewHolder>() {
+class AdapterExercise(private val exerciseList: List<Exercise_Item>, private val listnerExercise: Exercise) : RecyclerView.Adapter<AdapterExercise.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.exercise_items, parent, false)

@@ -1,7 +1,7 @@
 package com.example.boleboka
 
 import android.app.Dialog
-import android.graphics.Color
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,17 +11,22 @@ import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_workout.*
 import kotlinx.android.synthetic.main.edit_workout.*
-import kotlinx.android.synthetic.main.fragment_exercises.*
 import kotlinx.android.synthetic.main.fragment_workouts.*
 import kotlinx.android.synthetic.main.fragment_workouts.btn_insert
 
 class Workouts : Fragment(), Adapter.OnItemClickListener {
+
+    companion object {
+        lateinit var mctx: Context
+    }
+    private var model: Communicator?=null
+
 
     private val workoutList = generateWorkoutList(20)
 
@@ -37,8 +42,6 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        view?.setBackgroundColor(Color.parseColor("#fffff"))
         return inflater.inflate( R.layout.fragment_workouts,container,false)
 
     }
@@ -49,12 +52,13 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         recycler_view.layoutManager = LinearLayoutManager(context)
         //performance optimization
         recycler_view.setHasFixedSize(true)
+        model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
         btn_insert.setOnClickListener() {
-             showDialog(view)
-         }
+             showDialog(view, model)
+        }
     }
 
-    private fun showDialog(view: View) {
+    private fun showDialog(view: View, modelProviders: Communicator?) {
         val dialog = Dialog(fragment.requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.add_workout)
@@ -71,8 +75,10 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
                 noNameToast.show()
             } else {
                 insertItem(workoutName, workoutDesc)
+                // Sender navnet på den nye workouten til exersise.kt
+                model!!.setMsgCommunicator(workoutName)
                 dialog.dismiss()
-              //  view.findNavController().navigate(R.id.action_workouts_to_exercise)
+                view.findNavController().navigate(R.id.action_workouts_to_exercise)
             }
         }
         dialog.show()
@@ -108,8 +114,8 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         exerciseDialog.setContentView(R.layout.edit_workout)
         val btnDelete = exerciseDialog.btn_delete as com.google.android.material.floatingactionbutton.FloatingActionButton
         val btnAdd = exerciseDialog.save_btn_ex as Button
-        var changeDesc  = exerciseDialog.changeDesc as EditText
-        var changeName = exerciseDialog.changeName as EditText
+        val changeDesc  = exerciseDialog.changeDesc as EditText
+        val changeName = exerciseDialog.changeName as EditText
         exerciseDialog.show()
         btnDelete.setOnClickListener {
             removeItem(position)
