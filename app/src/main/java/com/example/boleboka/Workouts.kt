@@ -1,6 +1,7 @@
 package com.example.boleboka
 
 import android.app.Dialog
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,10 +14,10 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.boleboka.databinding.FragmentWorkoutsBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_workout.*
 import kotlinx.android.synthetic.main.edit_workout.*
+import kotlinx.android.synthetic.main.fragment_exercises.*
 import kotlinx.android.synthetic.main.fragment_workouts.*
 import kotlinx.android.synthetic.main.fragment_workouts.btn_insert
 
@@ -28,6 +29,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
 
@@ -36,10 +38,9 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = DataBindingUtil.inflate<FragmentWorkoutsBinding>(inflater,
-            R.layout.fragment_workouts,container,false)
+        view?.setBackgroundColor(Color.parseColor("#fffff"))
+        return inflater.inflate( R.layout.fragment_workouts,container,false)
 
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,14 +50,8 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         //performance optimization
         recycler_view.setHasFixedSize(true)
         btn_insert.setOnClickListener() {
-            showDialog(view)
-        }
-
-        /* btn_remove.setOnClickListener() {
-             removeItem(view)
-         }*/
-
-
+             showDialog(view)
+         }
     }
 
     private fun showDialog(view: View) {
@@ -69,6 +64,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         yesBtn.setOnClickListener {
             val workoutName = input.text.toString()
             val workoutDesc = inputDesc.text.toString()
+
             // Sjekker om EditText er tom
             if (workoutName == "") {
                 val noNameToast = Toast.makeText(context, "No name", Toast.LENGTH_SHORT)
@@ -76,8 +72,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
             } else {
                 insertItem(workoutName, workoutDesc)
                 dialog.dismiss()
-                view.findNavController().navigate(R.id.action_workouts_to_exercise)
-
+              //  view.findNavController().navigate(R.id.action_workouts_to_exercise)
             }
         }
         dialog.show()
@@ -113,15 +108,19 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         exerciseDialog.setContentView(R.layout.edit_workout)
         val btnDelete = exerciseDialog.btn_delete as com.google.android.material.floatingactionbutton.FloatingActionButton
         val btnAdd = exerciseDialog.save_btn_ex as Button
+        var changeDesc  = exerciseDialog.changeDesc as EditText
+        var changeName = exerciseDialog.changeName as EditText
         exerciseDialog.show()
         btnDelete.setOnClickListener {
             removeItem(position)
             exerciseDialog.dismiss()
         }
         btnAdd.setOnClickListener {
-            val workoutName = "Workoutname"
-            val workoutDesc = "Description"
-            insertItem(workoutName, workoutDesc)
+            val workoutName = changeName.text.toString()
+            val workoutDesc = changeDesc.text.toString()
+            workoutList[position].text1 = workoutName
+            workoutList[position].text2 = workoutDesc
+            adapter.notifyItemChanged(position)
             exerciseDialog.dismiss()
         }
 

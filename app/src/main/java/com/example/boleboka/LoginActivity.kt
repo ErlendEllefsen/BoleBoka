@@ -16,11 +16,12 @@ import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.google_button
+import kotlinx.android.synthetic.main.fragment_workouts.*
 
 class LoginActivity : AppCompatActivity() {
-    val RC_SIGN_IN: Int = 1
-    lateinit var mGoogleSignInClient: GoogleSignInClient
-    lateinit var mGoogleSignInOptions: GoogleSignInOptions
+    private val RC_SIGN_IN: Int = 1
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private lateinit var mGoogleSignInOptions: GoogleSignInOptions
 
     private lateinit var firebaseAuth: FirebaseAuth
 
@@ -30,6 +31,7 @@ class LoginActivity : AppCompatActivity() {
         configureGoogleSignIn()
         setLoginBtn()
         firebaseAuth = FirebaseAuth.getInstance()
+
     }
 
     companion object {
@@ -80,7 +82,7 @@ class LoginActivity : AppCompatActivity() {
                     firebaseAuthWithGoogle(account)
                 }
             }catch (e: ApiException) {
-                Toast.makeText(this, "Sign in with Google failed", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Sign in with Google failed $e", Toast.LENGTH_LONG).show()
             }
         }
 
