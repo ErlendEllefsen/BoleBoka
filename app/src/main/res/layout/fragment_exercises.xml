@@ -43,7 +43,7 @@
 
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_insert"
+                android:id="@+id/btn_exersise_insert"
                 android:layout_width="147dp"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/fab_content_desc"

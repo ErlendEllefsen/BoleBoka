@@ -109,25 +109,31 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
 
     override fun onItemClick(position: Int) {
-        val exerciseDialog = Dialog(fragment.requireContext())
-        exerciseDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        exerciseDialog.setContentView(R.layout.edit_workout)
-        val btnDelete = exerciseDialog.btn_delete as com.google.android.material.floatingactionbutton.FloatingActionButton
-        val btnAdd = exerciseDialog.save_btn_ex as Button
-        val changeDesc  = exerciseDialog.changeDesc as EditText
-        val changeName = exerciseDialog.changeName as EditText
-        exerciseDialog.show()
+        val workoutDialog = Dialog(fragment.requireContext())
+        workoutDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        workoutDialog.setContentView(R.layout.edit_workout)
+        val btnDelete =
+            workoutDialog.btn_delete as com.google.android.material.floatingactionbutton.FloatingActionButton
+        val btnAdd = workoutDialog.save_btn as Button
+        val changeDesc = workoutDialog.changeDesc as EditText
+        val changeName = workoutDialog.changeName as EditText
+        workoutDialog.show()
         btnDelete.setOnClickListener {
             removeItem(position)
-            exerciseDialog.dismiss()
+            workoutDialog.dismiss()
         }
         btnAdd.setOnClickListener {
             val workoutName = changeName.text.toString()
             val workoutDesc = changeDesc.text.toString()
-            workoutList[position].text1 = workoutName
-            workoutList[position].text2 = workoutDesc
-            adapter.notifyItemChanged(position)
-            exerciseDialog.dismiss()
+            if (workoutName == "") {
+                val noNameToast = Toast.makeText(context, "No name", Toast.LENGTH_SHORT)
+                noNameToast.show()
+            } else {
+                workoutList[position].text1 = workoutName
+                workoutList[position].text2 = workoutDesc
+                adapter.notifyItemChanged(position)
+                workoutDialog.dismiss()
+            }
         }
 
     }
