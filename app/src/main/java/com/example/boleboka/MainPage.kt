@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.boleboka.databinding.FragmentMainPageBinding
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_main_page.*
 class MainPage : Fragment() {
 
     companion object {
-        fun getLaunchIntent (context: Context ) = Intent (context.getActivity(), Login::class.java).apply {
+        fun getLaunchIntent (from: Context) = Intent (from, MainPage::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }
     }
@@ -26,6 +27,8 @@ class MainPage : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        //setupUI()
 
         val binding = DataBindingUtil.inflate<FragmentMainPageBinding>(inflater,
             R.layout.fragment_main_page,container,false)
@@ -43,7 +46,7 @@ class MainPage : Fragment() {
     }
 
     private fun logout () {
-        startActivity(Login.getLaunchIntent(requireActivity()))
+        startActivity(LoginActivity.getLaunchIntent(requireActivity()))
         FirebaseAuth.getInstance().signOut()
     }
 
