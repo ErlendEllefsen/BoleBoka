@@ -37,4 +37,7 @@
     <string name="tip_add_workout_tip">Description</string>
     <string name="exercise_name">Exercise Name</string>
     <string name="exercise_reps">Reps</string>
+    <string name="change_header">Edit Workout</string>
+    <string name="change_workoutname">Change Name</string>
+    <string name="change_workoutdesc">Change Desc</string>
 </resources>

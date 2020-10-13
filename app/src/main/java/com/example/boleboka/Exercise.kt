@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.boleboka.databinding.FragmentExercisesBinding
 import kotlinx.android.synthetic.main.edit_workout.*
 import kotlinx.android.synthetic.main.fragment_exercises.*
+import kotlinx.android.synthetic.main.fragment_exercises.view.*
 
 
 class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
@@ -25,11 +27,8 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        return inflater.inflate(R.layout.fragment_exercises, container, false)
 
-        val binding = DataBindingUtil.inflate<FragmentExercisesBinding>(inflater,
-            R.layout.fragment_exercises,container,false)
-
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,6 +37,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         recycler_view_exercise.layoutManager = LinearLayoutManager(context)
         //performance optimization
         recycler_view_exercise.setHasFixedSize(true)
+
 
     }
 
@@ -58,7 +58,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val list = ArrayList<Exercise_Item>()
 
         for (i in 0 until size) {
-            val item = Exercise_Item("Exercise $i", i+10)
+            val item = Exercise_Item("Exercise $i", i + 10)
             list += item
         }
         return list

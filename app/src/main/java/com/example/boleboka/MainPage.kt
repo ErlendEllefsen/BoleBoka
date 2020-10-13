@@ -2,6 +2,7 @@ package com.example.boleboka
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -29,7 +30,6 @@ class MainPage : Fragment() {
 
         val binding = DataBindingUtil.inflate<FragmentMainPageBinding>(inflater,
             R.layout.fragment_main_page,container,false)
-
         binding.startBtn.setOnClickListener { view : View ->
             view.findNavController().navigate(R.id.action_startWorkout_to_active_workout)
         }

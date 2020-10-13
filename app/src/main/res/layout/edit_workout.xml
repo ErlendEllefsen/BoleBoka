@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinatorLayout_ex"
     android:layout_width="250dp"
-    android:layout_height="300dp"
+    android:layout_height="250dp"
     tools:context=".Workouts">
 
     <TextView
         android:id="@+id/body_ex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/workouts_headline"
+        android:text="@string/change_header"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,31 +23,32 @@
         android:id="@+id/workoutName_ex"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:hint="@string/exercise_name"
+        android:hint="@string/change_workoutname"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.253" />
+        app:layout_constraintVertical_bias="0.326" />
 
     <EditText
         android:id="@+id/workoutDesc_ex"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:hint="@string/exercise_reps"
+        android:hint="@string/change_workoutdesc"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.564" />
 
     <Button
         android:id="@+id/save_btn_ex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:text="Add"
+        android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
