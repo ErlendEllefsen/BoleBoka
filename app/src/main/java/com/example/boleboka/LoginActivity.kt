@@ -2,8 +2,8 @@ package com.example.boleboka
 
 import android.content.Context
 import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -13,11 +13,11 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_login.google_button
 
-open class Login : Fragment() {
-
-
+class LoginActivity : AppCompatActivity() {
     val RC_SIGN_IN: Int = 1
     lateinit var mGoogleSignInClient: GoogleSignInClient
     lateinit var mGoogleSignInOptions: GoogleSignInOptions
@@ -26,12 +26,14 @@ open class Login : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        firebaseAuth = FirebaseAuth.getInstance()
+        setContentView(R.layout.activity_login)
         configureGoogleSignIn()
         setupUI()
+        firebaseAuth = FirebaseAuth.getInstance()
     }
+
     companion object {
-        fun getLaunchIntent (context: Context ) = Intent (context.getActivity(), MainPage::class.java).apply {
+        fun getLaunchIntent (from: Context) = Intent (from, LoginActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }
     }
@@ -40,7 +42,7 @@ open class Login : Fragment() {
         super.onStart()
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
-            startActivity(MainPage.getLaunchIntent(requireActivity()))
+            startActivity(MainActivity.getLaunchIntent(this))
         }
     }
 
@@ -48,11 +50,11 @@ open class Login : Fragment() {
     private fun configureGoogleSignIn() {
         mGoogleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("830245232430-7iv2a3580edv662v1votd67d3a40euld.apps.googleusercontent.com")
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build()
         mGoogleSignInClient =
-            GoogleSignIn.getClient(requireActivity(), mGoogleSignInOptions)
+            GoogleSignIn.getClient(this, mGoogleSignInOptions)
     }
 
     private fun setupUI() {
@@ -60,6 +62,7 @@ open class Login : Fragment() {
             signIn()
         }
     }
+
 
     private fun signIn() {
         val signInIntent: Intent = mGoogleSignInClient.signInIntent
@@ -76,7 +79,7 @@ open class Login : Fragment() {
                     firebaseAuthWithGoogle(account)
                 }
             }catch (e: ApiException) {
-                Toast.makeText(requireActivity(), "Sign in with Google failed", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Sign in with Google failed", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -87,14 +90,10 @@ open class Login : Fragment() {
 
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
-                startActivity(MainPage.getLaunchIntent(requireActivity()))
+                startActivity(MainActivity.getLaunchIntent(this))
             }else {
-                Toast.makeText(requireActivity(),"Sign in with Google Failed", Toast.LENGTH_LONG).show()
+                Toast.makeText(this,"Sign in with Google Failed", Toast.LENGTH_LONG).show()
             }
         }
     }
-}
-
-fun Context.getActivity(): Context? {
-    return getActivity()
 }
