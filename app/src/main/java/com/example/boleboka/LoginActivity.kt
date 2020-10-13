@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         configureGoogleSignIn()
-        setupUI()
+        setLoginBtn()
         firebaseAuth = FirebaseAuth.getInstance()
     }
 
@@ -37,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }
     }
+
 
     override fun onStart() {
         super.onStart()
@@ -57,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
             GoogleSignIn.getClient(this, mGoogleSignInOptions)
     }
 
-    private fun setupUI() {
+    private fun setLoginBtn() {
         google_button.setOnClickListener {
             signIn()
         }
