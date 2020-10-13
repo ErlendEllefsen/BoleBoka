@@ -20,7 +20,7 @@
         app:layout_constraintVertical_bias="0.044" />
 
     <EditText
-        android:id="@+id/workoutName_ex"
+        android:id="@+id/changeName"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:hint="@string/change_workoutname"
@@ -32,7 +32,7 @@
         app:layout_constraintVertical_bias="0.326" />
 
     <EditText
-        android:id="@+id/workoutDesc_ex"
+        android:id="@+id/changeDesc"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:hint="@string/change_workoutdesc"

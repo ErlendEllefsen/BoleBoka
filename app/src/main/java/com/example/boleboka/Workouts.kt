@@ -108,15 +108,19 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         exerciseDialog.setContentView(R.layout.edit_workout)
         val btnDelete = exerciseDialog.btn_delete as com.google.android.material.floatingactionbutton.FloatingActionButton
         val btnAdd = exerciseDialog.save_btn_ex as Button
+        var changeDesc  = exerciseDialog.changeDesc as EditText
+        var changeName = exerciseDialog.changeName as EditText
         exerciseDialog.show()
         btnDelete.setOnClickListener {
             removeItem(position)
             exerciseDialog.dismiss()
         }
         btnAdd.setOnClickListener {
-            val workoutName = "Workoutname"
-            val workoutDesc = "Description"
-            insertItem(workoutName, workoutDesc)
+            val workoutName = changeName.text.toString()
+            val workoutDesc = changeDesc.text.toString()
+            workoutList[position].text1 = workoutName
+            workoutList[position].text2 = workoutDesc
+            adapter.notifyItemChanged(position)
             exerciseDialog.dismiss()
         }
 
