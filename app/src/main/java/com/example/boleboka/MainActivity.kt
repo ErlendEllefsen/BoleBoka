@@ -10,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main_page.*
+import kotlinx.android.synthetic.main.fragment_personal_info.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,15 +25,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main)
-        setupSignoutBtn()
-
 
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNav)
         val navController = findNavController(R.id.fragment)
         bottomNavigationView.setupWithNavController(navController)
     }
 
-    private fun setupSignoutBtn () {
+     fun setupSignoutBtn () {
         logout_button.setOnClickListener() {
             logout()
         }
@@ -42,5 +41,7 @@ class MainActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signOut()
         startActivity(LoginActivity.getLaunchIntent(this))
     }
+
+
 }
 
