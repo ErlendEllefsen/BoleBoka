@@ -46,7 +46,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         //performance optimization
         recycler_view_exercise.setHasFixedSize(true)
 
-        // Henter message i communicator
+        // Henter message i communicator, burde også hente ett eller annet ID
         val model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
         val txt = exerciseHeader as TextView
         model.message.observe(viewLifecycleOwner,
