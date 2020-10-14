@@ -33,9 +33,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSignoutBtn () {
-        logout_button.setOnClickListener() {
+      /*  logout_button.setOnClickListener() {
             logout()
-        }
+        } */
     }
 
     private fun logout () {
