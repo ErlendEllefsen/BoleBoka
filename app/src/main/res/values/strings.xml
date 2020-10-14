@@ -40,4 +40,8 @@
     <string name="change_header">Edit Workout</string>
     <string name="change_workoutname">Change Name</string>
     <string name="change_workoutdesc">Change Desc</string>
+    <string name="nextString">next</string>
+    <string name="backString">back</string>
+    <string name="weightString">Weight</string>
+    <string name="finishString">Finish</string>
 </resources>

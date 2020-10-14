@@ -42,7 +42,7 @@
     </fragment>
     <fragment
         android:id="@+id/active_workout"
-        android:name="com.example.boleboka.Active_workout"
+        android:name="com.example.boleboka.ActiveWorkout"
         android:label="Active Workout"
         tools:layout="@layout/fragment_active_workout" />
     <fragment
