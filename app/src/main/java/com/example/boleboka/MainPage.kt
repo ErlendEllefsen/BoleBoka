@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
 import com.example.boleboka.databinding.FragmentMainPageBinding
 import com.google.android.gms.common.api.ApiException
@@ -18,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_main_page.*
 
 
 class MainPage : Fragment() {
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

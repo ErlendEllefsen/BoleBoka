@@ -10,7 +10,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.common.api.internal.GoogleApiManager
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
@@ -49,7 +52,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-
     private fun configureGoogleSignIn() {
         mGoogleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -68,6 +70,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun signIn() {
+        mGoogleSignInClient.signOut()
         val signInIntent: Intent = mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
@@ -99,4 +102,5 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
 }
