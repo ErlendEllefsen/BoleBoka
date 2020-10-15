@@ -3,7 +3,6 @@ package com.example.boleboka
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +10,17 @@ import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_workout.*
 import kotlinx.android.synthetic.main.edit_workout.*
 import kotlinx.android.synthetic.main.fragment_workouts.*
-import kotlinx.android.synthetic.main.fragment_workouts.btn_insert
+
 
 class Workouts : Fragment(), Adapter.OnItemClickListener {
 
@@ -37,12 +39,11 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate( R.layout.fragment_workouts,container,false)
+        return inflater.inflate(R.layout.fragment_workouts, container, false)
 
     }
 
@@ -88,6 +89,16 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         /*
          * TODO: Jon, her må kode som legger til den nye workouten i databasen legges
          */
+        val currentuser = FirebaseAuth.getInstance().currentUser?.uid
+        val uID = currentuser.toString()
+
+        val database = FirebaseDatabase.getInstance()
+        //val nameW = database.getReference("Users").child(uID).child("Workouts").child(name).child("Name")
+        val descN = database.getReference("Users").child(uID).child("Workouts").child(name).child("Desc")
+
+        //nameW.setValue(name)
+        descN.setValue(desc)
+
         val atTop = !recycler_view.canScrollVertically(-1)
         val index = 0
         val newItem = Workout_Item(name, desc)
@@ -138,8 +149,9 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
     }
 
-
     private fun generateWorkoutList(size: Int): ArrayList<Workout_Item> {
+        // workoutName
+        // workoutDesc
 
         val list = ArrayList<Workout_Item>()
 
@@ -148,6 +160,8 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
             list += item
         }
         return list
+
+
     }
 
 
