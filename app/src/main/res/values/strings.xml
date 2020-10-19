@@ -44,4 +44,5 @@
     <string name="backString">back</string>
     <string name="weightString">Weight</string>
     <string name="finishString">Finish</string>
+    <string name="sign_out">Sign Out</string>
 </resources>
