@@ -1,8 +1,10 @@
 package com.example.boleboka
 
 import android.app.Dialog
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +16,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.FirebaseError
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_workout.*
 import kotlinx.android.synthetic.main.edit_workout.*
@@ -27,7 +35,8 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
     companion object {
         lateinit var mctx: Context
     }
-    private var model: Communicator?=null
+
+    private var model: Communicator? = null
 
 
     private val workoutList = generateWorkoutList(20)
@@ -41,7 +50,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_workouts, container, false)
 
@@ -55,7 +64,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         recycler_view.setHasFixedSize(true)
         model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
         btn_insert.setOnClickListener() {
-             showDialog(view, model)
+            showDialog(view, model)
         }
     }
 
@@ -91,8 +100,10 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         val uID = currentuser.toString()
 
         val database = FirebaseDatabase.getInstance()
-        val nameW = database.getReference("Users").child(uID).child("Workouts").child(name).child("Name")
-        val descN = database.getReference("Users").child(uID).child("Workouts").child(name).child("Desc")
+        val nameW =
+            database.getReference("Users").child(uID).child("Workouts").child(name).child("Name")
+        val descN =
+            database.getReference("Users").child(uID).child("Workouts").child(name).child("Desc")
 
         nameW.setValue(name)
         descN.setValue(desc)
@@ -113,7 +124,8 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         adapter.notifyItemRemoved(position)
         val workoutName = workoutList[position].text1
         Toast.makeText(context, "Workout $workoutName deleted", Toast.LENGTH_SHORT).show()
-       // TODO("Slette i databasen")
+        // TODO("Slette i databasen")
+
     }
 
 
@@ -147,21 +159,49 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
     }
 
+    fun list(count: Int) {
+        val database = FirebaseDatabase.getInstance().getReference()
+        val wk = database.child("Users").limitToFirst(count)
+        //wk.addListenerForSingleValueEvent()
+    }
+
+
     private fun generateWorkoutList(size: Int): ArrayList<Workout_Item> {
 
         val list = ArrayList<Workout_Item>()
-
+        val currentuser = FirebaseAuth.getInstance().currentUser?.uid
+        val uID = currentuser.toString()
         for (i in 0 until size) {
             val item = Workout_Item("Item $i", "Line $i")
             list += item
 
         }
+
+
         return list
+        /*
+        val firebase = FirebaseDatabase.getInstance().getReference().child("Users").child(uID).child("Workouts")
+        firebase
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if(snapshot.exists()){
 
+                        for(h in snapshot.children ){
+                            val workouts = h.getValue(Workout_Item::class.java)
+                            list.add(workouts!!)
+                        }
 
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
+        return list
     }
 
-
-
-
+        */
+    }
 }

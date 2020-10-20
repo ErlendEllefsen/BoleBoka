@@ -120,6 +120,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val exerciseName = exerciseList[position].name
         Toast.makeText(context, "Exercise $exerciseName deleted", Toast.LENGTH_SHORT).show()
         // TODO("Slette øvelse i databasen")
+
     }
 
     override fun onExerciseClick(position: Int) {
