@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
@@ -24,7 +25,7 @@ import kotlinx.android.synthetic.main.fragment_workouts.*
 
 class Workouts : Fragment(), Adapter.OnItemClickListener {
 
-    private var model: Communicator?=null
+    private var model: Communicator? = null
 
     private val workoutList = generateWorkoutList(20)
 
@@ -37,7 +38,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_workouts, container, false)
 
@@ -49,10 +50,9 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         recycler_view.layoutManager = LinearLayoutManager(context)
         //performance optimization
         recycler_view.setHasFixedSize(true)
-        //henter comm
-        model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
+
         btn_insert.setOnClickListener() {
-             showDialog(view, model)
+            showDialog(view, model)
         }
     }
 
@@ -74,12 +74,17 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
             } else {
                 insertItem(workoutName, workoutDesc)
                 // Sender navnet på den nye workouten til exersise.kt
-                model!!.setMsgCommunicator(workoutName)
+                sendInfoToFragment(workoutName)
                 dialog.dismiss()
                 view.findNavController().navigate(R.id.action_workouts_to_exercise)
             }
         }
         dialog.show()
+    }
+
+    private fun sendInfoToFragment(workoutName: String) {
+        model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
+        model!!.setMsgCommunicator(workoutName)
     }
 
     private fun insertItem(name: String, desc: String) {
@@ -88,8 +93,10 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         val uID = currentuser.toString()
 
         val database = FirebaseDatabase.getInstance()
-        val nameW = database.getReference("Users").child(uID).child("Workouts").child(name).child("Name")
-        val descN = database.getReference("Users").child(uID).child("Workouts").child(name).child("Desc")
+        val nameW =
+            database.getReference("Users").child(uID).child("Workouts").child(name).child("Name")
+        val descN =
+            database.getReference("Users").child(uID).child("Workouts").child(name).child("Desc")
 
         nameW.setValue(name)
         descN.setValue(desc)
@@ -110,7 +117,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         adapter.notifyItemRemoved(position)
         val workoutName = workoutList[position].text1
         Toast.makeText(context, "Workout $workoutName deleted", Toast.LENGTH_SHORT).show()
-       // TODO("Slette i databasen")
+        // TODO("Slette i databasen")
     }
 
 
@@ -119,7 +126,9 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         workoutDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         workoutDialog.setContentView(R.layout.edit_workout)
         val btnDelete =
-            workoutDialog.btn_delete as com.google.android.material.floatingactionbutton.FloatingActionButton
+            workoutDialog.btn_delete as FloatingActionButton
+        val btnEdit =
+            workoutDialog.btn_edit as FloatingActionButton
         val btnAdd = workoutDialog.save_btn as Button
         val changeDesc = workoutDialog.changeDesc as EditText
         val changeName = workoutDialog.changeName as EditText
@@ -127,6 +136,11 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         btnDelete.setOnClickListener {
             removeItem(position)
             workoutDialog.dismiss()
+        }
+        btnEdit.setOnClickListener {
+            sendInfoToFragment(workoutList[position].text1)
+            workoutDialog.dismiss()
+            view?.findNavController()?.navigate(R.id.action_workouts_to_exercise)
         }
         btnAdd.setOnClickListener {
             val workoutName = changeName.text.toString()
@@ -157,8 +171,6 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
 
     }
-
-
 
 
 }
