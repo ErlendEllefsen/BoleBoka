@@ -1,37 +1,45 @@
 package com.example.boleboka
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_main_page.*
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_personal_info.*
-import java.lang.Exception
+
 
 
 class Personal_info : Fragment() {
 
+   // lateinit var activityLogin: LoginActivity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+       // activityLogin.textView2.text = "personName"
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_personal_info, container, false)
-
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         logout_button.setOnClickListener { (activity as MainActivity).setupSignoutBtn() }
     }
 
+
+
+/*
+    fun getGAInfo() {
+        val manager = AccountManager.get(context)
+        val accounts = manager.getAccountsByType("com.google")
+        val username: MutableList<String> = LinkedList<String>()
+
+        for (account in accounts) {
+            username.add(account.name)
+        }
+    }
+*/
 }

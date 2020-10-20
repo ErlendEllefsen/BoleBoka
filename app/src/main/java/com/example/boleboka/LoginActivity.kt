@@ -2,24 +2,19 @@ package com.example.boleboka
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.common.api.internal.GoogleApiManager
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_login.*
-import kotlinx.android.synthetic.main.fragment_login.google_button
-import kotlinx.android.synthetic.main.fragment_workouts.*
 
 class LoginActivity : AppCompatActivity() {
     private val RC_SIGN_IN: Int = 1
@@ -38,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     companion object {
-        fun getLaunchIntent (from: Context) = Intent (from, LoginActivity::class.java).apply {
+        fun getLaunchIntent(from: Context) = Intent(from, LoginActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }
     }
@@ -91,14 +86,22 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun firebaseAuthWithGoogle (acct: GoogleSignInAccount) {
+    fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+
+        val personName: String = acct.displayName.toString()
+        val personGivenName: String = acct.givenName.toString()
+        val personFamilyName: String = acct.familyName.toString()
+        val personEmail: String = acct.email.toString()
+        val personId: String = acct.id.toString()
+        val personPhoto: Uri? = acct.photoUrl
 
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
                 startActivity(MainActivity.getLaunchIntent(this))
+                Toast.makeText(this, personGivenName, Toast.LENGTH_LONG).show()
             }else {
-                Toast.makeText(this,"Sign in with Google Failed", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Sign in with Google Failed", Toast.LENGTH_LONG).show()
             }
         }
     }
