@@ -2,7 +2,6 @@ package com.example.boleboka
 
 import android.app.Dialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +10,17 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_exercise.*
+import kotlinx.android.synthetic.main.add_workout.*
 import kotlinx.android.synthetic.main.edit_exercise.*
-import kotlinx.android.synthetic.main.edit_workout.*
 import kotlinx.android.synthetic.main.fragment_exercises.*
-import kotlinx.android.synthetic.main.fragment_workouts.*
+import kotlinx.android.synthetic.main.fragment_personal_info.*
 
 
 class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
@@ -38,6 +39,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         return inflater.inflate(R.layout.fragment_exercises, container, false)
 
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,26 +65,43 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val inputName = dialog.exerciseName as EditText
         // TODO: gjøre om til numberpicker
         val inputReps = dialog.exerciseReps as EditText
+        val inputSets = dialog.exerciseSets as EditText
         val addBtn = dialog.add_exersice_btn as Button
         addBtn.setOnClickListener() {
             val exerciseName = inputName.text.toString()
             val exerciseRepsString = inputReps.text.toString()
+            val exerciseSetsString = inputSets.text.toString()
             val exerciseReps = Integer.parseInt(exerciseRepsString)
+            val exerciseSets = Integer.parseInt(exerciseSetsString)
+
             if (exerciseName == "") {
                 val noNameToast = Toast.makeText(context, "No name", Toast.LENGTH_SHORT)
                 noNameToast.show()
             } else {
-                insertItem(exerciseName, exerciseReps)
+                insertItem(exerciseName, exerciseReps, exerciseSets)
                 dialog.dismiss()
             }
         }
         dialog.show()
     }
 
-    private fun insertItem(name: String, reps: Int) {
-        /*
-         * TODO: Jon, kode som legger til den nye øvelsen i FB
-         */
+    private fun insertItem(name: String, reps: Int, sets: Int) {
+        val currentuser = FirebaseAuth.getInstance().currentUser?.uid
+        val uID = currentuser.toString()
+
+
+        //val workoutsName = workoutName.text.toString()
+
+        val database = FirebaseDatabase.getInstance()
+        val nameDB = database.getReference("Users").child(uID).child("Workouts").child(name)
+        val repsDB = database.getReference("Users").child(uID).child("Workouts").child("Stats").child(
+            "dateInString").child("Reps")
+        val setsDB = database.getReference("Users").child(uID).child("Workouts").child("Stats").child(
+            "dateInString").child("Sets")
+        nameDB.setValue(name)
+        repsDB.setValue(reps)
+        setsDB.setValue(sets)
+
         val atTop = !recycler_view_exercise.canScrollVertically(-1)
         val index = 0
         val newItem = Exercise_Item(name, reps)
