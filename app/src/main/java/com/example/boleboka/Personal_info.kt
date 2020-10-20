@@ -20,16 +20,18 @@ import java.util.*
 
 class Personal_info : Fragment() {
 
+   // lateinit var activityLogin: LoginActivity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+       // activityLogin.textView2.text = "personName"
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_personal_info, container, false)
-
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -68,4 +70,15 @@ class Personal_info : Fragment() {
     }
 
 
+/*
+    fun getGAInfo() {
+        val manager = AccountManager.get(context)
+        val accounts = manager.getAccountsByType("com.google")
+        val username: MutableList<String> = LinkedList<String>()
+
+        for (account in accounts) {
+            username.add(account.name)
+        }
+    }
+*/
 }

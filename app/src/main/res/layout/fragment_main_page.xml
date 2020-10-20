@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         tools:context=".MainPage"
+        android:background="@color/colorPrimaryLight"
         android:id="@+id/main_page">
 
 
@@ -19,27 +20,42 @@
             android:id="@+id/startBtn"
             android:layout_width="375dp"
             android:layout_height="60dp"
-            android:background="@color/colorSuccess"
+            android:background="@color/colorAccent"
             android:text="@string/startWorkout"
             android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.816" />
+            app:layout_constraintVertical_bias="0.85" />
 
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="375dp"
             android:layout_height="60dp"
-            android:background="@color/colorWhite"
+            android:background="@color/colorPrimary"
             android:entries="@array/workouts"
-            android:popupBackground="@color/colorWhite"
+            android:popupBackground="@color/colorPrimaryLight"
             android:prompt="@string/spinnerTitle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.701" />
+
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/spinner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.86"
+            app:srcCompat="@drawable/ic_logo_big" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
