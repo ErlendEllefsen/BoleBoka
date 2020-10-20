@@ -83,17 +83,15 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
     }
 
     private fun insertItem(name: String, desc: String) {
-        /*
-         * TODO: Jon, her må kode som legger til den nye workouten i databasen legges
-         */
+
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
         val uID = currentuser.toString()
 
         val database = FirebaseDatabase.getInstance()
-        //val nameW = database.getReference("Users").child(uID).child("Workouts").child(name).child("Name")
+        val nameW = database.getReference("Users").child(uID).child("Workouts").child(name).child("Name")
         val descN = database.getReference("Users").child(uID).child("Workouts").child(name).child("Desc")
 
-        //nameW.setValue(name)
+        nameW.setValue(name)
         descN.setValue(desc)
 
         val atTop = !recycler_view.canScrollVertically(-1)
@@ -147,14 +145,13 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
     }
 
     private fun generateWorkoutList(size: Int): ArrayList<Workout_Item> {
-        // workoutName
-        // workoutDesc
 
         val list = ArrayList<Workout_Item>()
 
         for (i in 0 until size) {
             val item = Workout_Item("Item $i", "Line $i")
             list += item
+
         }
         return list
 
