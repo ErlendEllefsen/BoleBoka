@@ -90,7 +90,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val uID = currentuser.toString()
 
 
-        //val workoutsName = workoutName.text.toString()
+        /*val workoutsName = workoutName.text.toString()
 
         val database = FirebaseDatabase.getInstance()
         val nameDB = database.getReference("Users").child(uID).child("Workouts").child(name)
@@ -101,6 +101,8 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         nameDB.setValue(name)
         repsDB.setValue(reps)
         setsDB.setValue(sets)
+
+         */
 
         val atTop = !recycler_view_exercise.canScrollVertically(-1)
         val index = 0
