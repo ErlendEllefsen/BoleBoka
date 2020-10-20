@@ -24,11 +24,7 @@ import kotlinx.android.synthetic.main.fragment_workouts.*
 
 class Workouts : Fragment(), Adapter.OnItemClickListener {
 
-    companion object {
-        lateinit var mctx: Context
-    }
     private var model: Communicator?=null
-
 
     private val workoutList = generateWorkoutList(20)
 
@@ -53,6 +49,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         recycler_view.layoutManager = LinearLayoutManager(context)
         //performance optimization
         recycler_view.setHasFixedSize(true)
+        //henter comm
         model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
         btn_insert.setOnClickListener() {
              showDialog(view, model)
