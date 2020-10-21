@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
-       // setTheme(R.style.splashScreenTheme);
+        // setTheme(R.style.splashScreenTheme);
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main)
@@ -35,7 +35,8 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
         // TODO: 21.10.2020 Hente informasjon fra LoginActivity, mulig informasjonen ikke blir sendt?
         val intent = intent
-        val personFamilyName = intent.getStringExtra("Family Name")
+        val personFamilyName = intent.getStringExtra("AccName")
+        Toast.makeText(this, personFamilyName.toString(), Toast.LENGTH_LONG).show()
         /*
          * Returnerer "Family Name: Null" (i et textview i dette fragmentet)
          * Får ikke hentet informasjonen fra LoginActivity.kt
