@@ -46,4 +46,7 @@
     <string name="weightString">Weight</string>
     <string name="finishString">Finish</string>
     <string name="sign_out">Sign Out</string>
+    <string name="placeholderTextForExercise">Information about the exercise</string>
+    <string name="changeReps">Change Reps</string>
+    <string name="changeSets">Change Sets</string>
 </resources>
