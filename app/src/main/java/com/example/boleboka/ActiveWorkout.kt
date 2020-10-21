@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.fragment_active_workout.*
 
 class ActiveWorkout : Fragment() {
 
-    private val testList = generateExersises(5)
+    private val exerciseList = generateExersises(5)
     private var i = 0
     private val resultsList = ArrayList<Result_Item>()
 
@@ -30,74 +30,78 @@ class ActiveWorkout : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var currentList = testList[i]
-        var name = currentList.heading
-        var min = currentList.minReps
-        var max = currentList.maxReps
-        progressBar.progress += 100 / testList.size
-        setValues(name, min, max)
-
+        var currentList = exerciseList[i]
+        var name = currentList.name
+        var reps = currentList.reps
+        var sets = currentList.sets
+        progressBar.progress += 100 / exerciseList.size
+        setValues(name, reps, sets)
         btnBack.setOnClickListener() {
-            if (testList[i] == testList.first()) {
-                val startToast =
-                    Toast.makeText(context, "This is the first exercise!", Toast.LENGTH_SHORT)
-                startToast.show()
+            if (exerciseList[i] == exerciseList.first()) {
+                errorMessage("This is the first exercise!")
             } else {
                 i -= 1
                 progress(false)
-                currentList = testList[i]
-                name = currentList.heading
-                min = currentList.minReps
-                max = currentList.maxReps
-                setValues(name, min, max)
+                currentList = exerciseList[i]
+                name = currentList.name
+                reps = currentList.reps
+                sets = currentList.sets
+                setValues(name, reps, sets)
                 val listWeight = resultsList[i].weight
                 val listReps = resultsList[i].reps
-                setValuesFromList(listWeight, listReps)
+                val listSets = resultsList[i].sets
+                setValuesFromList(listWeight, listReps, listSets)
             }
         }
-
         btnNext.setOnClickListener() {
-            if (testList[i] == testList.last()) {
-                val endToast =
-                    Toast.makeText(context, "This is the last exercise!", Toast.LENGTH_SHORT)
-                endToast.show()
+            if (exerciseList[i] == exerciseList.last()) {
+                errorMessage("This is the last exercise!")
             } else {
                 if (weight.text.toString() == "") {
-                    val error =
-                        Toast.makeText(context, "Weight can not be empty", Toast.LENGTH_SHORT)
-                    error.show()
+                    errorMessage("Weight cannot be empty")
                 } else {
                     storeValues(i)
                     i += 1
                     progress(true)
-                    currentList = testList[i]
-                    name = currentList.heading
-                    min = currentList.minReps
-                    max = currentList.maxReps
-                    setValues(name, min, max)
+                    currentList = exerciseList[i]
+                    name = currentList.name
+                    reps = currentList.reps
+                    sets = currentList.sets
+                    setValues(name, reps, sets)
                     if (resultsList.size > i) {
                         val listWeight = resultsList[i].weight
                         val listReps = resultsList[i].reps
-                        setValuesFromList(listWeight, listReps)
+                        val listSets = resultsList[i].sets
+                        setValuesFromList(listWeight, listReps, listSets)
                     }
-                    if (currentList == testList.last())
+                    if (currentList == exerciseList.last())
                         btnFinish.visibility = View.VISIBLE
                 }
             }
         }
         btnFinish.setOnClickListener() {
-            storeValues(i)
-            view.findNavController().navigate(R.id.action_active_workout_to_startWorkout)
-            saveToDB()
+            if (weight.text.toString() == "") {
+                errorMessage("Weight cannot be empty")
+            } else {
+                storeValues(i)
+                view.findNavController().navigate(R.id.action_active_workout_to_startWorkout)
+                saveToDB()
+            }
         }
 
     }
 
-    private fun setValuesFromList(listWeight: Int, listReps: Int) {
-        numberPicker.value = listReps
-        weight.setText(listWeight.toString())
+    private fun errorMessage(message: String) {
+        val error =
+            Toast.makeText(context, message, Toast.LENGTH_SHORT)
+        error.show()
     }
 
+    private fun setValuesFromList(listWeight: Int, listReps: Int, listSets: Int) {
+        numberPicker.value = listReps
+        numberPickerSets.value = listSets
+        weight.setText(listWeight.toString())
+    }
 
     private fun saveToDB() {
         // TODO: Lagre resultlist til databasen
@@ -105,30 +109,33 @@ class ActiveWorkout : Fragment() {
         list.show()
     }
 
-
     private fun progress(prog: Boolean) {
-        val divider = 100 / testList.size
+        val divider = 100 / exerciseList.size
         if (prog) {
             progressBar.progress += divider
         } else {
             progressBar.progress -= divider
         }
-        val list = Toast.makeText(context, progressBar.progress.toString(), Toast.LENGTH_SHORT)
-        list.show()
+        //  val list = Toast.makeText(context, progressBar.progress.toString(), Toast.LENGTH_SHORT).show()
+
     }
 
-    private fun setValues(name: String, min: Int, max: Int) {
+    private fun setValues(name: String, reps: Int, sets: Int) {
         textView.text = name
-        numberPicker.maxValue = max
+        numberPicker.maxValue = reps
         numberPicker.minValue = 0
         numberPicker.value = 0
+        numberPickerSets.maxValue = sets
+        numberPickerSets.minValue = 0
+        numberPickerSets.value = 0
         weight.setText("")
     }
 
     private fun storeValues(pos: Int) {
         val reps = numberPicker.value
         val wgt = Integer.parseInt(weight.text.toString().trim())
-        val item = Result_Item(reps, wgt)
+        val sets = numberPickerSets.value
+        val item = Result_Item(reps, wgt, sets)
         if (resultsList.isEmpty())
             resultsList.add(pos, item)
         else {
@@ -137,15 +144,14 @@ class ActiveWorkout : Fragment() {
             } else
                 resultsList.add(pos, item)
         }
-
     }
 
-    private fun generateExersises(size: Int): ArrayList<Test_Item> {
+    private fun generateExersises(size: Int): ArrayList<Exercise_Item> {
 
-        val list = ArrayList<Test_Item>()
+        val list = ArrayList<Exercise_Item>()
 
         for (i in 0 until size) {
-            val item = Test_Item("Exersise $i", i, i + 2)
+            val item = Exercise_Item("Exersise $i", i + 5, i)
             list += item
         }
         return list

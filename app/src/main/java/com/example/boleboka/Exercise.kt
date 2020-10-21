@@ -59,7 +59,6 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val positionToast =
             Toast.makeText(context, "Current position is: $currentPosition", Toast.LENGTH_SHORT)
                 .show()
-
         btn_exersise_insert.setOnClickListener() {
             showDialog(view)
         }
@@ -113,7 +112,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
         val atTop = !recycler_view_exercise.canScrollVertically(-1)
         val index = 0
-        val newItem = Exercise_Item(name, reps)
+        val newItem = Exercise_Item(name, reps, sets)
         exerciseList.add(index, newItem)
         adapterEx.notifyItemInserted(index)
         if (atTop) {
@@ -137,7 +136,8 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
             exerciseDialog.btn_delete_ex as com.google.android.material.floatingactionbutton.FloatingActionButton
         val btnAdd = exerciseDialog.save_btn_ex as Button
         val changeName = exerciseDialog.changeExName as EditText
-        val changeReps = exerciseDialog.changeExReps as EditText
+        val changeReps = exerciseDialog.changeReps as EditText
+        val changeSets = exerciseDialog.changeSets as EditText
         exerciseDialog.show()
         btnDelete.setOnClickListener {
             removeItem(position)
@@ -146,13 +146,16 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         btnAdd.setOnClickListener {
             val exName = changeName.text.toString()
             val exRepsString = changeReps.text.toString()
+            val exSetsString = changeSets.text.toString()
             val exReps = Integer.parseInt(exRepsString)
+            val exSets = Integer.parseInt(exSetsString)
             if (exName == "") {
                 val noNameToast = Toast.makeText(context, "No name", Toast.LENGTH_SHORT)
                 noNameToast.show()
             } else {
                 exerciseList[position].name = exName
                 exerciseList[position].reps = exReps
+                exerciseList[position].sets = exSets
                 adapterEx.notifyItemChanged(position)
                 exerciseDialog.dismiss()
             }
@@ -164,7 +167,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val list = ArrayList<Exercise_Item>()
 
         for (i in 0 until size) {
-            val item = Exercise_Item("Exercise $i", 1)
+            val item = Exercise_Item("Exercise $i", i + 5, i)
             list += item
         }
         return list
