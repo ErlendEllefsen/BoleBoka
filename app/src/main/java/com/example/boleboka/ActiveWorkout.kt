@@ -11,9 +11,10 @@ import kotlinx.android.synthetic.main.fragment_active_workout.*
 
 class ActiveWorkout : Fragment() {
 
-    private val testList = generateExersises(6)
+    private val testList = generateExersises(5)
     private var i = 0
     private val resultsList = ArrayList<Result_Item>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,6 +113,8 @@ class ActiveWorkout : Fragment() {
         } else {
             progressBar.progress -= divider
         }
+        val list = Toast.makeText(context, progressBar.progress.toString(), Toast.LENGTH_SHORT)
+        list.show()
     }
 
     private fun setValues(name: String, min: Int, max: Int) {

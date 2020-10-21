@@ -4,93 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/trening_background"
     tools:context=".MainActivity">
-
-    <TextView
-        android:id="@+id/appName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/Username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/google_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign in with Google"
-        android:drawableStart="@drawable/common_google_signin_btn_icon_dark_normal"
-        android:drawablePadding="4dp"
-        android:textColor="@color/common_google_signin_btn_text_light_default"
-        android:paddingEnd="4dp"
         android:background="@drawable/rounded_button"
         android:backgroundTint="@color/colorPrimaryDark"
+        android:drawableStart="@drawable/common_google_signin_btn_icon_dark_normal"
+        android:drawablePadding="4dp"
+        android:paddingEnd="4dp"
+        android:text="Sign in with Google"
+        android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/Password"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:ems="9"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.74" />
+        app:layout_constraintVertical_bias="0.847" />
 
-    <AutoCompleteTextView
-        android:id="@+id/Username"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:completionHint="Username"
-        android:dropDownWidth="wrap_content"
-        android:shadowColor="#FFFFFF"
-        android:text="@string/username"
-        android:textAlignment="center"
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.638" />
-
-    <Button
-        android:id="@+id/btnSignup"
-        android:layout_width="102dp"
-        android:layout_height="43dp"
-        android:background="#549F93"
-        android:shadowColor="#FFFFFF"
-        android:text="@string/sign_up"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.741"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.829" />
-
-    <Button
-        android:id="@+id/btnLogIn"
-        android:layout_width="102dp"
-        android:layout_height="43dp"
-        android:background="#549F93"
-        android:shadowColor="#FFFFFF"
-        android:text="@string/log_in"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.262"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.829" />
+        app:layout_constraintVertical_bias="0.498"
+        app:srcCompat="@drawable/ic_logo_big_teal" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
