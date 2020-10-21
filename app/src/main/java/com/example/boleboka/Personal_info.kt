@@ -1,12 +1,18 @@
 package com.example.boleboka
 
+import android.app.Dialog
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import java.time.LocalDateTime
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_personal_info.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,7 +31,6 @@ class Personal_info : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-
         return inflater.inflate(R.layout.fragment_personal_info, container, false)
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -41,8 +46,6 @@ class Personal_info : Fragment() {
         val stringW = weight.text.toString()
         val stringH = height.text.toString()
 
-        val strtext = requireArguments().getString("edttext")
-        textView2.text = strtext.toString()
         val intW = stringW.toInt()
         val intH = stringH.toInt()
 
@@ -50,10 +53,12 @@ class Personal_info : Fragment() {
         val dateInString = date.toString("yyyy-MM-dd")
 
         val database = FirebaseDatabase.getInstance()
-        val heightDB = database.getReference("Users").child(uID).child("Userdata").child(
-            dateInString).child("Height")
-        val weightDB = database.getReference("Users").child(uID).child("Userdata").child(
-            dateInString).child("Weight")
+        val heightDB =
+            database.getReference("Users").child(uID).child("Userdata").child(dateInString)
+                .child("Height")
+        val weightDB =
+            database.getReference("Users").child(uID).child("Userdata").child(dateInString)
+                .child("Weight")
 
         heightDB.setValue(intH)
         weightDB.setValue(intW)

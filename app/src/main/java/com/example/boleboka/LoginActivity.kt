@@ -101,14 +101,6 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
                 startActivity(MainActivity.getLaunchIntent(this))
-
-                val bundle = Bundle()
-                bundle.putString("edttext", personGivenName)
-                // set Fragmentclass Arguments
-                // set Fragmentclass Arguments
-                val fragobj = Personal_info()
-                fragobj.arguments = bundle
-
                 Toast.makeText(this, personGivenName, Toast.LENGTH_LONG).show()
             }else {
                 Toast.makeText(this, "Sign in with Google Failed", Toast.LENGTH_LONG).show()
