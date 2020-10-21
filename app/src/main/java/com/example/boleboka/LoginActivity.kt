@@ -1,6 +1,5 @@
 package com.example.boleboka
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -14,8 +13,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.google_button
 
 class LoginActivity : AppCompatActivity() {
@@ -34,11 +31,6 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
     }
 
-    companion object {
-        fun getLaunchIntent(from: Context) = Intent(from, LoginActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        }
-    }
 
     override fun onStart() {
         super.onStart()
@@ -47,6 +39,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(MainActivity.getLaunchIntent(this))
         }
     }
+
 
     private fun configureGoogleSignIn() {
         mGoogleSignInOptions =
@@ -63,7 +56,6 @@ class LoginActivity : AppCompatActivity() {
             signIn()
         }
     }
-
 
     private fun signIn() {
         mGoogleSignInClient.signOut()

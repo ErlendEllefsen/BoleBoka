@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         fun getLaunchIntent (from: Context) = Intent (from, MainActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
     }
 
@@ -59,10 +59,7 @@ class MainActivity : AppCompatActivity() {
 
         val personFamilyName = intent.getStringExtra("Family Name")
         return personFamilyName.toString()
-
-
     }
-
 
      fun setupSignoutBtn () {
         logout_button.setOnClickListener() {
@@ -72,7 +69,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun logout () {
         FirebaseAuth.getInstance().signOut()
-        startActivity(LoginActivity.getLaunchIntent(this))
+        finish()
     }
 }
 
