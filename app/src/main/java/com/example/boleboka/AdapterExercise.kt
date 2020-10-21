@@ -23,7 +23,6 @@ class AdapterExercise(private val exerciseList: List<Exercise_Item>, private val
          */
         val currentItem = exerciseList[position]
         holder.textView1.text = currentItem.name
-        holder.textView2.text = currentItem.reps.toString()
     }
 
     override fun getItemCount() = exerciseList.size

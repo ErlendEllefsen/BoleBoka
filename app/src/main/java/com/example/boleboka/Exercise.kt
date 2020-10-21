@@ -14,18 +14,22 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_exercise.*
 import kotlinx.android.synthetic.main.add_workout.*
 import kotlinx.android.synthetic.main.edit_exercise.*
 import kotlinx.android.synthetic.main.fragment_exercises.*
 import kotlinx.android.synthetic.main.fragment_personal_info.*
+import kotlinx.android.synthetic.main.workout_items.view.*
 
 
 class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
-    private val exerciseList = generateExerciseList(100)
+    private val exerciseList = generateExerciseList()
     private val adapterEx = AdapterExercise(exerciseList, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,48 +69,42 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val inputName = dialog.exerciseName as EditText
         // TODO: gjøre om til numberpicker
         val inputReps = dialog.exerciseReps as EditText
-        val inputSets = dialog.exerciseSets as EditText
         val addBtn = dialog.add_exersice_btn as Button
         addBtn.setOnClickListener() {
             val exerciseName = inputName.text.toString()
-            val exerciseRepsString = inputReps.text.toString()
-            val exerciseSetsString = inputSets.text.toString()
-            val exerciseReps = Integer.parseInt(exerciseRepsString)
-            val exerciseSets = Integer.parseInt(exerciseSetsString)
+        //    val exerciseRepsString = inputReps.text.toString()
+        //    val exerciseReps = Integer.parseInt(exerciseRepsString)
 
             if (exerciseName == "") {
                 val noNameToast = Toast.makeText(context, "No name", Toast.LENGTH_SHORT)
                 noNameToast.show()
             } else {
-                insertItem(exerciseName, exerciseReps, exerciseSets)
+                insertItem(exerciseName)
                 dialog.dismiss()
             }
         }
         dialog.show()
     }
 
-    private fun insertItem(name: String, reps: Int, sets: Int) {
+    private fun insertItem(name: String) {
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
         val uID = currentuser.toString()
 
-
-        /*val workoutsName = workoutName.text.toString()
-
         val database = FirebaseDatabase.getInstance()
-        val nameDB = database.getReference("Users").child(uID).child("Workouts").child(name)
+        val nameDB = database.getReference("Users").child(uID).child("Exercise").child("Bryst").child(name)
+        nameDB.setValue(name)
+        /*
         val repsDB = database.getReference("Users").child(uID).child("Workouts").child("Stats").child(
             "dateInString").child("Reps")
         val setsDB = database.getReference("Users").child(uID).child("Workouts").child("Stats").child(
             "dateInString").child("Sets")
-        nameDB.setValue(name)
-        repsDB.setValue(reps)
+       repsDB.setValue(reps)
         setsDB.setValue(sets)
 
          */
-
         val atTop = !recycler_view_exercise.canScrollVertically(-1)
         val index = 0
-        val newItem = Exercise_Item(name, reps)
+        val newItem = Exercise_Item(name)
         exerciseList.add(index, newItem)
         adapterEx.notifyItemInserted(index)
         if (atTop) {
@@ -146,21 +144,43 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
                 noNameToast.show()
             } else {
                 exerciseList[position].name = exName
-                exerciseList[position].reps = exReps
                 adapterEx.notifyItemChanged(position)
                 exerciseDialog.dismiss()
             }
         }
     }
 
-    private fun generateExerciseList(size: Int): ArrayList<Exercise_Item> {
+    private fun generateExerciseList(): ArrayList<Exercise_Item> {
 
         val list = ArrayList<Exercise_Item>()
+        val currentuser = FirebaseAuth.getInstance().currentUser?.uid
+        val uID = currentuser.toString()
 
-        for (i in 0 until size) {
-            val item = Exercise_Item("Exercise $i", 1)
-            list += item
-        }
+        val firebase = FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Exercise").child("Bryst")
+        firebase
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    if (snapshot.exists()) {
+
+                        val children = snapshot.children
+                        if (children != null) {
+                            children.forEach {
+
+                                var obj = it.value.toString()
+                                var task = Exercise_Item(obj)
+                                list.add(task)
+                            }
+                        }
+
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
         return list
     }
 

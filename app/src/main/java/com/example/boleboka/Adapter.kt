@@ -24,7 +24,7 @@ class Adapter(private val workoutList: ArrayList<Workout_Item>, private val list
 
         val currentWorkoutItem = workoutList[position]
         holder.workoutView1.text = currentWorkoutItem.text1
-        holder.workoutView2.text = currentWorkoutItem.text2
+       // holder.workoutView2.text = currentWorkoutItem.text2
     }
 
     override fun getItemCount() = workoutList.size

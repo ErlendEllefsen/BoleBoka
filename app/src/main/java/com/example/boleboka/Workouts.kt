@@ -1,8 +1,9 @@
 package com.example.boleboka
 
 import android.app.Dialog
-import android.content.Context
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,8 +21,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_workout.*
 import kotlinx.android.synthetic.main.edit_workout.*
@@ -32,19 +31,22 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
     private var model: Communicator? = null
 
+    private val workoutList = generateWorkoutList()
 
-    private val workoutList = generateWorkoutList(20)
 
     private val adapter = Adapter(workoutList, this)
+    val currentuser = FirebaseAuth.getInstance().currentUser?.uid
+    val uID = currentuser.toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        generateWorkoutList()
 
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_workouts, container, false)
 
@@ -95,19 +97,16 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
     private fun insertItem(name: String, desc: String) {
 
-        val currentuser = FirebaseAuth.getInstance().currentUser?.uid
-        val uID = currentuser.toString()
-
         val database = FirebaseDatabase.getInstance()
-        val nameW = database.getReference("Users").child(uID).child("Workouts").child(name).child("Name")
-        val descN = database.getReference("Users").child(uID).child("Workouts").child(name).child("Desc")
+        val nameW = database.getReference("Users").child(uID).child("Workouts").child(name)
+        val exN = database.getReference("Users").child(uID).child("Exercise").child(name)
 
         nameW.setValue(name)
-        descN.setValue(desc)
+        exN.setValue(name)
 
         val atTop = !recycler_view.canScrollVertically(-1)
         val index = 0
-        val newItem = Workout_Item(name, desc)
+        val newItem = Workout_Item(name /*desc*/)
         workoutList.add(index, newItem)
         adapter.notifyItemInserted(index)
         // Sørger for item som blir lagt til ikke blir lagt til utenfor view
@@ -117,6 +116,10 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
     }
 
     private fun removeItem(position: Int) {
+        val db = FirebaseDatabase.getInstance()
+        val ref = db.getReference("Users").child(uID).child("name/pos")
+
+
         workoutList.removeAt(position)
         adapter.notifyItemRemoved(position)
         val workoutName = workoutList[position].text1
@@ -154,7 +157,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
                 noNameToast.show()
             } else {
                 workoutList[position].text1 = workoutName
-                workoutList[position].text2 = workoutDesc
+               // workoutList[position].text2 = workoutDesc
                 adapter.notifyItemChanged(position)
                 workoutDialog.dismiss()
             }
@@ -162,29 +165,34 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
     }
 
-    private fun generateWorkoutList(size: Int): ArrayList<Workout_Item> {
+    private fun generateWorkoutList(): ArrayList<Workout_Item> {
 
         val list = ArrayList<Workout_Item>()
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
         val uID = currentuser.toString()
+        /*
         for (i in 0 until size) {
             val item = Workout_Item("Item $i", "Line $i")
             list += item
 
         }
+         */
 
-
-        return list
-        /*
-        val firebase = FirebaseDatabase.getInstance().getReference().child("Users").child(uID).child("Workouts")
+        val firebase = FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Workouts")
         firebase
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if(snapshot.exists()){
 
-                        for(h in snapshot.children ){
-                            val workouts = h.getValue(Workout_Item::class.java)
-                            list.add(workouts!!)
+                    if (snapshot.exists()) {
+
+                        val children = snapshot.children
+                        if (children != null) {
+                            children.forEach {
+
+                                var obj = it.value.toString()
+                                var task = Workout_Item(obj)
+                                list.add(task)
+                            }
                         }
 
                     }
@@ -200,6 +208,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
     }
 
-        */
+
     }
-}
+
+
