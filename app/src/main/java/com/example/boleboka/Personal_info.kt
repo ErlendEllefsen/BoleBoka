@@ -1,18 +1,13 @@
 package com.example.boleboka
 
-import android.app.Dialog
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.EditText
 import android.view.ViewGroup
-import java.time.LocalDateTime
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_personal_info.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,11 +15,12 @@ import java.util.*
 
 class Personal_info : Fragment() {
 
-   // lateinit var activityLogin: LoginActivity
+    lateinit var activityLogin: LoginActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // activityLogin.textView2.text = "personName"
+       // textView2?.text = {(activity as MainActivity).getFamilyname()}.toString()
+        //textView2?.text = activityLogin.intent.getStringExtra("Family Name").toString()
     }
 
     override fun onCreateView(

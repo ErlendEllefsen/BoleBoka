@@ -1,13 +1,11 @@
 package com.example.boleboka
 
-import android.app.Person
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -16,9 +14,12 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_login.google_button
 
 class LoginActivity : AppCompatActivity() {
+
     private val RC_SIGN_IN: Int = 1
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var mGoogleSignInOptions: GoogleSignInOptions
@@ -39,7 +40,6 @@ class LoginActivity : AppCompatActivity() {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }
     }
-
 
     override fun onStart() {
         super.onStart()
@@ -98,7 +98,15 @@ class LoginActivity : AppCompatActivity() {
         val personId: String = acct.id.toString()
         val personPhoto: Uri? = acct.photoUrl
 
-        firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
+
+        //textView3.text = personEmail
+        // TODO: 21.10.2020 Sender ikke informasjon til MainActivity? Blir ikke informasjonen sendt
+        // TODO: 21.10.2020 på riktig måte? eller blir den ikke mottatt på riktig måte? 
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("Family Name", personFamilyName)
+        startActivity(intent)
+
+            firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
                 startActivity(MainActivity.getLaunchIntent(this))
                 Toast.makeText(this, personGivenName, Toast.LENGTH_LONG).show()

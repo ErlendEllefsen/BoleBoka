@@ -1,9 +1,12 @@
 package com.example.boleboka
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -20,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
        // setTheme(R.style.splashScreenTheme);
         super.onCreate(savedInstanceState)
@@ -29,7 +33,33 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNav)
         val navController = findNavController(R.id.fragment)
         bottomNavigationView.setupWithNavController(navController)
+        // TODO: 21.10.2020 Hente informasjon fra LoginActivity, mulig informasjonen ikke blir sendt?
+        val intent = intent
+        val personFamilyName = intent.getStringExtra("Family Name")
+        /*
+         * Returnerer "Family Name: Null" (i et textview i dette fragmentet)
+         * Får ikke hentet informasjonen fra LoginActivity.kt
+
+            val result = findViewById<TextView>(R.id.textView)
+            result.text = "Family Name: $personFamilyName"
+
+        */
+
     }
+    /*
+    fun getFamilyname (): String? {
+        // TODO: 21.10.2020 Lag en funksjon som sender informasjon om brukeren til personal_info.kt
+
+        val intent = intent
+        val personFamilyName = intent.getStringExtra("Family Name")
+        return personFamilyName
+
+        val personFamilyName = intent.getStringExtra("Family Name")
+        return personFamilyName.toString()
+
+
+    }
+    */
 
      fun setupSignoutBtn () {
         logout_button.setOnClickListener() {
