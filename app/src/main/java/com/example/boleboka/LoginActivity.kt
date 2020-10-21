@@ -28,12 +28,6 @@ import kotlinx.android.synthetic.main.fragment_personal_info.*
 
 class LoginActivity : AppCompatActivity() {
 
-    lateinit var textView: TextView
-
-    val fragmentManager: FragmentManager = supportFragmentManager
-    val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-    val personal_info = Personal_info()
-
     private val RC_SIGN_IN: Int = 1
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var mGoogleSignInOptions: GoogleSignInOptions
@@ -52,14 +46,6 @@ class LoginActivity : AppCompatActivity() {
     companion object {
         fun getLaunchIntent(from: Context) = Intent(from, LoginActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        }
-
-        fun newInstance(list: ArrayList<IDNA.Info>): Personal_info {
-            val args = Bundle()
-            args.putParcelableArrayList("list", list)
-            val fragment = Personal_info()
-            fragment.arguments = args
-            return fragment
         }
     }
 
@@ -113,23 +99,6 @@ class LoginActivity : AppCompatActivity() {
 
     fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-
-        //textView3.text = personName
-        /*
-        val bundle = bundleOf(
-            Pair(personName, personId)
-        )
-        personal_info.requireArguments().getBundle(bundle.toString())
-
-         */
-
-        /*
-        bundle.putString(personName, this.textView2.toString())
-        personal_info.arguments = bundle
-        fragmentTransaction.add(R.id.frameLayout, personal_info).commit()
-
-         */
-
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
                 startActivity(MainActivity.getLaunchIntent(this))
@@ -140,6 +109,7 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+    /*
         fun getAccInfo (account: GoogleSignInAccount) {
                 val personName: String = account.displayName.toString()
                 val personGivenName: String = account.givenName.toString()
@@ -163,4 +133,6 @@ class LoginActivity : AppCompatActivity() {
             """.trimIndent()
 
     }
+
+     */
 }

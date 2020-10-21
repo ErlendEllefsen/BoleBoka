@@ -68,17 +68,4 @@ class Personal_info : Fragment() {
     internal fun getCurrentDateTime(): Date {
         return Calendar.getInstance().time
     }
-
-
-/*
-    fun getGAInfo() {
-        val manager = AccountManager.get(context)
-        val accounts = manager.getAccountsByType("com.google")
-        val username: MutableList<String> = LinkedList<String>()
-
-        for (account in accounts) {
-            username.add(account.name)
-        }
-    }
-*/
 }
