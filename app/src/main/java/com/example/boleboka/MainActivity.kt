@@ -46,20 +46,22 @@ class MainActivity : AppCompatActivity() {
         */
 
     }
-    /*
+
     fun getFamilyname (): String? {
         // TODO: 21.10.2020 Lag en funksjon som sender informasjon om brukeren til personal_info.kt
-
+        /*
         val intent = intent
         val personFamilyName = intent.getStringExtra("Family Name")
         return personFamilyName
+
+         */
 
         val personFamilyName = intent.getStringExtra("Family Name")
         return personFamilyName.toString()
 
 
     }
-    */
+
 
      fun setupSignoutBtn () {
         logout_button.setOnClickListener() {

@@ -91,19 +91,20 @@ class LoginActivity : AppCompatActivity() {
     fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
 
-        val personName: String = acct.displayName.toString()
+        val personName: String? = acct.displayName
         val personGivenName: String = acct.givenName.toString()
         val personFamilyName: String = acct.familyName.toString()
         val personEmail: String = acct.email.toString()
         val personId: String = acct.id.toString()
         val personPhoto: Uri? = acct.photoUrl
 
+        val name = personName.toString()
 
         //textView3.text = personEmail
         // TODO: 21.10.2020 Sender ikke informasjon til MainActivity? Blir ikke informasjonen sendt
-        // TODO: 21.10.2020 på riktig måte? eller blir den ikke mottatt på riktig måte? 
+        // TODO: 21.10.2020 på riktig måte? eller blir den ikke mottatt på riktig måte?
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("Family Name", personFamilyName)
+        intent.putExtra("Name", name)
         startActivity(intent)
 
             firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
