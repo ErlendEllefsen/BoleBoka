@@ -41,7 +41,5 @@ class MainActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signOut()
         startActivity(LoginActivity.getLaunchIntent(this))
     }
-
-
 }
 

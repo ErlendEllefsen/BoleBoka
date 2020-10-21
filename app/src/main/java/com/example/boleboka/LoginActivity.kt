@@ -2,10 +2,16 @@ package com.example.boleboka
 
 import android.content.Context
 import android.content.Intent
+import android.icu.text.IDNA
 import android.net.Uri
 import android.os.Bundle
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -14,9 +20,20 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_login.google_button
+import kotlinx.android.synthetic.main.fragment_personal_info.*
 
 class LoginActivity : AppCompatActivity() {
+
+    lateinit var textView: TextView
+
+    val fragmentManager: FragmentManager = supportFragmentManager
+    val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+    val personal_info = Personal_info()
+
     private val RC_SIGN_IN: Int = 1
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var mGoogleSignInOptions: GoogleSignInOptions
@@ -35,6 +52,14 @@ class LoginActivity : AppCompatActivity() {
     companion object {
         fun getLaunchIntent(from: Context) = Intent(from, LoginActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        }
+
+        fun newInstance(list: ArrayList<IDNA.Info>): Personal_info {
+            val args = Bundle()
+            args.putParcelableArrayList("list", list)
+            val fragment = Personal_info()
+            fragment.arguments = args
+            return fragment
         }
     }
 
@@ -89,21 +114,53 @@ class LoginActivity : AppCompatActivity() {
     fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
 
-        val personName: String = acct.displayName.toString()
-        val personGivenName: String = acct.givenName.toString()
-        val personFamilyName: String = acct.familyName.toString()
-        val personEmail: String = acct.email.toString()
-        val personId: String = acct.id.toString()
-        val personPhoto: Uri? = acct.photoUrl
+        //textView3.text = personName
+        /*
+        val bundle = bundleOf(
+            Pair(personName, personId)
+        )
+        personal_info.requireArguments().getBundle(bundle.toString())
+
+         */
+
+        /*
+        bundle.putString(personName, this.textView2.toString())
+        personal_info.arguments = bundle
+        fragmentTransaction.add(R.id.frameLayout, personal_info).commit()
+
+         */
 
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
                 startActivity(MainActivity.getLaunchIntent(this))
-                Toast.makeText(this, personGivenName, Toast.LENGTH_LONG).show()
+
+                //Toast.makeText(this, personName, Toast.LENGTH_LONG).show()
             }else {
                 Toast.makeText(this, "Sign in with Google Failed", Toast.LENGTH_LONG).show()
             }
         }
     }
+        fun getAccInfo (account: GoogleSignInAccount) {
+                val personName: String = account.displayName.toString()
+                val personGivenName: String = account.givenName.toString()
+                val personFamilyName: String = account.familyName.toString()
+                val personEmail: String = account.email.toString()
+                val personId: String = account.id.toString()
+                val personPhoto: Uri? = account.photoUrl
 
+            val list = listOf<String>(personName,
+                                                    personGivenName,
+                                                    personFamilyName,
+                                                    personEmail,
+                                                    personId)
+
+
+
+            val info = """
+                personName: $personName, personGivenName: $personGivenName, 
+                personFamilyName: $personFamilyName, personEmail: $personEmail
+                personId: $personId
+            """.trimIndent()
+
+    }
 }
