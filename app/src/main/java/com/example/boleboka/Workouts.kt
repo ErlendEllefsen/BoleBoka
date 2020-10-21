@@ -74,7 +74,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
             } else {
                 insertItem(workoutName, workoutDesc)
                 // Sender navnet på den nye workouten til exersise.kt
-                sendInfoToFragment(workoutName)
+                sendInfoToFragment(workoutName, workoutList.size + 1)
                 dialog.dismiss()
                 view.findNavController().navigate(R.id.action_workouts_to_exercise)
             }
@@ -82,9 +82,10 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         dialog.show()
     }
 
-    private fun sendInfoToFragment(workoutName: String) {
+    private fun sendInfoToFragment(workoutName: String, position: Int) {
         model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
         model!!.setMsgCommunicator(workoutName)
+        model!!.positionCommunicator(position)
     }
 
     private fun insertItem(name: String, desc: String) {
@@ -138,7 +139,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
             workoutDialog.dismiss()
         }
         btnEdit.setOnClickListener {
-            sendInfoToFragment(workoutList[position].text1)
+            sendInfoToFragment(workoutList[position].text1, position)
             workoutDialog.dismiss()
             view?.findNavController()?.navigate(R.id.action_workouts_to_exercise)
         }

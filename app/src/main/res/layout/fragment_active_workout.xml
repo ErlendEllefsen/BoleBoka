@@ -75,7 +75,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@android:color/darker_gray"
+        android:background="@color/colorPrimaryLight"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,7 +90,7 @@
             android:layout_width="75dp"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
-            android:background="@android:color/darker_gray"
+            android:background="@color/colorPrimaryLight"
             android:drawableStart="@drawable/leftarrow"
             android:text="@string/backString" />
 
@@ -107,7 +107,7 @@
             android:layout_width="75dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="16dp"
-            android:background="@android:color/darker_gray"
+            android:background="@color/colorPrimaryLight"
             android:drawableEnd="@drawable/rightarrow"
             android:text="@string/nextString" />
 

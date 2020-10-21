@@ -14,8 +14,15 @@ import androidx.lifecycle.ViewModel
  */
 class Communicator : ViewModel(){
     val message = MutableLiveData<Any>()
+    val position = MutableLiveData<Int>()
 
-    fun setMsgCommunicator(msg:String){
+
+    fun setMsgCommunicator(msg: String) {
         message.value = msg
     }
+
+    fun positionCommunicator(pos: Int) {
+        position.value = pos
+    }
+
 }

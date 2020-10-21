@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -34,7 +35,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_exercises, container, false)
 
@@ -53,6 +54,12 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val txt = exerciseHeader as TextView
         model.message.observe(viewLifecycleOwner,
             { o -> txt.text = o!!.toString() })
+        //POSITION @Dashern
+        val currentPosition = model.position.value!!
+        val positionToast =
+            Toast.makeText(context, "Current position is: $currentPosition", Toast.LENGTH_SHORT)
+                .show()
+
         btn_exersise_insert.setOnClickListener() {
             showDialog(view)
         }
