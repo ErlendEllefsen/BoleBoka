@@ -38,8 +38,8 @@
                 android:id="@+id/btn_insert"
                 android:layout_width="147dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:contentDescription="@string/fab_content_desc"
-
                 android:onClick="showDialog"
                 app:backgroundTint="@color/colorAccent"
                 app:srcCompat="@drawable/ic_plus_24" />
