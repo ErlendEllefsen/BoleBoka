@@ -32,48 +32,47 @@ class ActiveWorkout : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         var currentList = exerciseList[i]
         var name = currentList.name
-        var max = currentList.reps
+        var reps = currentList.reps
+        var sets = currentList.sets
         progressBar.progress += 100 / exerciseList.size
-        setValues(name, max)
+        setValues(name, reps, sets)
         btnBack.setOnClickListener() {
             if (exerciseList[i] == exerciseList.first()) {
-                val startToast =
-                    Toast.makeText(context, "This is the first exercise!", Toast.LENGTH_SHORT)
-                startToast.show()
+                errorMessage("This is the first exercise!")
             } else {
                 i -= 1
                 progress(false)
                 currentList = exerciseList[i]
                 name = currentList.name
-                max = currentList.reps
-                setValues(name, max)
+                reps = currentList.reps
+                sets = currentList.sets
+                setValues(name, reps, sets)
                 val listWeight = resultsList[i].weight
                 val listReps = resultsList[i].reps
-                setValuesFromList(listWeight, listReps)
+                val listSets = resultsList[i].sets
+                setValuesFromList(listWeight, listReps, listSets)
             }
         }
         btnNext.setOnClickListener() {
             if (exerciseList[i] == exerciseList.last()) {
-                val endToast =
-                    Toast.makeText(context, "This is the last exercise!", Toast.LENGTH_SHORT)
-                endToast.show()
+                errorMessage("This is the last exercise!")
             } else {
                 if (weight.text.toString() == "") {
-                    val error =
-                        Toast.makeText(context, "Weight can not be empty", Toast.LENGTH_SHORT)
-                    error.show()
+                    errorMessage("Weight cannot be empty")
                 } else {
                     storeValues(i)
                     i += 1
                     progress(true)
                     currentList = exerciseList[i]
                     name = currentList.name
-                    max = currentList.reps
-                    setValues(name, max)
+                    reps = currentList.reps
+                    sets = currentList.sets
+                    setValues(name, reps, sets)
                     if (resultsList.size > i) {
                         val listWeight = resultsList[i].weight
                         val listReps = resultsList[i].reps
-                        setValuesFromList(listWeight, listReps)
+                        val listSets = resultsList[i].sets
+                        setValuesFromList(listWeight, listReps, listSets)
                     }
                     if (currentList == exerciseList.last())
                         btnFinish.visibility = View.VISIBLE
@@ -81,15 +80,26 @@ class ActiveWorkout : Fragment() {
             }
         }
         btnFinish.setOnClickListener() {
-            storeValues(i)
-            view.findNavController().navigate(R.id.action_active_workout_to_startWorkout)
-            saveToDB()
+            if (weight.text.toString() == "") {
+                errorMessage("Weight cannot be empty")
+            } else {
+                storeValues(i)
+                view.findNavController().navigate(R.id.action_active_workout_to_startWorkout)
+                saveToDB()
+            }
         }
 
     }
 
-    private fun setValuesFromList(listWeight: Int, listReps: Int) {
+    private fun errorMessage(message: String) {
+        val error =
+            Toast.makeText(context, message, Toast.LENGTH_SHORT)
+        error.show()
+    }
+
+    private fun setValuesFromList(listWeight: Int, listReps: Int, listSets: Int) {
         numberPicker.value = listReps
+        numberPickerSets.value = listSets
         weight.setText(listWeight.toString())
     }
 
@@ -110,18 +120,22 @@ class ActiveWorkout : Fragment() {
 
     }
 
-    private fun setValues(name: String, max: Int) {
+    private fun setValues(name: String, reps: Int, sets: Int) {
         textView.text = name
-        numberPicker.maxValue = max
+        numberPicker.maxValue = reps
         numberPicker.minValue = 0
         numberPicker.value = 0
+        numberPickerSets.maxValue = sets
+        numberPickerSets.minValue = 0
+        numberPickerSets.value = 0
         weight.setText("")
     }
 
     private fun storeValues(pos: Int) {
         val reps = numberPicker.value
         val wgt = Integer.parseInt(weight.text.toString().trim())
-        val item = Result_Item(reps, wgt)
+        val sets = numberPickerSets.value
+        val item = Result_Item(reps, wgt, sets)
         if (resultsList.isEmpty())
             resultsList.add(pos, item)
         else {
