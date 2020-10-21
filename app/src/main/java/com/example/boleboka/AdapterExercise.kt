@@ -1,11 +1,13 @@
 package com.example.boleboka
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.exercise_items.view.*
+import org.w3c.dom.Text
 
 class AdapterExercise(private val exerciseList: List<Exercise_Item>, private val listnerExercise: Exercise) : RecyclerView.Adapter<AdapterExercise.ViewHolder>() {
 
@@ -15,6 +17,7 @@ class AdapterExercise(private val exerciseList: List<Exercise_Item>, private val
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         /*
          *Blir called hver gang du scroller og nye views kommer inn.
@@ -22,15 +25,20 @@ class AdapterExercise(private val exerciseList: List<Exercise_Item>, private val
          *Bruk class ViewHolder
          */
         val currentItem = exerciseList[position]
-        holder.textView1.text = currentItem.name
+        val currentRep = currentItem.reps.toString()
+        val currentSets = currentItem.sets.toString()
+        holder.name.text = currentItem.name
+        holder.reps.text = "Reps: $currentRep"
+        holder.sets.text = "Sets: $currentSets"
     }
 
     override fun getItemCount() = exerciseList.size
 
     // "inner" gjør klassen non-static
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        val textView1: TextView = itemView.name
-        val textView2: TextView = itemView.reps
+        val name: TextView = itemView.name
+        val reps: TextView = itemView.reps
+        val sets: TextView = itemView.sets
 
         //Konstruktør
         init {

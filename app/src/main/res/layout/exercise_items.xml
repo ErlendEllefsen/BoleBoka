@@ -13,15 +13,25 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Exercise Name" />
+            android:layout_centerVertical="true"
+            android:text="Exercise Name"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/sets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentEnd="true"
+            android:text="Reps" />
 
         <TextView
             android:id="@+id/reps"
+            android:layout_below="@+id/sets"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/name"
-            android:text="Reps" />
+            android:layout_alignParentEnd="true"
+            android:text="Sets" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

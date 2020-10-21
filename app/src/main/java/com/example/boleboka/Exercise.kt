@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -38,7 +39,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_exercises, container, false)
 
@@ -57,6 +58,11 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val txt = exerciseHeader as TextView
         model.message.observe(viewLifecycleOwner,
             { o -> txt.text = o!!.toString() })
+        //POSITION @Dashern
+        val currentPosition = model.position.value!!
+        val positionToast =
+            Toast.makeText(context, "Current position is: $currentPosition", Toast.LENGTH_SHORT)
+                .show()
         btn_exersise_insert.setOnClickListener() {
             showDialog(view)
         }
@@ -129,7 +135,8 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
             exerciseDialog.btn_delete_ex as com.google.android.material.floatingactionbutton.FloatingActionButton
         val btnAdd = exerciseDialog.save_btn_ex as Button
         val changeName = exerciseDialog.changeExName as EditText
-        val changeReps = exerciseDialog.changeExReps as EditText
+        val changeReps = exerciseDialog.changeReps as EditText
+        val changeSets = exerciseDialog.changeSets as EditText
         exerciseDialog.show()
         btnDelete.setOnClickListener {
             removeItem(position)
@@ -138,12 +145,16 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         btnAdd.setOnClickListener {
             val exName = changeName.text.toString()
             val exRepsString = changeReps.text.toString()
+            val exSetsString = changeSets.text.toString()
             val exReps = Integer.parseInt(exRepsString)
+            val exSets = Integer.parseInt(exSetsString)
             if (exName == "") {
                 val noNameToast = Toast.makeText(context, "No name", Toast.LENGTH_SHORT)
                 noNameToast.show()
             } else {
                 exerciseList[position].name = exName
+                exerciseList[position].reps = exReps
+                exerciseList[position].sets = exSets
                 adapterEx.notifyItemChanged(position)
                 exerciseDialog.dismiss()
             }

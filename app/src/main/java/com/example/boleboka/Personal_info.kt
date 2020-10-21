@@ -44,7 +44,7 @@ class Personal_info : Fragment() {
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
         val uID = currentuser.toString()
         val stringW = weight.text.toString()
-        val stringH= height.text.toString()
+        val stringH = height.text.toString()
 
         val intW = stringW.toInt()
         val intH = stringH.toInt()
@@ -53,11 +53,15 @@ class Personal_info : Fragment() {
         val dateInString = date.toString("yyyy-MM-dd")
 
         val database = FirebaseDatabase.getInstance()
-            val heightDB= database.getReference("Users").child(uID).child("Userdata").child(dateInString).child("Height")
-            val weightDB = database.getReference("Users").child(uID).child("Userdata").child(dateInString).child("Weight")
+        val heightDB =
+            database.getReference("Users").child(uID).child("Userdata").child(dateInString)
+                .child("Height")
+        val weightDB =
+            database.getReference("Users").child(uID).child("Userdata").child(dateInString)
+                .child("Weight")
 
-            heightDB.setValue(intH)
-            weightDB.setValue(intW)
+        heightDB.setValue(intH)
+        weightDB.setValue(intW)
 
     }
     fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {

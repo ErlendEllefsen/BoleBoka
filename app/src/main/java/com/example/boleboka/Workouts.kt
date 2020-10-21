@@ -1,7 +1,7 @@
 package com.example.boleboka
 
 import android.app.Dialog
-import android.content.ContentValues.TAG
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -58,9 +58,9 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         recycler_view.layoutManager = LinearLayoutManager(context)
         //performance optimization
         recycler_view.setHasFixedSize(true)
-        model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
+
         btn_insert.setOnClickListener() {
-             showDialog(view, model)
+            showDialog(view, model)
         }
     }
 
@@ -82,7 +82,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
             } else {
                 insertItem(workoutName, workoutDesc)
                 // Sender navnet på den nye workouten til exersise.kt
-                model!!.setMsgCommunicator(workoutName)
+                sendInfoToFragment(workoutName, workoutList.size + 1)
                 dialog.dismiss()
                 view.findNavController().navigate(R.id.action_workouts_to_exercise)
             }
@@ -90,12 +90,16 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         dialog.show()
     }
 
-    private fun sendInfoToFragment(workoutName: String) {
+    private fun sendInfoToFragment(workoutName: String, position: Int) {
         model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
         model!!.setMsgCommunicator(workoutName)
+        model!!.positionCommunicator(position)
     }
 
     private fun insertItem(name: String, desc: String) {
+
+        val currentuser = FirebaseAuth.getInstance().currentUser?.uid
+        val uID = currentuser.toString()
 
         val database = FirebaseDatabase.getInstance()
         val nameW = database.getReference("Users").child(uID).child("Workouts").child(name)
@@ -124,7 +128,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         adapter.notifyItemRemoved(position)
         val workoutName = workoutList[position].text1
         Toast.makeText(context, "Workout $workoutName deleted", Toast.LENGTH_SHORT).show()
-       // TODO("Slette i databasen")
+        // TODO("Slette i databasen")
     }
 
 
@@ -145,7 +149,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
             workoutDialog.dismiss()
         }
         btnEdit.setOnClickListener {
-            sendInfoToFragment(workoutList[position].text1)
+            sendInfoToFragment(workoutList[position].text1, position)
             workoutDialog.dismiss()
             view?.findNavController()?.navigate(R.id.action_workouts_to_exercise)
         }
