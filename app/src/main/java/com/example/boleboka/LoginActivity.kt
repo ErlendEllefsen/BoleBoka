@@ -32,7 +32,6 @@ class LoginActivity : AppCompatActivity() {
         configureGoogleSignIn()
         setLoginBtn()
         firebaseAuth = FirebaseAuth.getInstance()
-
     }
 
     companion object {
@@ -88,29 +87,27 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
+    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-
-        val personName: String? = acct.displayName
+        val personName: String = acct.displayName.toString()
         val personGivenName: String = acct.givenName.toString()
         val personFamilyName: String = acct.familyName.toString()
         val personEmail: String = acct.email.toString()
         val personId: String = acct.id.toString()
         val personPhoto: Uri? = acct.photoUrl
 
-        val name = personName.toString()
 
         //textView3.text = personEmail
         // TODO: 21.10.2020 Sender ikke informasjon til MainActivity? Blir ikke informasjonen sendt
-        // TODO: 21.10.2020 på riktig måte? eller blir den ikke mottatt på riktig måte?
+        // TODO: 21.10.2020 på riktig måte? eller blir den ikke mottatt på riktig måte? 
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("Name", name)
+        intent.putExtra("AccName", personGivenName)
         startActivity(intent)
 
             firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
                 startActivity(MainActivity.getLaunchIntent(this))
-                Toast.makeText(this, personGivenName, Toast.LENGTH_LONG).show()
+                // Toast.makeText(this, personGivenName, Toast.LENGTH_LONG).show()
             }else {
                 Toast.makeText(this, "Sign in with Google Failed", Toast.LENGTH_LONG).show()
             }
