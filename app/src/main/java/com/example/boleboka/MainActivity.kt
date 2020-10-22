@@ -9,6 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.boleboka.MainActivity.Companion.getLaunchIntent
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         // TODO: 21.10.2020 Hente informasjon fra LoginActivity, mulig informasjonen ikke blir sendt?
         val intent = intent
         val personFamilyName = intent.getStringExtra("AccName")
-        Toast.makeText(this, personFamilyName.toString(), Toast.LENGTH_LONG).show()
+       // Toast.makeText(this, personFamilyName.toString(), Toast.LENGTH_LONG).show()
         /*
          * Returnerer "Family Name: Null" (i et textview i dette fragmentet)
          * Får ikke hentet informasjonen fra LoginActivity.kt
@@ -69,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun logout () {
         FirebaseAuth.getInstance().signOut()
-        finish()
+        startActivity(LoginActivity.getLaunchIntent(this))
     }
 }
 
