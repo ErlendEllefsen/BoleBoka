@@ -1,26 +1,31 @@
 package com.example.boleboka
 
+import android.annotation.SuppressLint
+import android.content.IntentFilter
+import android.net.Uri
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_personal_info.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class Personal_info : Fragment() {
-
-    lateinit var activityLogin: LoginActivity
+class Personal_info : Fragment()  {
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // textView2?.text = {(activity as MainActivity).getFamilyname()}.toString()
-        //textView2?.text = activityLogin.intent.getStringExtra("Family Name").toString()
+        firebaseAuth = FirebaseAuth.getInstance()
     }
 
     override fun onCreateView(
@@ -28,13 +33,29 @@ class Personal_info : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_personal_info, container, false)
-    }
+        }
+
+
+    @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         logout_button.setOnClickListener { (activity as MainActivity).setupSignoutBtn() }
         btnSave.setOnClickListener{
             savePersonalInfo()
         }
+        val name: String = firebaseAuth.currentUser!!.displayName.toString()
+        textView2.text = "Logged in as\n$name"
+
+        val email: String = firebaseAuth.currentUser!!.email.toString()
+        textView3.text = "Email\n$email"
+
+        val photoUrl: String = firebaseAuth.currentUser!!.photoUrl.toString()
+        Glide.with(context).load(photoUrl)
+            .thumbnail(0.1f)
+            .crossFade()
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .into(imageView4)
+
     }
     private fun savePersonalInfo() {
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
@@ -68,4 +89,8 @@ class Personal_info : Fragment() {
     internal fun getCurrentDateTime(): Date {
         return Calendar.getInstance().time
     }
+}
+
+private fun setText(it: FragmentActivity): String {
+    return it.toString()
 }

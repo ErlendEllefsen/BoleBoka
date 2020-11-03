@@ -34,32 +34,6 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNav)
         val navController = findNavController(R.id.fragment)
         bottomNavigationView.setupWithNavController(navController)
-        // TODO: 21.10.2020 Hente informasjon fra LoginActivity, mulig informasjonen ikke blir sendt?
-        val intent = intent
-        val personFamilyName = intent.getStringExtra("AccName")
-       // Toast.makeText(this, personFamilyName.toString(), Toast.LENGTH_LONG).show()
-        /*
-         * Returnerer "Family Name: Null" (i et textview i dette fragmentet)
-         * Får ikke hentet informasjonen fra LoginActivity.kt
-
-            val result = findViewById<TextView>(R.id.textView)
-            result.text = "Family Name: $personFamilyName"
-
-        */
-
-    }
-
-    fun getFamilyname (): String? {
-        // TODO: 21.10.2020 Lag en funksjon som sender informasjon om brukeren til personal_info.kt
-        /*
-        val intent = intent
-        val personFamilyName = intent.getStringExtra("Family Name")
-        return personFamilyName
-
-         */
-
-        val personFamilyName = intent.getStringExtra("Family Name")
-        return personFamilyName.toString()
     }
 
      fun setupSignoutBtn () {
@@ -70,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun logout () {
         FirebaseAuth.getInstance().signOut()
-        startActivity(LoginActivity.getLaunchIntent(this))
+        finish()
     }
 }
 

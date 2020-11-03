@@ -13,12 +13,13 @@ android {
 
     defaultConfig {
         applicationId "com.example.boleboka"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         android.defaultConfig.vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -51,6 +52,9 @@ dependencies {
 
     //Firebase database connection
     implementation 'com.google.firebase:firebase-database-ktx:19.5.0'
+
+    //Implementerer glide for å kunne vise brukerens bilde
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
 
     def nav_version = "2.3.0"
 

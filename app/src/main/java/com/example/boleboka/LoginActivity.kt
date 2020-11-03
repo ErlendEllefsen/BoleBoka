@@ -1,11 +1,14 @@
 package com.example.boleboka
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -14,21 +17,18 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_login.google_button
 
 class LoginActivity : AppCompatActivity() {
 
-    companion object {
-        fun getLaunchIntent (from: Context) = Intent (from, LoginActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-    }
 
     private val RC_SIGN_IN: Int = 1
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var mGoogleSignInOptions: GoogleSignInOptions
 
     private lateinit var firebaseAuth: FirebaseAuth
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +39,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
+            val name: String = firebaseAuth.currentUser!!.displayName.toString()
+            Toast.makeText(this, "Welcome back $name", Toast.LENGTH_LONG).show()
             startActivity(MainActivity.getLaunchIntent(this))
         }
     }
@@ -95,18 +97,10 @@ class LoginActivity : AppCompatActivity() {
         val personId: String = acct.id.toString()
         val personPhoto: Uri? = acct.photoUrl
 
-
-        //textView3.text = personEmail
-        // TODO: 21.10.2020 Sender ikke informasjon til MainActivity? Blir ikke informasjonen sendt
-        // TODO: 21.10.2020 på riktig måte? eller blir den ikke mottatt på riktig måte? 
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("AccName", personGivenName)
-        startActivity(intent)
-
             firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
                 startActivity(MainActivity.getLaunchIntent(this))
-                // Toast.makeText(this, personGivenName, Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Welcome $personName", Toast.LENGTH_LONG).show()
             }else {
                 Toast.makeText(this, "Sign in with Google Failed", Toast.LENGTH_LONG).show()
             }
