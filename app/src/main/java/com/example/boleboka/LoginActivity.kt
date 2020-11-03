@@ -1,13 +1,14 @@
 package com.example.boleboka
 
-import android.app.Person
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
+import androidx.core.os.bundleOf
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -16,14 +17,18 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_login.google_button
 
 class LoginActivity : AppCompatActivity() {
+
+
     private val RC_SIGN_IN: Int = 1
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var mGoogleSignInOptions: GoogleSignInOptions
 
     private lateinit var firebaseAuth: FirebaseAuth
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +36,6 @@ class LoginActivity : AppCompatActivity() {
         configureGoogleSignIn()
         setLoginBtn()
         firebaseAuth = FirebaseAuth.getInstance()
-
-    }
-
-    companion object {
-        fun getLaunchIntent(from: Context) = Intent(from, LoginActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        }
     }
 
 
@@ -45,9 +43,12 @@ class LoginActivity : AppCompatActivity() {
         super.onStart()
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
+            val name: String = firebaseAuth.currentUser!!.displayName.toString()
+            Toast.makeText(this, "Welcome back $name", Toast.LENGTH_LONG).show()
             startActivity(MainActivity.getLaunchIntent(this))
         }
     }
+
 
     private fun configureGoogleSignIn() {
         mGoogleSignInOptions =
@@ -64,7 +65,6 @@ class LoginActivity : AppCompatActivity() {
             signIn()
         }
     }
-
 
     private fun signIn() {
         mGoogleSignInClient.signOut()
@@ -88,9 +88,8 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
+    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-
         val personName: String = acct.displayName.toString()
         val personGivenName: String = acct.givenName.toString()
         val personFamilyName: String = acct.familyName.toString()
@@ -98,10 +97,10 @@ class LoginActivity : AppCompatActivity() {
         val personId: String = acct.id.toString()
         val personPhoto: Uri? = acct.photoUrl
 
-        firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
+            firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
                 startActivity(MainActivity.getLaunchIntent(this))
-                Toast.makeText(this, personGivenName, Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Welcome $personName", Toast.LENGTH_LONG).show()
             }else {
                 Toast.makeText(this, "Sign in with Google Failed", Toast.LENGTH_LONG).show()
             }

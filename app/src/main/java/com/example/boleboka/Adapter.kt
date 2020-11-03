@@ -14,12 +14,11 @@ class Adapter(private val workoutList: ArrayList<Workout_Item>, private val list
         return ViewHolder(itemView)
     }
 
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         /*
-         *Blir called hver gang du scroller og nye views kommer inn.
-         *Ikke add noe kode i denne, da vil appen bli treg
-         *Bruk class ViewHolder
+         * Blir called hver gang du scroller og nye views kommer inn.
+         * Ikke add noe kode i denne, da vil appen bli treg
+         * Bruk class ViewHolder
          */
 
         val currentWorkoutItem = workoutList[position]
