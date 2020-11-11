@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_stats_to_chart2"
             app:destination="@id/chart" />
+        <action
+            android:id="@+id/action_stats_to_numberdata"
+            app:destination="@id/numstat" />
     </fragment>
     <fragment
         android:id="@+id/workouts"
@@ -77,5 +80,11 @@
         android:name="com.example.boleboka.Chart"
         android:label="fragment_chart"
         tools:layout="@layout/fragment_chart">
+    </fragment>
+    <fragment
+        android:id="@+id/numstat"
+        android:name="com.example.boleboka.Numstat"
+        android:label="fragment_numstat"
+        tools:layout="@layout/fragment_numstat">
     </fragment>
 </navigation>
