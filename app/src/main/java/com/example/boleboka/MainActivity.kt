@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.github.mikephil.charting.data.PieEntry
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_active_workout.*
 import kotlinx.android.synthetic.main.fragment_personal_info.*
 
@@ -55,5 +56,6 @@ fun AppCompatActivity.replaceFragment(fragment: Fragment) {
     transaction.addToBackStack(null)
     transaction.commit()
 }
+
 
 
