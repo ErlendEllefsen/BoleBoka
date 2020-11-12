@@ -36,5 +36,9 @@ class Stats : Fragment() {
         graphDataBtn.setOnClickListener {
             view.findNavController().navigate(R.id.action_stats_to_chart2)
         }
+        numberDataBtn.setOnClickListener {
+            view.findNavController().navigate(R.id.action_stats_to_numberdata)
+        }
     }
+
 }
