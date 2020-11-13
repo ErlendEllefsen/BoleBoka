@@ -34,14 +34,14 @@
             android:layout_width="375dp"
             android:layout_height="60dp"
             android:background="@color/colorPrimary"
-            android:entries="@array/workouts"
             android:popupBackground="@color/colorPrimaryLight"
             android:prompt="@string/spinnerTitle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.701" />
+            app:layout_constraintVertical_bias="0.701"
+            android:entries="@array/Languages" />
 
 
         <ImageView
