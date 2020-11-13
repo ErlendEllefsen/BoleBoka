@@ -25,8 +25,8 @@ import kotlinx.android.synthetic.main.fragment_exercises.*
 
 
 class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
-    val currentuser = FirebaseAuth.getInstance().currentUser?.uid
-    val uID = currentuser.toString()
+    private val currentuser = FirebaseAuth.getInstance().currentUser?.uid
+    private val uID = currentuser.toString()
     private lateinit var exerciseList: ArrayList<Exercise_Item>
     private lateinit var adapterEx: AdapterExercise
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -169,25 +169,23 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
     }
 
     private fun generateExerciseList(workoutName: String): ArrayList<Exercise_Item>{
-
         val list = ArrayList<Exercise_Item>()
-        val currentuser = FirebaseAuth.getInstance().currentUser?.uid
-        val uID = currentuser.toString()
-
         val firebase = FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Exercise").child(workoutName)
         firebase
             .addChildEventListener(object : ChildEventListener {
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
 
-                    if (snapshot.exists())  {
+                    if (snapshot.exists()) {
+                        Toast.makeText(context, "$snapshot", Toast.LENGTH_LONG).show()
 
                         val children = snapshot.children
                         children.forEach {
 
-                            var name = it.key.toString()
-                            var reps = it.child("Reps").value.toString()
-                            var sets = it.child("Sets").value.toString()
-                            var task = Exercise_Item(name, reps.toInt(), sets.toInt())
+                            val name = it.key.toString()
+                            Toast.makeText(context, name, Toast.LENGTH_SHORT).show()
+                            val reps = it.child("Reps").value.toString()
+                            val sets = it.child("Sets").value.toString()
+                            val task = Exercise_Item(name, reps.toInt(), sets.toInt())
                             list.add(task)
                         }
 
