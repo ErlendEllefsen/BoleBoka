@@ -25,12 +25,10 @@ import kotlinx.android.synthetic.main.fragment_exercises.*
 
 
 class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
-
-    private val exerciseList = generateExerciseList("")
-    private val adapterEx = AdapterExercise(exerciseList, this)
     val currentuser = FirebaseAuth.getInstance().currentUser?.uid
     val uID = currentuser.toString()
-
+    private lateinit var exerciseList: ArrayList<Exercise_Item>
+    private lateinit var adapterEx: AdapterExercise
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -44,18 +42,22 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
+        val workoutName = model.message.value!!.toString()
+        exerciseList = generateExerciseList(workoutName)
+        adapterEx = AdapterExercise(exerciseList, this)
         recycler_view_exercise.adapter = adapterEx
         recycler_view_exercise.layoutManager = LinearLayoutManager(context)
         //performance optimization
         recycler_view_exercise.setHasFixedSize(true)
 
         // Henter message i communicator, burde også hente ett eller annet ID
-        val model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
+
         val txt = exerciseHeader as TextView
         model.message.observe(viewLifecycleOwner,
             { o -> txt.text = o!!.toString() })
         //POSITION @Dashern
-        val workoutName = model.message.value!!.toString()
+
         val currentPosition = model.position.value!!
         val positionToast =
             Toast.makeText(context, "Current position is: $currentPosition", Toast.LENGTH_SHORT)
@@ -122,7 +124,6 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
     private fun removeItem(position: Int) {
         val exerciseName = exerciseList[position].name
-
         val db = FirebaseDatabase.getInstance()
         val ref = db.getReference("Users").child(uID).child("Exercise").child(exerciseName)
         ref.removeValue()
@@ -172,7 +173,6 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val list = ArrayList<Exercise_Item>()
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
         val uID = currentuser.toString()
-
 
         val firebase = FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Exercise").child(workoutName)
         firebase
