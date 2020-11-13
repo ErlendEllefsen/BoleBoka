@@ -60,8 +60,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
         val currentPosition = model.position.value!!
         val positionToast =
-            Toast.makeText(context, "Current position is: $currentPosition", Toast.LENGTH_SHORT)
-                .show()
+          //  Toast.makeText(context, "Current position is: $currentPosition", Toast.LENGTH_SHORT).show()
         btn_exersise_insert.setOnClickListener() {
             showDialog(view, workoutName)
         }
@@ -99,7 +98,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
             val database = FirebaseDatabase.getInstance()
             val nameDB =
                 database.getReference("Users").child(uID).child("Exercise").child(workoutName)
-                    .child(name)
+                    .child(name).child("Name")
             val repsDB =
                 database.getReference("Users").child(uID).child("Exercise").child(workoutName)
                     .child(name).child("Reps")
@@ -172,24 +171,11 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val list = ArrayList<Exercise_Item>()
         val firebase = FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Exercise").child(workoutName)
         firebase
-            .addChildEventListener(object : ChildEventListener {
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                /*
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
 
-                    if (snapshot.exists()) {
-                        Toast.makeText(context, "$snapshot", Toast.LENGTH_LONG).show()
 
-                        val children = snapshot.children
-                        children.forEach {
-
-                            val name = it.key.toString()
-                            Toast.makeText(context, name, Toast.LENGTH_SHORT).show()
-                            val reps = it.child("Reps").value.toString()
-                            val sets = it.child("Sets").value.toString()
-                            val task = Exercise_Item(name, reps.toInt(), sets.toInt())
-                            list.add(task)
-                        }
-
-                    }
                 }
 
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
@@ -201,6 +187,24 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
                 override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
                     TODO("Not yet implemented")
+                }
+
+                 */
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        Toast.makeText(context, "$snapshot", Toast.LENGTH_LONG).show()
+
+                        val children = snapshot.children
+                        children.forEach {
+
+                            val name = it.child("Name").value.toString()
+                            val reps = it.child("Reps").value.toString()
+                            val sets = it.child("Sets").value.toString()
+                            val task = Exercise_Item(name, reps.toInt(), sets.toInt())
+                            list.add(task)
+                        }
+
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
