@@ -178,7 +178,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                     if (snapshot.exists()) {
-
+                        Toast.makeText(context, "$snapshot", Toast.LENGTH_LONG).show()
                         val children = snapshot.children
                         children.forEach {
 
@@ -191,22 +191,21 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
                 }
 
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                     Toast.makeText(context, "Changed", Toast.LENGTH_SHORT).show()
-                 }
+                    Toast.makeText(context, "Changed", Toast.LENGTH_SHORT).show()
+                }
 
-                 override fun onChildRemoved(snapshot: DataSnapshot) {
-                     Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show()
-                 }
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+                    Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show()
+                }
 
-                 override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                     Toast.makeText(context, "Moved", Toast.LENGTH_SHORT).show()
-                 }
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                    Toast.makeText(context, "Moved", Toast.LENGTH_SHORT).show()
+                }
 
 
-               override fun onCancelled(error: DatabaseError) {
-                   Toast.makeText(context, "Funket ikke", Toast.LENGTH_SHORT).show()
-               }
-
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(context, "Funket ikke", Toast.LENGTH_SHORT).show()
+                }
 
 
             })
