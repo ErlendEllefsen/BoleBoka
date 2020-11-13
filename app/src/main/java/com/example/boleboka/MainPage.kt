@@ -101,12 +101,12 @@ class MainPage : Fragment() {
 
         val languages = resources.getStringArray((R.array.Languages))
 
-        if (spinner != null) {
-             ArrayAdapter.createFromResource(requireActivity().applicationContext, R.array.Languages, android.R.layout.simple_spinner_item).also { adapter ->
+
+             ArrayAdapter<String>(requireActivity().applicationContext, android.R.layout.simple_spinner_item, languages).also { adapter ->
                  adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
                  spinner.adapter = adapter
-             }
+
 
             spinner.onItemSelectedListener = object :
                 AdapterView.OnItemSelectedListener {
