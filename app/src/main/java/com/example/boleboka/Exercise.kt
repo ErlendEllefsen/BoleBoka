@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_exercises.*
 
 class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
-    private val exerciseList = generateExerciseList("")
+    private val exerciseList = generateExerciseList("Bryst")
     private val adapterEx = AdapterExercise(exerciseList, this)
     val currentuser = FirebaseAuth.getInstance().currentUser?.uid
     val uID = currentuser.toString()
