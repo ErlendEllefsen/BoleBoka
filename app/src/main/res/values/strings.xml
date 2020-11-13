@@ -23,13 +23,6 @@
     <string name="feet_lbs"><![CDATA[Feet & Lbs]]></string>
     <string name="workouts_headline">Workouts</string>
     <string name="fab_content_desc">Add Workout</string>
-    <string-array name="workouts">
-        <item>Back</item>
-        <item>Legs</item>
-        <item>Chest</item>
-        <item>Arms</item>
-        <item>Core</item>
-    </string-array>
     <string name="spinnerTitle">Select Workout</string>
     <string name="startWorkout">Start Workout</string>
     <string name="dialog_info">Add a Workout!</string>
@@ -50,4 +43,12 @@
     <string name="changeReps">Change Reps</string>
     <string name="changeSets">Change Sets</string>
     <string name="loggedInPlaceholder">Logged in as:</string>
+    <string-array name="Languages">
+        <item>Java</item>
+        <item>Kotlin</item>
+        <item>Swift</item>
+        <item>Python</item>
+        <item>Scala</item>
+        <item>Perl</item>
+    </string-array>
 </resources>

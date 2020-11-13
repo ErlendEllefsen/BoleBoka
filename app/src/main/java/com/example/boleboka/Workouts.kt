@@ -17,14 +17,12 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_workout.*
 import kotlinx.android.synthetic.main.edit_workout.*
 import kotlinx.android.synthetic.main.fragment_workouts.*
+import java.util.concurrent.TimeUnit
 
 
 class Workouts : Fragment(), Adapter.OnItemClickListener {
@@ -32,16 +30,13 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
     private var model: Communicator? = null
 
     private val workoutList = generateWorkoutList()
-
-
     private val adapter = Adapter(workoutList, this)
-    val currentuser = FirebaseAuth.getInstance().currentUser?.uid
-    val uID = currentuser.toString()
+
+    private val currentuser = FirebaseAuth.getInstance().currentUser?.uid
+    private val uID = currentuser.toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        generateWorkoutList()
-
     }
 
     override fun onCreateView(
@@ -49,7 +44,6 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_workouts, container, false)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,7 +52,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         recycler_view.layoutManager = LinearLayoutManager(context)
         //performance optimization
         recycler_view.setHasFixedSize(true)
-
+        adapter.notifyDataSetChanged()
         btn_insert.setOnClickListener() {
             showDialog(view, model)
         }
@@ -98,20 +92,19 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
     private fun insertItem(name: String, desc: String) {
 
-        val currentuser = FirebaseAuth.getInstance().currentUser?.uid
-        val uID = currentuser.toString()
-
         val database = FirebaseDatabase.getInstance()
-        val nameW = database.getReference("Users").child(uID).child("Workouts").child(name)
+        val nameW = database.getReference("Users").child(uID).child("Workouts").child(name).child(desc)
+        //val descW = database.getReference("Users").child(uID).child("Workouts").child(name).child("Name")
         val exN = database.getReference("Users").child(uID).child("Exercise").child(name)
 
         nameW.setValue(name)
+        //descW.setValue(desc)
         exN.setValue(name)
 
         val atTop = !recycler_view.canScrollVertically(-1)
         val index = 0
-        val newItem = Workout_Item(name /*desc*/)
-        workoutList.add(index, newItem)
+        val newItem = Workout_Item(name, desc)
+        workoutList.add(newItem)
         adapter.notifyItemInserted(index)
         // Sørger for item som blir lagt til ikke blir lagt til utenfor view
         if (atTop) {
@@ -119,16 +112,19 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         }
     }
 
-    private fun removeItem(position: Int) {
-        val db = FirebaseDatabase.getInstance()
-        val ref = db.getReference("Users").child(uID).child("name/pos")
+    private fun removeItem(position: Int, nameW: String) {
+        // sletter Workout fra firebase og recycleviewet
 
+        val db = FirebaseDatabase.getInstance()
+        val ref = db.getReference("Users").child(uID).child("Workouts").child(nameW)
+        val refE = db.getReference("Users").child(uID).child("Exercise").child(nameW)
+        ref.removeValue()
+        refE.removeValue()
 
         workoutList.removeAt(position)
         adapter.notifyItemRemoved(position)
-        val workoutName = workoutList[position].text1
         Toast.makeText(context, "Workout $workoutName deleted", Toast.LENGTH_SHORT).show()
-        // TODO("Slette i databasen")
+
     }
 
 
@@ -143,9 +139,10 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         val btnAdd = workoutDialog.save_btn as Button
         val changeDesc = workoutDialog.changeDesc as EditText
         val changeName = workoutDialog.changeName as EditText
+        val nameW = workoutList[position].text1
         workoutDialog.show()
         btnDelete.setOnClickListener {
-            removeItem(position)
+            removeItem(position, nameW)
             workoutDialog.dismiss()
         }
         btnEdit.setOnClickListener {
@@ -161,7 +158,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
                 noNameToast.show()
             } else {
                 workoutList[position].text1 = workoutName
-               // workoutList[position].text2 = workoutDesc
+                workoutList[position].text2 = workoutDesc
                 adapter.notifyItemChanged(position)
                 workoutDialog.dismiss()
             }
@@ -174,45 +171,47 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         val list = ArrayList<Workout_Item>()
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
         val uID = currentuser.toString()
-        /*
-        for (i in 0 until size) {
-            val item = Workout_Item("Item $i", "Line $i")
-            list += item
-
-        }
-         */
 
         val firebase = FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Workouts")
         firebase
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
+            .addChildEventListener(object : ChildEventListener {
 
+                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                     if (snapshot.exists()) {
 
                         val children = snapshot.children
-                        if (children != null) {
-                            children.forEach {
+                        children.forEach {
 
-                                var obj = it.value.toString()
-                                var task = Workout_Item(obj)
-                                list.add(task)
-                            }
+                            var obj = it.value.toString()
+                            var obj2 = it.key.toString()
+                            var task = Workout_Item(obj, obj2)
+                            list.add(task)
                         }
-
                     }
                 }
 
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                     Toast.makeText(context, "Changed", Toast.LENGTH_SHORT).show()
+                 }
+
+                 override fun onChildRemoved(snapshot: DataSnapshot) {
+                     Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show()
+                 }
+
+                 override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                     Toast.makeText(context, "Moved", Toast.LENGTH_SHORT).show()
+                 }
+
+
+               override fun onCancelled(error: DatabaseError) {
+                   Toast.makeText(context, "Funket ikke", Toast.LENGTH_SHORT).show()
+               }
+
+
 
             })
         return list
-
-
     }
-
-
     }
 
 
