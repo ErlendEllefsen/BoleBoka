@@ -5,15 +5,16 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.FrameLayout
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.boleboka.MainActivity.Companion.getLaunchIntent
+import com.github.mikephil.charting.data.PieEntry
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_main_page.*
+import kotlinx.android.synthetic.main.fragment_active_workout.*
 import kotlinx.android.synthetic.main.fragment_personal_info.*
 
 class MainActivity : AppCompatActivity() {
@@ -47,4 +48,14 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 }
+
+fun AppCompatActivity.replaceFragment(fragment: Fragment) {
+    val fragmentManager = supportFragmentManager
+    val transaction = fragmentManager.beginTransaction()
+    transaction.replace(R.id.main, fragment)
+    transaction.addToBackStack(null)
+    transaction.commit()
+}
+
+
 
