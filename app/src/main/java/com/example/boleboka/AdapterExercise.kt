@@ -25,8 +25,8 @@ class AdapterExercise(private val exerciseList: List<Exercise_Item>, private val
          *Bruk class ViewHolder
          */
         val currentItem = exerciseList[position]
-        val currentRep = currentItem.reps.toString()
-        val currentSets = currentItem.sets.toString()
+        val currentRep = currentItem.reps
+        val currentSets = currentItem.sets
         holder.name.text = currentItem.name
         holder.reps.text = "Reps: $currentRep"
         holder.sets.text = "Sets: $currentSets"

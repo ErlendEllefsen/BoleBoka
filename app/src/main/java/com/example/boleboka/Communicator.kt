@@ -1,5 +1,7 @@
 package com.example.boleboka
 
+import android.widget.Spinner
+import androidx.core.view.get
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -16,7 +18,6 @@ class Communicator : ViewModel(){
     val message = MutableLiveData<Any>()
     val position = MutableLiveData<Int>()
 
-
     fun setMsgCommunicator(msg: String) {
         message.value = msg
     }
@@ -24,5 +25,6 @@ class Communicator : ViewModel(){
     fun positionCommunicator(pos: Int) {
         position.value = pos
     }
+
 
 }

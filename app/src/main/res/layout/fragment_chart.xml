@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/tvPrice"
-            android:layout_width="419dp"
+            android:layout_width="103dp"
             android:layout_height="37dp"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
@@ -30,7 +30,7 @@
             android:text=""
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/white"
-            android:textSize="10dp" />
+            android:textSize="10sp" />
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/lineChart"
@@ -40,33 +40,16 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="10dp"
-            android:padding="10dp">
+            android:padding="9dp">
 
-            <FrameLayout
+            <TextView
+                android:id="@+id/textView5"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true">
+                android:layout_height="wrap_content"
+                android:text="TextView" />
 
-                <LinearLayout
-                    android:id="@+id/fullscreen_content_controls"
-                    style="@style/Widget.AppTheme.ButtonBar.Fullscreen"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:orientation="horizontal"
-                    tools:ignore="UselessParent">
-
-                    <Button
-                        android:id="@+id/dummy_button"
-                        style="?android:attr/buttonBarButtonStyle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/dummy_button" />
-
-                </LinearLayout>
-            </FrameLayout>
         </com.github.mikephil.charting.charts.LineChart>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
