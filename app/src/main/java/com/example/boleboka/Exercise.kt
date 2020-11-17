@@ -2,6 +2,7 @@ package com.example.boleboka
 
 import android.app.Dialog
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,7 @@ import kotlinx.android.synthetic.main.fragment_exercises.*
 class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
     private val currentuser = FirebaseAuth.getInstance().currentUser?.uid
     private val uID = currentuser.toString()
-    private lateinit var exerciseList: ArrayList<Exercise_Item>
+    private var exerciseList = generateExerciseList("Bryst")
     private lateinit var adapterEx: AdapterExercise
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +45,9 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         val model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
         val workoutName = model.message.value!!.toString()
-        exerciseList = generateExerciseList(workoutName)
+        btn_exersise_insert.setOnClickListener() {
+            showDialog(view, workoutName)
+        }
         adapterEx = AdapterExercise(exerciseList, this)
         recycler_view_exercise.adapter = adapterEx
         recycler_view_exercise.layoutManager = LinearLayoutManager(context)
@@ -58,11 +61,9 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
             { o -> txt.text = o!!.toString() })
         //POSITION @Dashern
 
-        val positionToast =
+       // val positionToast =
           //  Toast.makeText(context, "Current position is: $currentPosition", Toast.LENGTH_SHORT).show()
-        btn_exersise_insert.setOnClickListener() {
-            showDialog(view, workoutName)
-        }
+
     }
 
     private fun showDialog(view: View, workoutName: String) {
@@ -106,8 +107,6 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
             repsDB.setValue(reps)
             setsDB.setValue(sets)
 
-
-
         val atTop = !recycler_view_exercise.canScrollVertically(-1)
         val index = 0
         val newItem = Exercise_Item(name, reps, sets)
@@ -116,12 +115,14 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         if (atTop) {
             recycler_view_exercise.scrollToPosition(0)
         }
+
+
     }
 
     private fun removeItem(position: Int) {
         val exerciseName = exerciseList[position].name
         val db = FirebaseDatabase.getInstance()
-        val ref = db.getReference("Users").child(uID).child("Exercise").child(exerciseName)
+        val ref = db.getReference("Users").child(uID).child("Exercise").child("Bryst").child(exerciseName)
         ref.removeValue()
         exerciseList.removeAt(position)
         adapterEx.notifyItemRemoved(position)
@@ -171,6 +172,8 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
+                        adapterEx.notifyDataSetChanged()
+
 
                         val children = snapshot.children
                         children.forEach {
@@ -178,14 +181,14 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
                             val name = it.key.toString()
                             val reps = it.child("Reps").value.toString()
                             val sets = it.child("Sets").value.toString()
-                            Toast.makeText(context, "$name, $reps, $sets", Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, "$name, $reps, $sets", Toast.LENGTH_SHORT).show()
                             val task = Exercise_Item(name, reps.toInt(), sets.toInt())
                             list.add(task)
                         }
                     }
                 }
-                override fun onCancelled(error: DatabaseError) {
 
+                override fun onCancelled(error: DatabaseError) {
                 }
 
             })

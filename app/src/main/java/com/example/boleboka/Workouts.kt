@@ -183,6 +183,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
                     if (snapshot.exists()) {
                         val children = snapshot.children
                         children.forEach {
+                            adapter.notifyDataSetChanged()
 
                             var obj = it.value.toString()
                             var obj2 = it.key.toString()
