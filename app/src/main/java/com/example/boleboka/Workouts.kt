@@ -28,10 +28,8 @@ import java.util.concurrent.TimeUnit
 class Workouts : Fragment(), Adapter.OnItemClickListener {
 
     private var model: Communicator? = null
-
     private val workoutList = generateWorkoutList()
     private val adapter = Adapter(workoutList, this)
-
     private val currentuser = FirebaseAuth.getInstance().currentUser?.uid
     private val uID = currentuser.toString()
 
@@ -48,14 +46,18 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        btn_insert.setOnClickListener() {
+            showDialog(view, model)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
         recycler_view.adapter = adapter
         recycler_view.layoutManager = LinearLayoutManager(context)
         //performance optimization
         recycler_view.setHasFixedSize(true)
         adapter.notifyDataSetChanged()
-        btn_insert.setOnClickListener() {
-            showDialog(view, model)
-        }
     }
 
     private fun showDialog(view: View, modelProviders: Communicator?) {
@@ -204,7 +206,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(context, "Funket ikke", Toast.LENGTH_SHORT).show()
+                    //  Toast.makeText(context, "Funket ikke", Toast.LENGTH_SHORT).show()
                 }
 
 

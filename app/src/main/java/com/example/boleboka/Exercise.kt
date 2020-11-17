@@ -28,7 +28,8 @@ import kotlinx.android.synthetic.main.fragment_exercises.*
 class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
     private val currentuser = FirebaseAuth.getInstance().currentUser?.uid
     private val uID = currentuser.toString()
-    private var exerciseList = generateExerciseList("Bryst")
+    private lateinit var workoutName: String
+    private lateinit var exerciseList: ArrayList<Exercise_Item>
     private lateinit var adapterEx: AdapterExercise
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,10 +45,12 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
-        val workoutName = model.message.value!!.toString()
+        workoutName = model.message.value!!.toString()
+
         btn_exersise_insert.setOnClickListener() {
             showDialog(view, workoutName)
         }
+        exerciseList = generateExerciseList(workoutName)
         adapterEx = AdapterExercise(exerciseList, this)
         recycler_view_exercise.adapter = adapterEx
         recycler_view_exercise.layoutManager = LinearLayoutManager(context)
@@ -95,21 +98,22 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
     private fun insertItem(name: String, reps: Int, sets: Int, workoutName: String) {
 
-            val database = FirebaseDatabase.getInstance()
-            val repsDB =
-                database.getReference("Users").child(uID).child("Exercise").child(workoutName)
-                    .child(name).child("Reps")
-            val setsDB =
-                database.getReference("Users").child(uID).child("Exercise").child(workoutName)
-                    .child(name).child("Sets")
-            repsDB.setValue(reps)
-            setsDB.setValue(sets)
+        val database = FirebaseDatabase.getInstance()
+        // val nameDB = database.getReference("Users").child(uID).child("Exercise").child(workoutName).child(name).child("Name")
+        val repsDB =
+            database.getReference("Users").child(uID).child("Exercise").child(workoutName)
+                .child(name).child("Reps")
+        val setsDB =
+            database.getReference("Users").child(uID).child("Exercise").child(workoutName)
+                .child(name).child("Sets")
+        repsDB.setValue(reps)
+        setsDB.setValue(sets)
 
         val atTop = !recycler_view_exercise.canScrollVertically(-1)
         val index = 0
         val newItem = Exercise_Item(name, reps, sets)
-        adapterEx.notifyItemInserted(index)
         exerciseList.add(index, newItem)
+        adapterEx.notifyItemInserted(index)
         if (atTop) {
             recycler_view_exercise.scrollToPosition(0)
         }
@@ -171,6 +175,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         adapterEx.notifyDataSetChanged()
+
 
                         val children = snapshot.children
                         children.forEach {
