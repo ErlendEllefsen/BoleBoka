@@ -149,6 +149,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
             sendInfoToFragment(workoutList[position].text1, position)
             workoutDialog.dismiss()
             view?.findNavController()?.navigate(R.id.action_workouts_to_exercise)
+
         }
         btnAdd.setOnClickListener {
             val workoutName = changeName.text.toString()

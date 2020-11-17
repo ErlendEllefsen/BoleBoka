@@ -58,7 +58,6 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
             { o -> txt.text = o!!.toString() })
         //POSITION @Dashern
 
-        val currentPosition = model.position.value!!
         val positionToast =
           //  Toast.makeText(context, "Current position is: $currentPosition", Toast.LENGTH_SHORT).show()
         btn_exersise_insert.setOnClickListener() {
@@ -96,16 +95,14 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
     private fun insertItem(name: String, reps: Int, sets: Int, workoutName: String) {
 
             val database = FirebaseDatabase.getInstance()
-            val nameDB =
-                database.getReference("Users").child(uID).child("Exercise").child(workoutName)
-                    .child(name).child("Name")
+           // val nameDB = database.getReference("Users").child(uID).child("Exercise").child(workoutName).child(name).child("Name")
             val repsDB =
                 database.getReference("Users").child(uID).child("Exercise").child(workoutName)
                     .child(name).child("Reps")
             val setsDB =
                 database.getReference("Users").child(uID).child("Exercise").child(workoutName)
                     .child(name).child("Sets")
-            nameDB.setValue(name)
+        //nameDB.setValue(name)
             repsDB.setValue(reps)
             setsDB.setValue(sets)
 
@@ -171,43 +168,24 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val list = ArrayList<Exercise_Item>()
         val firebase = FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Exercise").child(workoutName)
         firebase
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                /*
-                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-
-
-                }
-
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                }
-
-                override fun onChildRemoved(snapshot: DataSnapshot) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                    TODO("Not yet implemented")
-                }
-
-                 */
+            .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
-                        Toast.makeText(context, "$snapshot", Toast.LENGTH_LONG).show()
 
                         val children = snapshot.children
                         children.forEach {
 
-                            val name = it.child("Name").value.toString()
+                            val name = it.key.toString()
                             val reps = it.child("Reps").value.toString()
                             val sets = it.child("Sets").value.toString()
+                            Toast.makeText(context, "$name, $reps, $sets", Toast.LENGTH_LONG).show()
                             val task = Exercise_Item(name, reps.toInt(), sets.toInt())
                             list.add(task)
                         }
-
                     }
                 }
-
                 override fun onCancelled(error: DatabaseError) {
+
                 }
 
             })

@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main_page.*
 
 
+
 class MainPage : Fragment() {
 
 
@@ -95,6 +96,8 @@ class MainPage : Fragment() {
                 position: Int,
                 id: Long,
             ) {
+                val posSpinner = list[position]
+                Toast.makeText(context, "$posSpinner", Toast.LENGTH_SHORT).show()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
