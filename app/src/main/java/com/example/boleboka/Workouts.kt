@@ -196,7 +196,6 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
                 }
 
                 override fun onChildRemoved(snapshot: DataSnapshot) {
-                    Toast.makeText(context, "Removed", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
