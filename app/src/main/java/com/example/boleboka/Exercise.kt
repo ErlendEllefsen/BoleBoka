@@ -96,22 +96,20 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
     private fun insertItem(name: String, reps: Int, sets: Int, workoutName: String) {
 
             val database = FirebaseDatabase.getInstance()
-           // val nameDB = database.getReference("Users").child(uID).child("Exercise").child(workoutName).child(name).child("Name")
             val repsDB =
                 database.getReference("Users").child(uID).child("Exercise").child(workoutName)
                     .child(name).child("Reps")
             val setsDB =
                 database.getReference("Users").child(uID).child("Exercise").child(workoutName)
                     .child(name).child("Sets")
-        //nameDB.setValue(name)
             repsDB.setValue(reps)
             setsDB.setValue(sets)
 
         val atTop = !recycler_view_exercise.canScrollVertically(-1)
         val index = 0
         val newItem = Exercise_Item(name, reps, sets)
-        exerciseList.add(index, newItem)
         adapterEx.notifyItemInserted(index)
+        exerciseList.add(index, newItem)
         if (atTop) {
             recycler_view_exercise.scrollToPosition(0)
         }
@@ -173,7 +171,6 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         adapterEx.notifyDataSetChanged()
-
 
                         val children = snapshot.children
                         children.forEach {
