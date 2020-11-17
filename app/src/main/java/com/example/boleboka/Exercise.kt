@@ -91,6 +91,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
             } else {
                 insertItem(exerciseName, exerciseRepsInt, exerciseSetsInt, workoutName)
                 dialog.dismiss()
+                adapterEx.notifyDataSetChanged()
             }
         }
         dialog.show()
@@ -108,6 +109,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
                 .child(name).child("Sets")
         repsDB.setValue(reps)
         setsDB.setValue(sets)
+        adapterEx.notifyDataSetChanged()
 
         val atTop = !recycler_view_exercise.canScrollVertically(-1)
         val index = 0
@@ -121,13 +123,14 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
     }
 
-    private fun removeItem(position: Int) {
+    private fun removeItem(position: Int, workoutName: String) {
         val exerciseName = exerciseList[position].name
         val db = FirebaseDatabase.getInstance()
-        val ref = db.getReference("Users").child(uID).child("Exercise").child("Bryst").child(exerciseName)
+        val ref = db.getReference("Users").child(uID).child("Exercise").child(workoutName).child(exerciseName)
         ref.removeValue()
         exerciseList.removeAt(position)
         adapterEx.notifyItemRemoved(position)
+        adapterEx.notifyDataSetChanged()
         Toast.makeText(context, "Exercise $exerciseName deleted", Toast.LENGTH_SHORT).show()
         // TODO("Slette øvelse i databasen")
 
@@ -145,7 +148,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val changeSets = exerciseDialog.changeSets as EditText
         exerciseDialog.show()
         btnDelete.setOnClickListener {
-            removeItem(position)
+            removeItem(position, workoutName)
             exerciseDialog.dismiss()
         }
         btnAdd.setOnClickListener {
@@ -173,20 +176,17 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         firebase
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        adapterEx.notifyDataSetChanged()
-
 
                         val children = snapshot.children
                         children.forEach {
-
+                            adapterEx.notifyDataSetChanged()
                             val name = it.key.toString()
                             val reps = it.child("Reps").value.toString()
                             val sets = it.child("Sets").value.toString()
                             Toast.makeText(context, "$name, $reps, $sets", Toast.LENGTH_SHORT).show()
                             val task = Exercise_Item(name, reps.toInt(), sets.toInt())
                             list.add(task)
-                        }
+
                     }
                 }
 
