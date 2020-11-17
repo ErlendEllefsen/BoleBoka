@@ -46,24 +46,26 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val workoutName = model.message.value!!.toString()
         exerciseList = generateExerciseList(workoutName)
         adapterEx = AdapterExercise(exerciseList, this)
-        recycler_view_exercise.adapter = adapterEx
-        recycler_view_exercise.layoutManager = LinearLayoutManager(context)
-        //performance optimization
-        recycler_view_exercise.setHasFixedSize(true)
 
         // Henter message i communicator, burde også hente ett eller annet ID
-
         val txt = exerciseHeader as TextView
         model.message.observe(viewLifecycleOwner,
             { o -> txt.text = o!!.toString() })
         //POSITION @Dashern
-
         val currentPosition = model.position.value!!
         val positionToast =
-          //  Toast.makeText(context, "Current position is: $currentPosition", Toast.LENGTH_SHORT).show()
-        btn_exersise_insert.setOnClickListener() {
-            showDialog(view, workoutName)
-        }
+            //  Toast.makeText(context, "Current position is: $currentPosition", Toast.LENGTH_SHORT).show()
+            btn_exersise_insert.setOnClickListener() {
+                showDialog(view, workoutName)
+            }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        recycler_view_exercise.adapter = adapterEx
+        recycler_view_exercise.layoutManager = LinearLayoutManager(context)
+        //performance optimization
+        recycler_view_exercise.setHasFixedSize(true)
     }
 
     private fun showDialog(view: View, workoutName: String) {

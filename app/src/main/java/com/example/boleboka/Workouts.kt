@@ -204,7 +204,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(context, "Funket ikke", Toast.LENGTH_SHORT).show()
+                    //  Toast.makeText(context, "Funket ikke", Toast.LENGTH_SHORT).show()
                 }
 
 
