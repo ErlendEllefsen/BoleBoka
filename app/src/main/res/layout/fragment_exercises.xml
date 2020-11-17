@@ -24,10 +24,10 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_exercise"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="573dp"
+            android:layout_below="@+id/exerciseHeader"
             android:clipToPadding="false"
             android:padding="4dp"
-            android:layout_below="@+id/exerciseHeader"
             tools:listitem="@layout/exercise_items" />
 
         <LinearLayout
