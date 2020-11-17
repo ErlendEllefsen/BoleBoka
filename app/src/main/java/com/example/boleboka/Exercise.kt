@@ -110,7 +110,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         setsDB.setValue(sets)
 
         val atTop = !recycler_view_exercise.canScrollVertically(-1)
-        val index = 0
+        val index = exerciseList.size
         val newItem = Exercise_Item(name, reps, sets)
         exerciseList.add(index, newItem)
         adapterEx.notifyItemInserted(index)
@@ -169,28 +169,29 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
     private fun generateExerciseList(workoutName: String): ArrayList<Exercise_Item>{
         val list = ArrayList<Exercise_Item>()
-        val firebase = FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Exercise").child(workoutName)
+        var firstTime = true
+        val firebase =
+            FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Exercise")
+                .child(workoutName)
         firebase
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
+                    if (firstTime) {
                         adapterEx.notifyDataSetChanged()
-
-
                         val children = snapshot.children
                         children.forEach {
-
                             val name = it.key.toString()
                             val reps = it.child("Reps").value.toString()
                             val sets = it.child("Sets").value.toString()
-                            Toast.makeText(context, "$name, $reps, $sets", Toast.LENGTH_SHORT).show()
                             val task = Exercise_Item(name, reps.toInt(), sets.toInt())
                             list.add(task)
+                            firstTime = false
                         }
                     }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
                 }
 
             })

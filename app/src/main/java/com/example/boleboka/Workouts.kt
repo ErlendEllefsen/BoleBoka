@@ -1,9 +1,7 @@
 package com.example.boleboka
 
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_workout.*
 import kotlinx.android.synthetic.main.edit_workout.*
 import kotlinx.android.synthetic.main.fragment_workouts.*
-import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 
 class Workouts : Fragment(), Adapter.OnItemClickListener {
@@ -57,8 +55,8 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         recycler_view.layoutManager = LinearLayoutManager(context)
         //performance optimization
         recycler_view.setHasFixedSize(true)
-        adapter.notifyDataSetChanged()
     }
+
 
     private fun showDialog(view: View, modelProviders: Communicator?) {
         val dialog = Dialog(fragment.requireContext())
@@ -181,9 +179,9 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
                 override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                     if (snapshot.exists()) {
+                        adapter.notifyDataSetChanged()
                         val children = snapshot.children
                         children.forEach {
-                            adapter.notifyDataSetChanged()
 
                             var obj = it.value.toString()
                             var obj2 = it.key.toString()
@@ -211,6 +209,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
 
             })
+
         return list
     }
     }
