@@ -120,9 +120,5 @@ class MainPage : Fragment() {
             Toast.makeText(context, "Funket ikke$list", Toast.LENGTH_SHORT).show()
 
         return list
-
-
     }
-
-
 }
