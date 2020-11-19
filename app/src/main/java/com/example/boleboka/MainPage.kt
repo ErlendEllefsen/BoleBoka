@@ -48,6 +48,7 @@ class MainPage : Fragment() {
     }
 
     private fun createSpinner() {
+        val languages = resources.getStringArray(R.array.Languages)
         val list = ArrayList<String>()
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
         val uID = currentuser.toString()
@@ -77,36 +78,36 @@ class MainPage : Fragment() {
 
 
             })
-
-        ArrayAdapter(
+        val adapter = ArrayAdapter(
             fragment.requireContext(),
             android.R.layout.simple_spinner_item, list
-        ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
+        )
+        Toast.makeText(context, "$list", Toast.LENGTH_SHORT).show()
+
+        // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner
             spinner.adapter = adapter
-        }
 
-        spinner.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View,
-                position: Int,
-                id: Long,
-            ) {
-                val posSpinner = list[position]
-                Toast.makeText(context, "$posSpinner", Toast.LENGTH_SHORT).show()
+            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long,
+                ) {
+                   val listShow =  list[position].toString()
+
+                }
+
+
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    Toast.makeText(context, "Nothing selected", Toast.LENGTH_SHORT).show()
+                }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                Toast.makeText(context, "Nothing selected", Toast.LENGTH_SHORT).show()
-            }
+
         }
-
-
-    }
 
 
 }

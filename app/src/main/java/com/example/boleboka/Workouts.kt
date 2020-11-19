@@ -93,12 +93,12 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
     private fun insertItem(name: String, desc: String) {
 
         val database = FirebaseDatabase.getInstance()
-        val nameW = database.getReference("Users").child(uID).child("Workouts").child(name).child(desc)
-        //val descW = database.getReference("Users").child(uID).child("Workouts").child(name).child("Name")
+        val nameW = database.getReference("Users").child(uID).child("Workouts").child(name).child("Name")
+        val descW = database.getReference("Users").child(uID).child("Workouts").child(name).child("Desc")
         val exN = database.getReference("Users").child(uID).child("Exercise").child(name)
 
         nameW.setValue(name)
-        //descW.setValue(desc)
+        descW.setValue(desc)
         exN.setValue(name)
 
         val atTop = !recycler_view.canScrollVertically(-1)
@@ -124,6 +124,21 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         workoutList.removeAt(position)
         adapter.notifyItemRemoved(position)
         Toast.makeText(context, "Workout $workoutName deleted", Toast.LENGTH_SHORT).show()
+
+    }
+    private fun changeWorkout(workoutName: String, workoutDesc: String, position: Int){
+        val database = FirebaseDatabase.getInstance()
+
+        val pathName = workoutList[position].text1
+
+        val nameW = database.getReference("Users").child(uID).child("Workouts").child(pathName).child("Name")
+        val descW = database.getReference("Users").child(uID).child("Workouts").child(pathName).child("Desc")
+
+        workoutList[position].text1 = workoutName
+        workoutList[position].text2 = workoutDesc
+
+        nameW.setValue(workoutName)
+        descW.setValue(workoutDesc)
 
     }
 
@@ -158,9 +173,8 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
                 val noNameToast = Toast.makeText(context, "No name", Toast.LENGTH_SHORT)
                 noNameToast.show()
             } else {
-                workoutList[position].text1 = workoutName
-                workoutList[position].text2 = workoutDesc
                 adapter.notifyItemChanged(position)
+                changeWorkout(workoutName, workoutDesc, position)
                 workoutDialog.dismiss()
             }
         }
@@ -175,31 +189,21 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
         val firebase = FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Workouts")
         firebase
-            .addChildEventListener(object : ChildEventListener {
+            .addListenerForSingleValueEvent(object : ValueEventListener {
 
-                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         adapter.notifyDataSetChanged()
                         val children = snapshot.children
                         children.forEach {
 
-                            var obj = it.value.toString()
-                            var obj2 = it.key.toString()
+                            var obj = it.child("Name").value.toString()
+                            var obj2 = it.child("Desc").value.toString()
                             var task = Workout_Item(obj, obj2)
                             list.add(task)
                         }
                     }
-                }
-
-                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                    Toast.makeText(context, "Changed", Toast.LENGTH_SHORT).show()
-                }
-
-                override fun onChildRemoved(snapshot: DataSnapshot) {
-                }
-
-                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-                    Toast.makeText(context, "Moved", Toast.LENGTH_SHORT).show()
                 }
 
 

@@ -6,12 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_active_workout.*
 
 class ActiveWorkout : Fragment() {
-
-    private val exerciseList = generateExersises(5)
+    private val currentuser = FirebaseAuth.getInstance().currentUser?.uid
+    private val uID = currentuser.toString()
+    private lateinit var exerciseList: ArrayList<Exercise_Item>
     private var i = 0
     private val resultsList = ArrayList<Result_Item>()
 
@@ -30,6 +37,8 @@ class ActiveWorkout : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
+        exerciseList = generateExersises()
         var currentList = exerciseList[i]
         var name = currentList.name
         var reps = currentList.reps
@@ -104,7 +113,7 @@ class ActiveWorkout : Fragment() {
     }
 
     private fun saveToDB() {
-        // TODO: Lagre resultlist til databasen
+        resultsList
         val list = Toast.makeText(context, resultsList.toString(), Toast.LENGTH_SHORT)
         list.show()
     }
@@ -146,14 +155,30 @@ class ActiveWorkout : Fragment() {
         }
     }
 
-    private fun generateExersises(size: Int): ArrayList<Exercise_Item> {
+    private fun generateExersises(): ArrayList<Exercise_Item> {
 
         val list = ArrayList<Exercise_Item>()
+        val firebase =
+            FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Exercise")
+                .child("")
+        firebase
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val children = snapshot.children
+                    children.forEach {
+                        val name = it.key.toString()
+                        val reps = it.child("Reps").value.toString()
+                        val sets = it.child("Sets").value.toString()
+                        val task = Exercise_Item(name, reps.toInt(), sets.toInt())
+                        list.add(task)
+                    }
+                }
 
-        for (i in 0 until size) {
-            val item = Exercise_Item("Exersise $i", i + 5, i)
-            list += item
-        }
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+                }
+
+            })
         return list
     }
 }
