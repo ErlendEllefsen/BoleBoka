@@ -47,7 +47,7 @@ class MainPage : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    private fun createSpinner() {
+    private fun createSpinner(): ArrayList<String> {
         val languages = resources.getStringArray(R.array.Languages)
         val list = ArrayList<String>()
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
@@ -66,48 +66,49 @@ class MainPage : Fragment() {
 
                         children.forEach {
 
-                            val obj = it.key.toString()
+                            val obj = it.child("Name").value.toString()
                             list.add(obj)
+                        }
+
+                    }
+                     val adapter = ArrayAdapter(
+                        fragment.requireContext(),
+                        android.R.layout.simple_spinner_item, list
+                    )
+
+                    // Specify the layout to use when the list of choices appears
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    // Apply the adapter to the spinner
+                    spinner.adapter = adapter
+
+                    spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(
+                            parent: AdapterView<*>,
+                            view: View,
+                            position: Int,
+                            id: Long,
+                        ) {
+                            val spinnerName = list[position]
+
+                        }
+
+
+                        override fun onNothingSelected(parent: AdapterView<*>) {
+                        spinner.prompt = "Select a Workout"
                         }
                     }
                 }
-
 
                 override fun onCancelled(error: DatabaseError) {
                 }
 
 
             })
-        val adapter = ArrayAdapter(
-            fragment.requireContext(),
-            android.R.layout.simple_spinner_item, list
-        )
-        Toast.makeText(context, "$list", Toast.LENGTH_SHORT).show()
-
-        // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            spinner.adapter = adapter
-
-            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View,
-                    position: Int,
-                    id: Long,
-                ) {
-                   val listShow =  list[position].toString()
-
-                }
 
 
-                override fun onNothingSelected(parent: AdapterView<*>) {
-                    Toast.makeText(context, "Nothing selected", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-
+        return list
         }
+
 
 
 }
