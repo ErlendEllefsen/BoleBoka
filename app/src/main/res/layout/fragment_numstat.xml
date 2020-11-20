@@ -8,22 +8,28 @@
     android:layout_height="match_parent"
     tools:context=".Numstat">
 
+
     <Button
         android:id="@+id/btn_timePicker"
-        android:text="Pick Date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="161dp"
-        tools:layout_editor_absoluteY="255dp"></Button>
-
+        android:text="Pick Date"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.393" />
 
     <TextView
         android:id="@+id/dateTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="177dp"
-        tools:layout_editor_absoluteY="327dp"
-        tools:text="@tools:sample/date/ddmmyy"></TextView>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Textview" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

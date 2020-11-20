@@ -35,7 +35,7 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/lineChart"
             android:layout_width="match_parent"
-            android:layout_height="555dp"
+            android:layout_height="470dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
@@ -49,6 +49,13 @@
                 android:text="TextView" />
 
         </com.github.mikephil.charting.charts.LineChart>
+
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberSigned" />
 
     </LinearLayout>
 

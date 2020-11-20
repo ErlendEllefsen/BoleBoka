@@ -1,5 +1,6 @@
 package com.example.boleboka
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
@@ -72,7 +73,15 @@ class Chart : Fragment() {
         val markerView = Marker(requireActivity().applicationContext, R.layout.fragment_chart)
         lineChart.marker = markerView
 
-        getData()
+
+    }
+
+
+    private fun setData(count: Int) {
+        val intoLoop = input.text.toString()
+        val entries = ArrayList<Entry>()
+        val test = intoLoop.toInt()
+        for (i in 0..test )
     }
 
     private fun getData() {
@@ -98,4 +107,8 @@ class Chart : Fragment() {
         database.addValueEventListener(readData)
         database.addListenerForSingleValueEvent(readData)
     }
+}
+
+
+
 }

@@ -6,3 +6,6 @@ class Data (val ovelse: String, val dato: String, val repitisjoner: Int, val set
 
     }
 }
+
+
+
