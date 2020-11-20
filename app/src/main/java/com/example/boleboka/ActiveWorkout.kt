@@ -122,7 +122,6 @@ class ActiveWorkout : Fragment() {
 
     private fun saveToDB() {
         // TODO: JON, do it
-
         for (i in 0 until resultsList.size) {
             Toast.makeText(context, resultsList[i].weight.toString(), Toast.LENGTH_SHORT).show()
         }

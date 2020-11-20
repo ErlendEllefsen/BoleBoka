@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNav)
         val navController = findNavController(R.id.fragment)
         bottomNavigationView.setupWithNavController(navController)
+
     }
 
      fun setupSignoutBtn () {
