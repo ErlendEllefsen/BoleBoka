@@ -121,7 +121,11 @@ class ActiveWorkout : Fragment() {
     }
 
     private fun saveToDB() {
-        // TODO: Lagre resultlist til databasen
+        // TODO: JON, do it
+
+        for (i in 0 until resultsList.size) {
+            Toast.makeText(context, resultsList[i].weight.toString(), Toast.LENGTH_SHORT).show()
+        }
         val list = Toast.makeText(context, resultsList.toString(), Toast.LENGTH_SHORT)
         list.show()
     }
