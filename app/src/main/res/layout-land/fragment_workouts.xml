@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_workout"
+        tools:context=".Workouts">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="617dp"
+            android:clipToPadding="false"
+            android:padding="4dp"
+            android:layout_marginTop="16dp"
+            tools:listitem="@layout/workout_items" />
+
+        <LinearLayout
+            android:id="@+id/workout_buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="75dp"
+            android:clipToPadding="false"
+
+            android:padding="4dp">
+
+
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_insert"
+            android:layout_width="147dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/fab_content_desc"
+            android:onClick="showDialog"
+            app:backgroundTint="@color/colorAccent"
+            app:srcCompat="@drawable/ic_plus_24" />
+
+
+    </RelativeLayout>
+</layout>

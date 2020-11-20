@@ -1,6 +1,7 @@
 package com.example.boleboka
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,9 +32,9 @@ class MainPage : Fragment() {
             inflater,
             R.layout.fragment_main_page, container, false
         )
-
         binding.startBtn.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_startWorkout_to_active_workout)
+            Log.e("Chart", "Noe galt!")
         }
         return binding.root
     }
