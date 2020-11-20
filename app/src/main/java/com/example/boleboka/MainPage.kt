@@ -10,6 +10,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.example.boleboka.databinding.FragmentMainPageBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -21,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_main_page.*
 
 class MainPage : Fragment() {
 
-
+    private var model: Communicator? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -33,7 +34,6 @@ class MainPage : Fragment() {
 
         binding.startBtn.setOnClickListener { view: View ->
             view.findNavController().navigate(R.id.action_startWorkout_to_active_workout)
-
         }
         return binding.root
     }
@@ -71,44 +71,40 @@ class MainPage : Fragment() {
                             list.add(obj)
                         }
 
-                            val ad = ArrayAdapter(
-                                fragment.requireContext(),
-                                android.R.layout.simple_spinner_item, list
-                            )
-                            ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                            spinner.adapter = ad
+                        val ad = ArrayAdapter(
+                            fragment.requireContext(),
+                            android.R.layout.simple_spinner_item, list
+                        )
+                        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        spinner.adapter = ad
 
 
-                            val adapter = ArrayAdapter(
-                                fragment.requireContext(),
-                                android.R.layout.simple_spinner_item, list
-                            )
+                        val adapter = ArrayAdapter(
+                            fragment.requireContext(),
+                            android.R.layout.simple_spinner_item, list
+                        )
 
-                            // Specify the layout to use when the list of choices appears
-                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                            // Apply the adapter to the spinner
-                            spinner.adapter = adapter
+                        // Specify the layout to use when the list of choices appears
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        // Apply the adapter to the spinner
+                        spinner.adapter = adapter
 
-                            spinner.onItemSelectedListener =
-                                object : AdapterView.OnItemSelectedListener {
-                                    override fun onItemSelected(
-                                        parent: AdapterView<*>,
-                                        view: View,
-                                        position: Int,
-                                        id: Long,
-                                    ) {
-                                        val spinnerName = list[position]
-                                        Toast.makeText(
-                                            context,
-                                            "You have selected $spinnerName",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-
-                                    override fun onNothingSelected(parent: AdapterView<*>) {
-                                        spinner.prompt = "Select a Workout"
-                                    }
+                        spinner.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>,
+                                    view: View,
+                                    position: Int,
+                                    id: Long,
+                                ) {
+                                    val spinnerName = list[position]
+                                    sendInfoToFragment(spinnerName)
                                 }
+
+                                override fun onNothingSelected(parent: AdapterView<*>) {
+                                    spinner.prompt = "Select a Workout"
+                                }
+                            }
 
                     }
 
@@ -132,8 +128,13 @@ class MainPage : Fragment() {
 
              */
 
-            return list
+        return list
 
+    }
+
+    private fun sendInfoToFragment(workoutName: String) {
+        model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
+        model!!.setMsgCommunicator(workoutName)
     }
 
 }

@@ -50,7 +50,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         btn_exersise_insert.setOnClickListener() {
             showDialog(view, workoutName)
         }
-        exerciseList = generateExerciseList(workoutName)
+        exerciseList = generateExerciseList()
         adapterEx = AdapterExercise(exerciseList, this)
         recycler_view_exercise.adapter = adapterEx
         recycler_view_exercise.layoutManager = LinearLayoutManager(context)
@@ -194,7 +194,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         }
     }
 
-    private fun generateExerciseList(workoutName: String): ArrayList<Exercise_Item>{
+    private fun generateExerciseList(): ArrayList<Exercise_Item> {
         val list = ArrayList<Exercise_Item>()
         val firebase =
             FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Exercise")
@@ -202,14 +202,14 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         firebase
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                        adapterEx.notifyDataSetChanged()
-                        val children = snapshot.children
-                        children.forEach {
-                            val name = it.child("Name").value.toString()
-                            val reps = it.child("Reps").value.toString()
-                            val sets = it.child("Sets").value.toString()
-                            val task = Exercise_Item(name, reps.toInt(), sets.toInt())
-                            list.add(task)
+                    adapterEx.notifyDataSetChanged()
+                    val children = snapshot.children
+                    children.forEach {
+                        val name = it.child("Name").value.toString()
+                        val reps = it.child("Reps").value.toString()
+                        val sets = it.child("Sets").value.toString()
+                        val task = Exercise_Item(name, reps.toInt(), sets.toInt())
+                        list.add(task)
                     }
                 }
 

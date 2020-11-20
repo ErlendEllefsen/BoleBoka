@@ -191,8 +191,6 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
         val firebase = FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Workouts")
         firebase
             .addListenerForSingleValueEvent(object : ValueEventListener {
-
-
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
                         adapter.notifyDataSetChanged()
