@@ -6,13 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_active_workout.*
 
 class ActiveWorkout : Fragment() {
 
-    private val exerciseList = generateExersises(5)
+    private val currentuser = FirebaseAuth.getInstance().currentUser?.uid
+    private val uID = currentuser.toString()
+    private lateinit var workoutName: String
+    private lateinit var exerciseList: ArrayList<Exercise_Item>
     private var i = 0
+    private var yes = false
     private val resultsList = ArrayList<Result_Item>()
 
 
@@ -30,6 +40,14 @@ class ActiveWorkout : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
+        workoutName = model.message.value!!.toString()
+        generateExersises(view)
+        Toast.makeText(context, workoutName, Toast.LENGTH_LONG).show()
+    }
+
+    private fun startWorkout(view: View, exerciseList: ArrayList<Exercise_Item>) {
+        Toast.makeText(context, "YO", Toast.LENGTH_LONG).show()
         var currentList = exerciseList[i]
         var name = currentList.name
         var reps = currentList.reps
@@ -41,7 +59,7 @@ class ActiveWorkout : Fragment() {
                 errorMessage("This is the first exercise!")
             } else {
                 i -= 1
-                progress(false)
+                progress(false, exerciseList)
                 currentList = exerciseList[i]
                 name = currentList.name
                 reps = currentList.reps
@@ -62,7 +80,7 @@ class ActiveWorkout : Fragment() {
                 } else {
                     storeValues(i)
                     i += 1
-                    progress(true)
+                    progress(true, exerciseList)
                     currentList = exerciseList[i]
                     name = currentList.name
                     reps = currentList.reps
@@ -88,7 +106,6 @@ class ActiveWorkout : Fragment() {
                 saveToDB()
             }
         }
-
     }
 
     private fun errorMessage(message: String) {
@@ -104,12 +121,16 @@ class ActiveWorkout : Fragment() {
     }
 
     private fun saveToDB() {
-        // TODO: Lagre resultlist til databasen
+        // TODO: JON, do it
+
+        for (i in 0 until resultsList.size) {
+            Toast.makeText(context, resultsList[i].weight.toString(), Toast.LENGTH_SHORT).show()
+        }
         val list = Toast.makeText(context, resultsList.toString(), Toast.LENGTH_SHORT)
         list.show()
     }
 
-    private fun progress(prog: Boolean) {
+    private fun progress(prog: Boolean, exerciseList: ArrayList<Exercise_Item>) {
         val divider = 100 / exerciseList.size
         if (prog) {
             progressBar.progress += divider
@@ -146,15 +167,31 @@ class ActiveWorkout : Fragment() {
         }
     }
 
-    private fun generateExersises(size: Int): ArrayList<Exercise_Item> {
-
+    private fun generateExersises(view: View) {
         val list = ArrayList<Exercise_Item>()
+        val firebase =
+            FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Exercise")
+                .child(workoutName)
+        firebase
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val children = snapshot.children
+                    children.forEach {
+                        val name = it.child("Name").value.toString()
+                        val reps = it.child("Reps").value.toString()
+                        val sets = it.child("Sets").value.toString()
+                        val task = Exercise_Item(name, reps.toInt(), sets.toInt())
+                        list.add(task)
+                    }
+                    exerciseList = list
+                    startWorkout(view, exerciseList)
+                }
 
-        for (i in 0 until size) {
-            val item = Exercise_Item("Exersise $i", i + 5, i)
-            list += item
-        }
-        return list
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+                }
+
+            })
+
     }
 }
-
