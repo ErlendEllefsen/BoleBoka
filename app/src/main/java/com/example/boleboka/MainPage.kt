@@ -51,7 +51,6 @@ class MainPage : Fragment() {
         val languages = resources.getStringArray(R.array.Languages)
         val list = ArrayList<String>()
         //list.add("Select a workout")
-        Toast.makeText(context, "$list", Toast.LENGTH_LONG).show()
 
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
             val uID = currentuser.toString()
@@ -71,16 +70,14 @@ class MainPage : Fragment() {
                             val obj = it.child("Name").value.toString()
                             list.add(obj)
                         }
-                        Toast.makeText(context, "$list", Toast.LENGTH_LONG).show()
-                        if (spinner == null) {
+
                             val ad = ArrayAdapter(
                                 fragment.requireContext(),
                                 android.R.layout.simple_spinner_item, list
                             )
                             ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                             spinner.adapter = ad
-                            Toast.makeText(context, "$list", Toast.LENGTH_LONG).show()
-                        } else {
+
 
                             val adapter = ArrayAdapter(
                                 fragment.requireContext(),
@@ -112,8 +109,6 @@ class MainPage : Fragment() {
                                         spinner.prompt = "Select a Workout"
                                     }
                                 }
-
-                        }
 
                     }
 
