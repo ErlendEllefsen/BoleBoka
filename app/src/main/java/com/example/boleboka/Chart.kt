@@ -76,13 +76,15 @@ class Chart : Fragment() {
 
     }
 
-
+/*
     private fun setData(count: Int) {
         val intoLoop = input.text.toString()
         val entries = ArrayList<Entry>()
         val test = intoLoop.toInt()
         for (i in 0..test )
     }
+
+ */
 
     private fun getData() {
         Log.e("Getdata", "Hallo")
@@ -109,6 +111,3 @@ class Chart : Fragment() {
     }
 }
 
-
-
-}
