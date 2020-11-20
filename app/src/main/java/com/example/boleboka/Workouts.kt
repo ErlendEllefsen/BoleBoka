@@ -114,6 +114,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
     private fun removeItem(position: Int, nameW: String) {
         // sletter Workout fra firebase og recycleviewet
+        val output = nameW
 
         val db = FirebaseDatabase.getInstance()
         val ref = db.getReference("Users").child(uID).child("Workouts").child(nameW)
@@ -123,7 +124,7 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
 
         workoutList.removeAt(position)
         adapter.notifyItemRemoved(position)
-        Toast.makeText(context, "Workout $workoutName deleted", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Workout $output deleted", Toast.LENGTH_SHORT).show()
 
     }
     private fun changeWorkout(workoutName: String, workoutDesc: String, position: Int){
