@@ -14,6 +14,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_active_workout.*
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ActiveWorkout : Fragment() {
 
@@ -24,6 +29,7 @@ class ActiveWorkout : Fragment() {
     private var i = 0
     private var yes = false
     private val resultsList = ArrayList<Result_Item>()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -120,14 +126,29 @@ class ActiveWorkout : Fragment() {
         weight.setText(listWeight.toString())
     }
 
+
+
+
     private fun saveToDB() {
-        // TODO: JON, do it
+        val date = Calendar.getInstance().time
+        val simpleDate = SimpleDateFormat("dd-MM-yyyy")
+        val currentDate = simpleDate.format(date)
+
 
         for (i in 0 until resultsList.size) {
-            Toast.makeText(context, resultsList[i].weight.toString(), Toast.LENGTH_SHORT).show()
+            val database = FirebaseDatabase.getInstance()
+            val sets = database.getReference("Users").child(uID).child("Stats").child(workoutName)
+                .child(exerciseList[i].name).child(currentDate).child("Seps")
+            val reps = database.getReference("Users").child(uID).child("Stats").child(workoutName)
+                .child(exerciseList[i].name).child(currentDate).child("Reps")
+            val vekt = database.getReference("Users").child(uID).child("Stats").child(workoutName)
+                .child(exerciseList[i].name).child(currentDate).child("Vekt")
+
+            sets.setValue(resultsList[i].sets)
+            reps.setValue(resultsList[i].reps)
+            vekt.setValue(resultsList[i].weight)
         }
-        val list = Toast.makeText(context, resultsList.toString(), Toast.LENGTH_SHORT)
-        list.show()
+        Toast.makeText(context, "Results saved", Toast.LENGTH_SHORT).show()
     }
 
     private fun progress(prog: Boolean, exerciseList: ArrayList<Exercise_Item>) {
