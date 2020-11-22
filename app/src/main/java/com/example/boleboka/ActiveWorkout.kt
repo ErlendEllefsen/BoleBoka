@@ -31,7 +31,6 @@ class ActiveWorkout : Fragment() {
     private val resultsList = ArrayList<Result_Item>()
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -125,9 +124,6 @@ class ActiveWorkout : Fragment() {
         numberPickerSets.value = listSets
         weight.setText(listWeight.toString())
     }
-
-
-
 
     private fun saveToDB() {
         val date = Calendar.getInstance().time
