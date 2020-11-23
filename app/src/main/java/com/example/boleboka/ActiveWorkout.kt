@@ -1,5 +1,6 @@
 package com.example.boleboka
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -125,6 +126,7 @@ class ActiveWorkout : Fragment() {
         weight.setText(listWeight.toString())
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun saveToDB() {
         val date = Calendar.getInstance().time
         val simpleDate = SimpleDateFormat("dd-MM-yyyy")
@@ -133,11 +135,11 @@ class ActiveWorkout : Fragment() {
 
         for (i in 0 until resultsList.size) {
             val database = FirebaseDatabase.getInstance()
-            val sets = database.getReference("Users").child(uID).child("Stats").child(workoutName)
+            val sets = database.getReference("Users").child(uID).child("Stats")
                 .child(exerciseList[i].name).child(currentDate).child("Seps")
-            val reps = database.getReference("Users").child(uID).child("Stats").child(workoutName)
+            val reps = database.getReference("Users").child(uID).child("Stats")
                 .child(exerciseList[i].name).child(currentDate).child("Reps")
-            val vekt = database.getReference("Users").child(uID).child("Stats").child(workoutName)
+            val vekt = database.getReference("Users").child(uID).child("Stats")
                 .child(exerciseList[i].name).child(currentDate).child("Vekt")
 
             sets.setValue(resultsList[i].sets)
@@ -192,17 +194,18 @@ class ActiveWorkout : Fragment() {
         firebase
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val children = snapshot.children
-                    children.forEach {
-                        val name = it.child("Name").value.toString()
-                        val reps = it.child("Reps").value.toString()
-                        val sets = it.child("Sets").value.toString()
-                        val task = Exercise_Item(name, reps.toInt(), sets.toInt())
-                        list.add(task)
-                    }
-                    exerciseList = list
-                    startWorkout(view, exerciseList)
+                        val children = snapshot.children
+                        children.forEach {
+                            val name = it.child("Name").value.toString()
+                            val reps = it.child("Reps").value.toString()
+                            val sets = it.child("Sets").value.toString()
+                            val task = Exercise_Item(name, reps.toInt(), sets.toInt())
+                            list.add(task)
+                        }
+                        exerciseList = list
+                        startWorkout(view, exerciseList)
                 }
+
 
                 override fun onCancelled(error: DatabaseError) {
                     Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
