@@ -91,6 +91,10 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
     }
 
     private fun insertItem(name: String, desc: String) {
+        /*
+        Funksjon som lagrer parameter verdiene på hver sin plass i firebase
+        Her blir det også lagt en verdi under Exercise for å kunne lagre øvelser under riktig økt
+         */
 
         val database = FirebaseDatabase.getInstance()
         val nameW = database.getReference("Users").child(uID).child("Workouts").child(name).child("Name")
@@ -183,6 +187,10 @@ class Workouts : Fragment(), Adapter.OnItemClickListener {
     }
 
     private fun generateWorkoutList(): ArrayList<Workout_Item> {
+        /*
+        Funksjonen henter ut data fra firebase ved hjelp av en singlevaluelistener og legger de i en arraylist
+        arraylisten har en dataklasse som er koblett opp mot recyclerviewet
+         */
 
         val list = ArrayList<Workout_Item>()
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid

@@ -97,6 +97,11 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
     }
 
     private fun insertItem(name: String, reps: Int, sets: Int, workoutName: String) {
+        /*
+        Parameter verdiene blir lagret i firebase, workotname er bare med for å få riktig path i firebas
+        recyclerviewet blir også oppdatert
+         */
+
 
         val database = FirebaseDatabase.getInstance()
         val nameDB =
@@ -120,11 +125,12 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         if (atTop) {
             recycler_view_exercise.scrollToPosition(0)
         }
-
-
     }
 
     private fun removeItem(position: Int, workoutName: String) {
+
+        //Enkel funksjon for å slette Exercise fra firebase
+
 
         val exerciseName = exerciseList[position].name
         val db = FirebaseDatabase.getInstance()
@@ -138,6 +144,9 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
     }
     private fun changeItem(name: String, reps: Int, sets: Int, workoutName: String, position: Int){
+        /*
+        Dette funksjonen legger nye verdier inn i firebase etter at brukeren har skrevet inn nye verdier i onclick menyen.
+         */
         val databaseS = FirebaseDatabase.getInstance()
        val pathName = exerciseList[position].name
         Toast.makeText(context, "Exercise $exerciseName changed", Toast.LENGTH_SHORT).show()
@@ -195,6 +204,10 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
     }
 
     private fun generateExerciseList(): ArrayList<Exercise_Item> {
+        /*
+        Funksjonen henter data ut fra firebase on lagrer det i en arraylist
+         arraylisten har en dataklassen exercise_item somm er koblett opp mot recyclerviewet.
+         */
         val list = ArrayList<Exercise_Item>()
         val firebase =
             FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Exercise")
