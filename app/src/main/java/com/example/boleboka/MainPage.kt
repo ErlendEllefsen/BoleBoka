@@ -49,9 +49,12 @@ class MainPage : Fragment() {
     }
 
     private fun getSpinnerData(): ArrayList<String> {
-        val languages = resources.getStringArray(R.array.Languages)
+        /*
+        Funksjonen henter data fra databasen og legger det inn i en Arraylist
+        som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
+        SPinner layout og dropdownlayout blir også satt her.
+         */
         val list = ArrayList<String>()
-        //list.add("Select a workout")
 
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
             val uID = currentuser.toString()
@@ -84,10 +87,7 @@ class MainPage : Fragment() {
                             fragment.requireContext(),
                             android.R.layout.simple_spinner_item, list
                         )
-
-                        // Specify the layout to use when the list of choices appears
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        // Apply the adapter to the spinner
                         spinner.adapter = adapter
 
                         spinner.onItemSelectedListener =
@@ -103,7 +103,6 @@ class MainPage : Fragment() {
                                 }
 
                                 override fun onNothingSelected(parent: AdapterView<*>) {
-                                    spinner.prompt = "Select a Workout"
                                 }
                             }
 
@@ -114,20 +113,6 @@ class MainPage : Fragment() {
 
 
                 })
-            /*
-            if (spinner == null) {
-                val dd = ArrayList<String>()
-                val i = languages.toString()
-                dd.add(i)
-                val ad = ArrayAdapter(
-                    fragment.requireContext(),
-                    android.R.layout.simple_spinner_item, list
-                )
-                spinner.adapter = ad
-
-            }
-
-             */
 
         return list
 

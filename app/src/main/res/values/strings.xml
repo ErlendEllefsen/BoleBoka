@@ -51,6 +51,11 @@
     <string name="reps">Reps:</string>
     <string name="set">Set:</string>
     <string name="increase_in_strength">Increase in strength %:</string>
+    <string name="velgOvelse">Select exercise:</string>
+    <string name="datoFra">Selcet start date:</string>
+    <string name="datoSlutt">Select end date:</string>
+    <string name="ovelseHint">Benkpress</string>
+    <string name="dateHint">DD-MM-YYYY</string>
 
     <string-array name="Languages">
         <item>Java</item>

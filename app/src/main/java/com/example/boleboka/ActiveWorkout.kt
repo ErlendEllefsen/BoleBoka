@@ -1,5 +1,6 @@
 package com.example.boleboka
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_active_workout.*
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ActiveWorkout : Fragment() {
 
@@ -120,13 +126,27 @@ class ActiveWorkout : Fragment() {
         weight.setText(listWeight.toString())
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun saveToDB() {
-        // TODO: JON, do it
+        val date = Calendar.getInstance().time
+        val simpleDate = SimpleDateFormat("dd-MM-yyyy")
+        val currentDate = simpleDate.format(date)
+
+
         for (i in 0 until resultsList.size) {
-            Toast.makeText(context, resultsList[i].weight.toString(), Toast.LENGTH_SHORT).show()
+            val database = FirebaseDatabase.getInstance()
+            val sets = database.getReference("Users").child(uID).child("Stats")
+                .child(exerciseList[i].name).child(currentDate).child("Seps")
+            val reps = database.getReference("Users").child(uID).child("Stats")
+                .child(exerciseList[i].name).child(currentDate).child("Reps")
+            val vekt = database.getReference("Users").child(uID).child("Stats")
+                .child(exerciseList[i].name).child(currentDate).child("Vekt")
+
+            sets.setValue(resultsList[i].sets)
+            reps.setValue(resultsList[i].reps)
+            vekt.setValue(resultsList[i].weight)
         }
-        val list = Toast.makeText(context, resultsList.toString(), Toast.LENGTH_SHORT)
-        list.show()
+        Toast.makeText(context, "Results saved", Toast.LENGTH_SHORT).show()
     }
 
     private fun progress(prog: Boolean, exerciseList: ArrayList<Exercise_Item>) {
@@ -174,17 +194,18 @@ class ActiveWorkout : Fragment() {
         firebase
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val children = snapshot.children
-                    children.forEach {
-                        val name = it.child("Name").value.toString()
-                        val reps = it.child("Reps").value.toString()
-                        val sets = it.child("Sets").value.toString()
-                        val task = Exercise_Item(name, reps.toInt(), sets.toInt())
-                        list.add(task)
-                    }
-                    exerciseList = list
-                    startWorkout(view, exerciseList)
+                        val children = snapshot.children
+                        children.forEach {
+                            val name = it.child("Name").value.toString()
+                            val reps = it.child("Reps").value.toString()
+                            val sets = it.child("Sets").value.toString()
+                            val task = Exercise_Item(name, reps.toInt(), sets.toInt())
+                            list.add(task)
+                        }
+                        exerciseList = list
+                        startWorkout(view, exerciseList)
                 }
+
 
                 override fun onCancelled(error: DatabaseError) {
                     Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
