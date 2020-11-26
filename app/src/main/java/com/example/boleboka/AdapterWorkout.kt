@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.workout_items.view.*
 
-class Adapter(private val workoutList: ArrayList<Workout_Item>, private val listner: Workouts) : RecyclerView.Adapter<Adapter.ViewHolder>() {
+class AdapterWorkout(private val workoutList: ArrayList<Workout_Item>, private val listner: Workouts) : RecyclerView.Adapter<AdapterWorkout.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.workout_items, parent, false)
