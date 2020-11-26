@@ -45,16 +45,16 @@ class Numstat : Fragment() {
     }
 
     private fun calcStats(){
-        if (testOvelse.text.toString() == "" || datoFra.text.toString() == "" || datoTil.text.toString() == "") {
+        if (testExercise.text.toString() == "" || dateFrom.text.toString() == "" || dateTo.text.toString() == "") {
             errorMessage("Fill inn the empty fields!")
         } else {
             Log.e("Getstats", "Hallo")
             val currentuser = FirebaseAuth.getInstance().currentUser?.uid
             val uID = currentuser.toString()
             val database = FirebaseDatabase.getInstance().reference
-            val ovelse = testOvelse.text.toString()
-            val fraDato = datoFra.text.toString()
-            val tilDato = datoTil.text.toString()
+            val exercise = testExercise.text.toString()
+            val fromDate = dateFrom.text.toString()
+            val toDate = dateTo.text.toString()
 
             val readData = object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -67,17 +67,17 @@ class Numstat : Fragment() {
 
                     for (d in snapshot.children) {
 
-                        val stat1 = d.child(uID).child("Stats").child(ovelse).child(fraDato)
-                            .child("Vekt").value
-                        val rep1 = d.child(uID).child("Stats").child(ovelse).child(fraDato)
+                        val stat1 = d.child(uID).child("Stats").child(exercise).child(fromDate)
+                            .child("Weight").value
+                        val rep1 = d.child(uID).child("Stats").child(exercise).child(fromDate)
                             .child("Reps").value
-                        val set1 = d.child(uID).child("Stats").child(ovelse).child(fraDato)
+                        val set1 = d.child(uID).child("Stats").child(exercise).child(fromDate)
                             .child("Sets").value
-                        val stat2 = d.child(uID).child("Stats").child(ovelse).child(tilDato)
-                            .child("Vekt").value
-                        val rep2 = d.child(uID).child("Stats").child(ovelse).child(tilDato)
+                        val stat2 = d.child(uID).child("Stats").child(exercise).child(toDate)
+                            .child("Weight").value
+                        val rep2 = d.child(uID).child("Stats").child(exercise).child(toDate)
                             .child("Reps").value
-                        val set2 = d.child(uID).child("Stats").child(ovelse).child(tilDato)
+                        val set2 = d.child(uID).child("Stats").child(exercise).child(toDate)
                             .child("Sets").value
                         sb4.append("$stat2")
                         sb5.append("$rep2")
@@ -93,14 +93,14 @@ class Numstat : Fragment() {
                     repTil.text = sb5
                     setTil.text = sb6
 
-                    val fraDatoVekt = sb1.toString()
-                    val fraDatoRep = sb2.toString()
+                    val fromDateWeight = sb1.toString()
+                    val fromDateRep = sb2.toString()
                     val repMax1 =
-                        (fraDatoVekt.toDouble() / (1.0278 - 0.0278 * fraDatoRep.toDouble())).toInt()
-                    val tilDatoVekt = sb4.toString()
-                    val tilDatoRep = sb5.toString()
+                        (fromDateWeight.toDouble() / (1.0278 - 0.0278 * fromDateRep.toDouble())).toInt()
+                    val toDateWeight = sb4.toString()
+                    val toDateRep = sb5.toString()
                     val repMax2 =
-                        (tilDatoVekt.toDouble() / (1.0278 - 0.0278 * tilDatoRep.toDouble())).toInt()
+                        (toDateWeight.toDouble() / (1.0278 - 0.0278 * toDateRep.toDouble())).toInt()
 
                     val prosentOkning =
                         ((repMax2.toDouble() - repMax1.toDouble()) / repMax1.toDouble()) * 100

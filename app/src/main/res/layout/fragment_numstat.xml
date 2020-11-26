@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.802" />
 
     <EditText
-        android:id="@+id/testOvelse"
+        android:id="@+id/testExercise"
         android:layout_width="123dp"
         android:layout_height="47dp"
         android:ems="10"
@@ -37,7 +37,7 @@
         app:layout_constraintVertical_bias="0.054" />
 
     <EditText
-        android:id="@+id/datoFra"
+        android:id="@+id/dateFrom"
         android:layout_width="123dp"
         android:layout_height="39dp"
         android:layout_marginStart="208dp"
@@ -47,10 +47,10 @@
         android:inputType="textPersonName"
         android:text=""
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/testOvelse" />
+        app:layout_constraintTop_toBottomOf="@+id/testExercise" />
 
     <EditText
-        android:id="@+id/datoTil"
+        android:id="@+id/dateTo"
         android:layout_width="123dp"
         android:layout_height="39dp"
         android:layout_marginEnd="80dp"
@@ -276,7 +276,7 @@
         android:layout_height="wrap_content"
         android:text="@string/velgOvelse"
         app:layout_constraintBottom_toTopOf="@+id/textView11"
-        app:layout_constraintEnd_toStartOf="@+id/testOvelse"
+        app:layout_constraintEnd_toStartOf="@+id/testExercise"
         app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -289,7 +289,7 @@
         android:layout_marginBottom="32dp"
         android:text="@string/datoFra"
         app:layout_constraintBottom_toTopOf="@+id/textView12"
-        app:layout_constraintEnd_toStartOf="@+id/datoFra"
+        app:layout_constraintEnd_toStartOf="@+id/dateFrom"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -298,7 +298,7 @@
         android:layout_height="wrap_content"
         android:text="@string/datoSlutt"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/datoTil"
+        app:layout_constraintEnd_toStartOf="@+id/dateTo"
         app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
