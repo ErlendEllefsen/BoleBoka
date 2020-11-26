@@ -30,7 +30,7 @@
             android:text=""
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@android:color/white"
-            android:textSize="10sp" />
+            android:textSize="12sp" />
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/lineChart"
@@ -40,22 +40,50 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="10dp"
-            android:padding="9dp">
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+            android:padding="10dp" >
 
         </com.github.mikephil.charting.charts.LineChart>
 
-        <EditText
-            android:id="@+id/input"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="numberSigned" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <Spinner
+                android:id="@+id/spinner2"
+                android:layout_width="195.5dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:addStatesFromChildren="false"
+                android:background="@color/colorPrimary"
+                android:popupBackground="@color/colorPrimaryLight"
+                android:prompt="@string/spinnerTitle"
+                android:spinnerMode="dropdown"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.701" />
+
+            <Spinner
+                android:id="@+id/spinner3"
+                android:layout_width="195.5dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
+                android:addStatesFromChildren="false"
+                android:background="@color/colorPrimary"
+                android:popupBackground="@color/colorPrimaryLight"
+                android:prompt="@string/spinnerTitle"
+                android:spinnerMode="dropdown"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.701" />
+        </LinearLayout>
 
     </LinearLayout>
 
