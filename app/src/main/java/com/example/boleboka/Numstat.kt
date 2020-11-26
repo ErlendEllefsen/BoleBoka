@@ -68,13 +68,13 @@ class Numstat : Fragment() {
                     for (d in snapshot.children) {
 
                         val stat1 = d.child(uID).child("Stats").child(exercise).child(fromDate)
-                            .child("Weight").value
+                            .child("Vekt").value
                         val rep1 = d.child(uID).child("Stats").child(exercise).child(fromDate)
                             .child("Reps").value
                         val set1 = d.child(uID).child("Stats").child(exercise).child(fromDate)
                             .child("Sets").value
                         val stat2 = d.child(uID).child("Stats").child(exercise).child(toDate)
-                            .child("Weight").value
+                            .child("Vekt").value
                         val rep2 = d.child(uID).child("Stats").child(exercise).child(toDate)
                             .child("Reps").value
                         val set2 = d.child(uID).child("Stats").child(exercise).child(toDate)
@@ -97,15 +97,15 @@ class Numstat : Fragment() {
                     val fromDateRep = sb2.toString()
                     val repMax1 =
                         (fromDateWeight.toDouble() / (1.0278 - 0.0278 * fromDateRep.toDouble())).toInt()
-                    val toDateWeight = sb4.toString()
+                    val toDateVekt = sb4.toString()
                     val toDateRep = sb5.toString()
                     val repMax2 =
-                        (toDateWeight.toDouble() / (1.0278 - 0.0278 * toDateRep.toDouble())).toInt()
+                        (toDateVekt.toDouble() / (1.0278 - 0.0278 * toDateRep.toDouble())).toInt()
 
-                    val prosentOkning =
+                    val percentIncrease =
                         ((repMax2.toDouble() - repMax1.toDouble()) / repMax1.toDouble()) * 100
 
-                    styrkeOkning.text = prosentOkning.toString()
+                    styrkeOkning.text = percentIncrease.toString()
                     maxRep.text = repMax1.toString()
                     maxRepNa.text = repMax2.toString()
                 }
