@@ -28,7 +28,6 @@ class ActiveWorkout : Fragment() {
     private lateinit var workoutName: String
     private lateinit var exerciseList: ArrayList<Exercise_Item>
     private var i = 0
-    private var yes = false
     private val resultsList = ArrayList<Result_Item>()
 
 
@@ -48,7 +47,7 @@ class ActiveWorkout : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
         workoutName = model.message.value!!.toString()
-        generateExersises(view)
+        generateExersices(view)
         Toast.makeText(context, workoutName, Toast.LENGTH_LONG).show()
     }
 
@@ -186,7 +185,7 @@ class ActiveWorkout : Fragment() {
         }
     }
 
-    private fun generateExersises(view: View) {
+    private fun generateExersices(view: View) {
         val list = ArrayList<Exercise_Item>()
         val firebase =
             FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Exercise")
