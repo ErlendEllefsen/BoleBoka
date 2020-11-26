@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -37,6 +38,16 @@ class Numstat : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         btn3.setOnClickListener {
+            calcStats()
+        }
+
+
+    }
+
+    private fun calcStats(){
+        if (testOvelse.text.toString() == "" || datoFra.text.toString() == "" || datoTil.text.toString() == "") {
+            errorMessage("Fill inn the empty fields!")
+        } else {
             Log.e("Getstats", "Hallo")
             val currentuser = FirebaseAuth.getInstance().currentUser?.uid
             val uID = currentuser.toString()
@@ -54,14 +65,20 @@ class Numstat : Fragment() {
                     val sb5 = StringBuilder()
                     val sb6 = StringBuilder()
 
-                    for (d in snapshot.children){
+                    for (d in snapshot.children) {
 
-                        val stat1 = d.child(uID).child("Stats").child(ovelse).child(fraDato).child("Vekt").value
-                        val rep1 = d.child(uID).child("Stats").child(ovelse).child(fraDato).child("Reps").value
-                        val set1 = d.child(uID).child("Stats").child(ovelse).child(fraDato).child("Sets").value
-                        val stat2 = d.child(uID).child("Stats").child(ovelse).child(tilDato).child("Vekt").value
-                        val rep2 = d.child(uID).child("Stats").child(ovelse).child(tilDato).child("Reps").value
-                        val set2 = d.child(uID).child("Stats").child(ovelse).child(tilDato).child("Sets").value
+                        val stat1 = d.child(uID).child("Stats").child(ovelse).child(fraDato)
+                            .child("Vekt").value
+                        val rep1 = d.child(uID).child("Stats").child(ovelse).child(fraDato)
+                            .child("Reps").value
+                        val set1 = d.child(uID).child("Stats").child(ovelse).child(fraDato)
+                            .child("Sets").value
+                        val stat2 = d.child(uID).child("Stats").child(ovelse).child(tilDato)
+                            .child("Vekt").value
+                        val rep2 = d.child(uID).child("Stats").child(ovelse).child(tilDato)
+                            .child("Reps").value
+                        val set2 = d.child(uID).child("Stats").child(ovelse).child(tilDato)
+                            .child("Sets").value
                         sb4.append("$stat2")
                         sb5.append("$rep2")
                         sb6.append("$set2")
@@ -78,26 +95,21 @@ class Numstat : Fragment() {
 
                     val fraDatoVekt = sb1.toString()
                     val fraDatoRep = sb2.toString()
-                    val repMax1 = (fraDatoVekt.toDouble()/(1.0278 - 0.0278 * fraDatoRep.toDouble())).toInt()
+                    val repMax1 =
+                        (fraDatoVekt.toDouble() / (1.0278 - 0.0278 * fraDatoRep.toDouble())).toInt()
                     val tilDatoVekt = sb4.toString()
                     val tilDatoRep = sb5.toString()
-                    val repMax2 = (tilDatoVekt.toDouble()/(1.0278 - 0.0278 * tilDatoRep.toDouble())).toInt()
+                    val repMax2 =
+                        (tilDatoVekt.toDouble() / (1.0278 - 0.0278 * tilDatoRep.toDouble())).toInt()
 
-                    val prosentOkning = ((repMax2.toDouble()-repMax1.toDouble())/repMax1.toDouble()) * 100
-
-
-
-                    //prosentOkning.toInt()
+                    val prosentOkning =
+                        ((repMax2.toDouble() - repMax1.toDouble()) / repMax1.toDouble()) * 100
 
                     styrkeOkning.text = prosentOkning.toString()
                     maxRep.text = repMax1.toString()
                     maxRepNa.text = repMax2.toString()
-
-
-                    //maxRep.text = repMax1.toString()
-
-
                 }
+
                 override fun onCancelled(error: DatabaseError) {
                     Log.e("Numstat", "errorrrorrorrorrorro")
                 }
@@ -105,42 +117,13 @@ class Numstat : Fragment() {
             database.addValueEventListener(readData)
             database.addListenerForSingleValueEvent(readData)
 
-
-
         }
-
     }
 
-    /*private fun getStats() {
-        Log.e("Getstats", "Hallo")
-        val currentuser = FirebaseAuth.getInstance().currentUser?.uid
-        val uID = currentuser.toString()
-        val database = FirebaseDatabase.getInstance().reference
-        val ovelse = testOvelse.toString()
-        val readData = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val sb1 = StringBuilder()
-                val sb2 = StringBuilder()
-
-                for (d in snapshot.children){
-
-                    val stat1 = d.child(uID).child("Stats").child(ovelse).child("01-04-2020").child("Vekt").value
-                    sb1.append("$stat1\n")
-                }
-                for (d in snapshot.children){
-                    val stat2 = d.child(uID).child("Stats").child("Benkpress").child("01-07-2020").child("Vekt").value
-                    sb2.append("$stat2\n")
-                }
-                textView4.text = sb1
-                textView3.text = sb2
-            }
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("Numstat", "errorrrorrorrorrorro")
-            }
-        }
-        database.addValueEventListener(readData)
-        database.addListenerForSingleValueEvent(readData)
+    private fun errorMessage(message: String) {
+        val error =
+            Toast.makeText(context, message, Toast.LENGTH_SHORT)
+        error.show()
     }
 
-*/
 }

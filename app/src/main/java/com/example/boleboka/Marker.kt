@@ -25,3 +25,4 @@ class Marker(context: Context, layoutResource: Int):  MarkerView(context, layout
         return MPPointF(-width / 2f, -height - 10f)
     }
 }
+

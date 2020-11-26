@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-
+/*
 class DataAdapter (private val mCtx: Context, private val layoutResId: Int, private val datalist: List<Data>)
     :ArrayAdapter<Data>(mCtx, layoutResId, datalist) {
     @SuppressLint("ViewHolder")
@@ -22,4 +22,6 @@ class DataAdapter (private val mCtx: Context, private val layoutResId: Int, priv
         return view
     }
 }
+
+ */
 
