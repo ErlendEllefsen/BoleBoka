@@ -172,7 +172,7 @@
         android:id="@+id/okningiStyrke"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="92dp"
+        android:layout_marginBottom="88dp"
         android:text="@string/increase_in_strength"
         app:layout_constraintBottom_toTopOf="@+id/btn3"
         app:layout_constraintEnd_toStartOf="@+id/styrkeOkning"
