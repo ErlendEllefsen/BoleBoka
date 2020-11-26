@@ -23,11 +23,11 @@ import kotlinx.android.synthetic.main.fragment_workouts.*
 import kotlin.collections.ArrayList
 
 
-class Workouts : Fragment(), Adapter.OnItemClickListener {
+class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
 
     private var model: Communicator? = null
     private val workoutList = generateWorkoutList()
-    private val adapter = Adapter(workoutList, this)
+    private val adapter = AdapterWorkout(workoutList, this)
     private val currentuser = FirebaseAuth.getInstance().currentUser?.uid
     private val uID = currentuser.toString()
 
