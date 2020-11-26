@@ -1,5 +1,6 @@
 package com.example.boleboka
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.animation.Easing
@@ -21,20 +23,16 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_chart.*
-import java.lang.Exception
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.math.abs
 import kotlin.properties.Delegates
 
 
 class Chart : Fragment() {
 
-    var datoOvelse = ArrayList<String>()
-    private var slutt by Delegates.notNull<Int>()
+    var dateExercise = ArrayList<String>()
+    private var end by Delegates.notNull<Int>()
     private var start by Delegates.notNull<Int>()
     private lateinit var firebaseAuth: FirebaseAuth
     private val currentuser = FirebaseAuth.getInstance().currentUser?.uid
@@ -62,99 +60,6 @@ class Chart : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getSpinnerData()
-        setFilterSpinner()
-    }
-
-    /*
-    private fun getOvelser(): ArrayList<String> {
-        val listOfKeyOvelse = arrayListOf<String>()
-        val eventListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (ds in dataSnapshot.children) {
-                    val groupKey = ds.key as String
-                    listOfKeyOvelse.add(groupKey)
-                }
-                println(listOfKeyOvelse)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        }
-        firebaseOvelse.addListenerForSingleValueEvent(eventListener)
-        return listOfKeyOvelse
-    }
-
-     */
-
-    private fun setFilterSpinner(): ArrayList<String> {
-        val listOfFilters = arrayListOf<String>()
-        listOfFilters.add("Last 30 Days")
-        listOfFilters.add("Last 90 Days")
-        listOfFilters.add("Last Year")
-        listOfFilters.add("All time")
-
-        val ad = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item, listOfFilters
-        )
-        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner3.adapter = ad
-
-        val adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item, listOfFilters
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner3.adapter = adapter
-
-        spinner3.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    datoOvelse.clear()
-                    lineChart.clear()
-                    lineChart.notifyDataSetChanged()
-                    lineChart.invalidate()
-                    getSpinnerData()
-                    /*
-                    Toast.makeText(
-                        requireContext(),
-                        "Tidsavgrensing: $spinnerFilter",
-                        Toast.LENGTH_LONG
-                    ).show()
-
-                     */
-                    if (position == 0) {
-                        start = 0
-                        slutt = 5
-                    } else {
-                        if (position == 1) {
-                            start = 0
-                            slutt = 10
-                        } else {
-                            if (position == 2) {
-                                start = 0
-                                slutt = 10
-                            } else {
-                                if (position == 3) {
-                                    start = 0
-                                    slutt = 44
-                                }
-                            }
-                        }
-                    }
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("Not yet implemented")
-                }
-            }
-        return listOfFilters
     }
 
     private fun getSpinnerData(): ArrayList<String> {
@@ -189,19 +94,11 @@ class Chart : Fragment() {
                             id: Long
                         ) {
                             val spinnerName = listOfKeyOvelse[position]
-                            datoOvelse.clear()
+                            dateExercise.clear()
                             lineChart.clear()
                             lineChart.notifyDataSetChanged()
                             lineChart.invalidate()
-                            getStatsForOvelse(spinnerName)
-                            /*
-                            Toast.makeText(
-                                requireContext(),
-                                "Øvelse valgt: $spinnerName",
-                                Toast.LENGTH_LONG
-                            ).show()
-
-                             */
+                            getStatsExercise(spinnerName)
                         }
 
                         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -219,7 +116,7 @@ class Chart : Fragment() {
     }
 
 
-    private fun getStatsForOvelse(spinnerName: String): ArrayList<String> {
+    private fun getStatsExercise(spinnerName: String): ArrayList<String> {
         val listOfKeyStats = arrayListOf<String>()
         val firebaseStats = FirebaseDatabase.getInstance().getReference("Users")
             .child(uID).child("Stats").child(spinnerName)
@@ -228,8 +125,8 @@ class Chart : Fragment() {
                 for (ds in dataSnapshot.children) {
                     val vekt = ds.child("Vekt").value
                     listOfKeyStats.add("$vekt")
+                    setFilterSpinner(listOfKeyStats)
                 }
-                generateLineData(listOfKeyStats)
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -237,28 +134,165 @@ class Chart : Fragment() {
             }
         }
         firebaseStats.addListenerForSingleValueEvent(eventListener)
-        getDatoForOvelse(spinnerName)
+        getDateExercise(spinnerName)
         return listOfKeyStats
     }
 
-    private fun getDatoForOvelse(spinnerName: String): List<String> {
-        val valgtOvelse = spinnerName
-        //println(valgtOvelse)
+    private fun setFilterSpinner(listOfKeyStats: ArrayList<String>): ArrayList<String> {
+        val listOfFilters = arrayListOf<String>()
+        listOfFilters.add("Last 30 Days")
+        listOfFilters.add("Last 90 Days")
+        listOfFilters.add("Last Year")
+        listOfFilters.add("All time")
+
+        val ad = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item, listOfFilters
+        )
+        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner3.adapter = ad
+
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item, listOfFilters
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner3.adapter = adapter
+
+        spinner3.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                @RequiresApi(Build.VERSION_CODES.O)
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    dateExercise.clear()
+                    lineChart.clear()
+                    lineChart.notifyDataSetChanged()
+                    lineChart.invalidate()
+
+                    if (position == 0){
+                        start = 35
+                        end = listOfKeyStats.size
+                        val entries = ArrayList<Entry>()
+                        if (listOfKeyStats.size > 4) {
+                            for (index in start until end) {
+                                entries.add(
+                                    Entry(
+                                        java.lang.Float.parseFloat(index.toString()),
+                                        java.lang.Float.parseFloat(
+                                            listOfKeyStats[index],
+                                        ),
+                                    )
+                                )
+                            }
+                        }
+                        else {
+                            Toast.makeText(context, "Not enough data to generate the graph line", Toast.LENGTH_LONG).show()
+                        }
+                        lineChart.notifyDataSetChanged()
+                        lineChart.invalidate()
+                        generateLineData(entries)
+                    } else {
+                        if (position == 1) {
+                            start = 20
+                            end = listOfKeyStats.size
+                            val entries = ArrayList<Entry>()
+                            if (listOfKeyStats.size > 4) {
+                                for (index in start until end) {
+                                    entries.add(
+                                        Entry(
+                                            java.lang.Float.parseFloat(index.toString()),
+                                            java.lang.Float.parseFloat(
+                                                listOfKeyStats[index],
+                                            ),
+                                        )
+                                    )
+                                }
+                            }
+                            else {
+                                Toast.makeText(context, "Not enough data to generate the graph line", Toast.LENGTH_LONG).show()
+                            }
+                            lineChart.notifyDataSetChanged()
+                            lineChart.invalidate()
+                            generateLineData(entries)
+                        } else {
+                            if (position == 2) {
+                                start = 5
+                                end = listOfKeyStats.size
+                                val entries = ArrayList<Entry>()
+                                if (listOfKeyStats.size > 4) {
+                                    for (index in start until end) {
+                                        entries.add(
+                                            Entry(
+                                                java.lang.Float.parseFloat(index.toString()),
+                                                java.lang.Float.parseFloat(
+                                                    listOfKeyStats[index],
+                                                ),
+                                            )
+                                        )
+                                    }
+                                }
+                                else {
+                                    Toast.makeText(context, "Not enough data to generate the graph line", Toast.LENGTH_LONG).show()
+                                }
+                                lineChart.notifyDataSetChanged()
+                                lineChart.invalidate()
+                                generateLineData(entries)
+                            } else {
+                                if (position == 3) {
+                                    start = 0
+                                    end = listOfKeyStats.size
+                                    val entries = ArrayList<Entry>()
+                                    if (listOfKeyStats.size > 4) {
+                                        for (index in start until end) {
+                                            entries.add(
+                                                Entry(
+                                                    java.lang.Float.parseFloat(index.toString()),
+                                                    java.lang.Float.parseFloat(
+                                                        listOfKeyStats[index],
+                                                    ),
+                                                )
+                                            )
+                                        }
+                                    }
+                                    else {
+                                        Toast.makeText(context, "Not enough data to generate the graph line", Toast.LENGTH_LONG).show()
+                                    }
+                                    lineChart.notifyDataSetChanged()
+                                    lineChart.invalidate()
+                                    generateLineData(entries)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
+            }
+        return listOfFilters
+    }
+
+    private fun getDateExercise(spinnerName: String): List<String> {
         val firebaseDato = FirebaseDatabase.getInstance().getReference("Users").child(uID).child(
             "Stats"
-        ).child(valgtOvelse)
+        ).child(spinnerName)
 
-        val listOfKeyDato = arrayListOf<String>()
+        val listOfKeyDate = arrayListOf<String>()
         val eventListener = object : ValueEventListener {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (ds in dataSnapshot.children) {
                     val groupKey = ds.key as String
-                    listOfKeyDato.add(groupKey)
+                    listOfKeyDate.add(groupKey)
                 }
-                listOfKeyDato.toString()
-                datoOvelse.add(listOfKeyDato.toString())
-                println(listOfKeyDato)
+                listOfKeyDate.toString()
+                dateExercise.add(listOfKeyDate.toString())
+                println(listOfKeyDate)
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -266,26 +300,25 @@ class Chart : Fragment() {
             }
         }
         firebaseDato.addListenerForSingleValueEvent(eventListener)
-        return listOfKeyDato + datoOvelse
+        return listOfKeyDate + dateExercise
     }
 
-    private fun generateLineData(listOfKeyStats: ArrayList<String>): LineData {
-        val lineD = LineData()
-        val entries = ArrayList<Entry>()
-        for (index in start..slutt) {
-            entries.add(
-                Entry(
-                    java.lang.Float.parseFloat(index.toString()),
-                    java.lang.Float.parseFloat(
-                        listOfKeyStats[index],
-                    ),
-                )
-            )
+    @SuppressLint("SimpleDateFormat")
+    private fun generateLineData(entries: ArrayList<Entry>): LineData {
+        val xLabel = ArrayList<String>()
+        val calendar = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("MM-dd-yyyy")
+
+        for (i in 0..50) {
+            calendar.add(Calendar.DAY_OF_YEAR, i)
+            val date = calendar.time
+            val txtDate = dateFormat.format(date)
+
+            xLabel.add(txtDate)
         }
-        lineChart.notifyDataSetChanged()
-        lineChart.invalidate()
 
 
+        val lineD = LineData()
         val dataSetl = LineDataSet(entries, "Kg")
         dataSetl.setDrawValues(false)
         dataSetl.setDrawFilled(false)
@@ -300,9 +333,10 @@ class Chart : Fragment() {
         lineChart.setPinchZoom(true)
         lineChart.description.text = ""
 
-        val xVals: ArrayList<String> = setXAxisValues(getStartDate(), getEndDate())
-        val axis: XAxis = lineChart.xAxis
-        axis.valueFormatter = IndexAxisValueFormatter(xVals)
+        val xAxis = lineChart.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.setDrawGridLines(false)
+        xAxis.valueFormatter = IndexAxisValueFormatter(xLabel)
 
         lineChart.description.textSize = 12f
         lineChart.xAxis.textSize = 12f
@@ -315,9 +349,9 @@ class Chart : Fragment() {
         //lineChart.marker = markerView
 
         return lineD
-
     }
-/*
+
+    /*
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getTime(listOfKeyDato: ArrayList<String>) {
         val dateformatArray = ArrayList<String>()
@@ -360,25 +394,6 @@ class Chart : Fragment() {
     }
 
  */
-
-
-private fun setXAxisValues(from: String, to: String): ArrayList<String> {
-        val xVals = ArrayList<String>()
-
-        return xVals
-    }
-
-    private fun getEndDate(): String {
-        var endDate = String()
-            endDate = 10.toString()
-        return endDate
-    }
-
-    private fun getStartDate(): String {
-        var startDate = String()
-            startDate = 1.toString()
-        return startDate
-    }
 
 
 /*
