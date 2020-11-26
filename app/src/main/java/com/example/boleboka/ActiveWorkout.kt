@@ -129,7 +129,7 @@ class ActiveWorkout : Fragment() {
     @SuppressLint("SimpleDateFormat")
     private fun saveToDB() {
         val date = Calendar.getInstance().time
-        val simpleDate = SimpleDateFormat("dd-MM-yyyy")
+        val simpleDate = SimpleDateFormat("MM-dd-yyyy")
         val currentDate = simpleDate.format(date)
 
 
