@@ -13,12 +13,13 @@
         android:layout_gravity="center"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
+        android:layout_centerHorizontal="true"
         android:ellipsize="end"
         android:gravity="center"
-        android:text=""
+        android:text="test"
         android:singleLine="true"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
         android:textSize="12sp" />
 
 </RelativeLayout>

@@ -4,28 +4,31 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.TextView
 import com.github.mikephil.charting.components.MarkerView
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.highlight.Highlight
-import com.github.mikephil.charting.utils.Utils
+import com.github.mikephil.charting.utils.MPPointF
 
 
 class Marker(context:Context, layoutResource:Int):MarkerView(context, layoutResource) {
-    private val tvStats: TextView = findViewById<TextView>(R.id.tvStats)
+    private val tvContent:TextView
+    init{
+        // this markerview only displays a textview
+        tvContent = findViewById(R.id.tvStats) as TextView
+    }
     // callbacks everytime the MarkerView is redrawn, can be used to update the
     // content (user-interface)
     @SuppressLint("SetTextI18n")
     override fun refreshContent(e:Entry, highlight:Highlight) {
-        if (e is LineData)
-        {
-            val ce = e as LineData
-            tvStats.text = "" + Utils.formatNumber(ce.yMax, 0, true)
-        }
-        else
-        {
-            tvStats.text = "" + Utils.formatNumber(e.y, 0, true)
-        }
-        super.refreshContent(e, highlight)
+        tvContent.text = "Something" // set the entry-value as the display text
+    }
+    fun getXOffset(xAxis:Float):Int {
+        // this will center the marker-view horizontally
+        return -(width / 2)
+    }
+    fun getYOffset(yAxis:Float):Int {
+        // this will cause the marker-view to be above the selected value
+        return -height
     }
 }
-

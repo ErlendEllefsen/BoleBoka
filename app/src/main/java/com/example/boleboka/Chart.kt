@@ -17,6 +17,8 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,7 +33,7 @@ import kotlin.properties.Delegates
 
 class Chart : Fragment() {
 
-    var dateExercise = ArrayList<String>()
+    val listOfKeyDate = arrayListOf<String>()
     private var end by Delegates.notNull<Int>()
     private var start by Delegates.notNull<Int>()
     private lateinit var firebaseAuth: FirebaseAuth
@@ -94,7 +96,6 @@ class Chart : Fragment() {
                             id: Long
                         ) {
                             val spinnerName = listOfKeyOvelse[position]
-                            dateExercise.clear()
                             lineChart.clear()
                             lineChart.notifyDataSetChanged()
                             lineChart.invalidate()
@@ -115,7 +116,8 @@ class Chart : Fragment() {
         return listOfKeyOvelse
     }
 
-
+    val listOfReps = arrayListOf<String>()
+    val listOfSets = arrayListOf<String>()
     private fun getStatsExercise(spinnerName: String): ArrayList<String> {
         val listOfKeyStats = arrayListOf<String>()
         val firebaseStats = FirebaseDatabase.getInstance().getReference("Users")
@@ -125,6 +127,10 @@ class Chart : Fragment() {
                 for (ds in dataSnapshot.children) {
                     val vekt = ds.child("Vekt").value
                     listOfKeyStats.add("$vekt")
+                    val reps = ds.child("Reps").value
+                    listOfReps.add("$reps")
+                    val sets = ds.child("Sets").value
+                    listOfSets.add("$sets")
                     setFilterSpinner(listOfKeyStats)
                 }
             }
@@ -168,11 +174,9 @@ class Chart : Fragment() {
                     position: Int,
                     id: Long
                 ) {
-                    dateExercise.clear()
                     lineChart.clear()
                     lineChart.notifyDataSetChanged()
                     lineChart.invalidate()
-
                     if (position == 0){
                         start = 35
                         end = listOfKeyStats.size
@@ -282,7 +286,6 @@ class Chart : Fragment() {
             "Stats"
         ).child(spinnerName)
 
-        val listOfKeyDate = arrayListOf<String>()
         val eventListener = object : ValueEventListener {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -291,33 +294,36 @@ class Chart : Fragment() {
                     listOfKeyDate.add(groupKey)
                 }
                 listOfKeyDate.toString()
-                dateExercise.add(listOfKeyDate.toString())
                 println(listOfKeyDate)
-            }
 
+            }
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
         }
+
         firebaseDato.addListenerForSingleValueEvent(eventListener)
-        return listOfKeyDate + dateExercise
+        listOfKeyDate.clear()
+        return listOfKeyDate
     }
 
+
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SimpleDateFormat")
     private fun generateLineData(entries: ArrayList<Entry>): LineData {
+
         val xLabel = ArrayList<String>()
         val calendar = Calendar.getInstance()
         val dateFormat = SimpleDateFormat("MM-dd-yyyy")
 
-        for (i in 0..50) {
+       /* for (i in 0..50) {
             calendar.add(Calendar.DAY_OF_YEAR, i)
             val date = calendar.time
             val txtDate = dateFormat.format(date)
 
             xLabel.add(txtDate)
         }
-
-
+        */
         val lineD = LineData()
         val dataSetl = LineDataSet(entries, "Kg")
         dataSetl.setDrawValues(false)
@@ -335,7 +341,7 @@ class Chart : Fragment() {
 
         val xAxis = lineChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.setDrawGridLines(false)
+        xAxis.setDrawGridLines(true)
         xAxis.valueFormatter = IndexAxisValueFormatter(xLabel)
 
         lineChart.description.textSize = 12f
@@ -345,9 +351,23 @@ class Chart : Fragment() {
         lineChart.setNoDataText("No data found")
         lineChart.animateX(1800, Easing.EaseInExpo)
 
-        val markerView = Marker(requireContext(), R.layout.marker_layout)
-        lineChart.marker = markerView
+        lineChart.isHighlightPerTapEnabled = true
 
+        lineChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+
+            @SuppressLint("SetTextI18n")
+            override fun onNothingSelected() {
+                tvStats.text = "Velg et punkt for å se mer data"
+            }
+            @SuppressLint("SetTextI18n")
+            override fun onValueSelected(e: Entry, h: Highlight) {
+                val dateIndex = e.x.toInt()
+                tvStats.text = e.y.toString() + "kg " +
+                        " Dato: " + listOfKeyDate[dateIndex] +
+                        " Reps: " + listOfReps[dateIndex] +
+                        " Sets: " + listOfSets[dateIndex]
+            }
+        })
         return lineD
     }
 
