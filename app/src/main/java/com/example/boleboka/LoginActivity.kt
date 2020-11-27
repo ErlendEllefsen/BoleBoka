@@ -91,12 +91,7 @@ class LoginActivity : AppCompatActivity() {
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         val personName: String = acct.displayName.toString()
-        val personGivenName: String = acct.givenName.toString()
-        val personFamilyName: String = acct.familyName.toString()
-        val personEmail: String = acct.email.toString()
-        val personId: String = acct.id.toString()
-        val personPhoto: Uri? = acct.photoUrl
-
+        
             firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
                 startActivity(MainActivity.getLaunchIntent(this))
