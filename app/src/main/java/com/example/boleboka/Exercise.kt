@@ -48,7 +48,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         workoutName = model.message.value!!.toString()
 
         btn_exersise_insert.setOnClickListener() {
-            showDialog(view, workoutName)
+            showDialog(workoutName)
         }
         exerciseList = generateExerciseList()
         adapterEx = AdapterExercise(exerciseList, this)
@@ -69,7 +69,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
     }
 
-    private fun showDialog(view: View, workoutName: String) {
+    private fun showDialog(workoutName: String) {
         val dialog = Dialog(fragment.requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.add_exercise)

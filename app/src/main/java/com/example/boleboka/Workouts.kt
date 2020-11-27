@@ -45,7 +45,7 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btn_insert.setOnClickListener() {
-            showDialog(view, model)
+            showDialog(view)
         }
     }
 
@@ -58,7 +58,7 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
     }
 
 
-    private fun showDialog(view: View, modelProviders: Communicator?) {
+    private fun showDialog(view: View) {
         val dialog = Dialog(fragment.requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.add_workout)
@@ -205,9 +205,9 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
                         val children = snapshot.children
                         children.forEach {
 
-                            var obj = it.child("Name").value.toString()
-                            var obj2 = it.child("Desc").value.toString()
-                            var task = Workout_Item(obj, obj2)
+                            val obj = it.child("Name").value.toString()
+                            val obj2 = it.child("Desc").value.toString()
+                            val task = Workout_Item(obj, obj2)
                             list.add(task)
                         }
                     }

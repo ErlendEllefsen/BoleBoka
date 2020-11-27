@@ -10,21 +10,29 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/fragment_workout"
-        tools:context=".Workouts">
+        android:id="@+id/fragment_exercise"
+        tools:context=".Exercise">
 
+        <TextView
+            android:id="@+id/exerciseHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="workoutheader"
+            android:layout_centerHorizontal="true"
+            android:textSize="30sp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+            android:id="@+id/recycler_view_exercise"
             android:layout_width="match_parent"
-            android:layout_height="315dp"
-            android:layout_marginTop="16dp"
+            android:layout_height="282dp"
+            android:layout_below="@+id/exerciseHeader"
+            android:layout_marginTop="2dp"
             android:clipToPadding="false"
             android:padding="4dp"
-            tools:listitem="@layout/workout_items" />
+            tools:listitem="@layout/exercise_items" />
 
         <LinearLayout
-            android:id="@+id/workout_buttons"
+            android:id="@+id/exercise_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -36,10 +44,11 @@
 
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/btn_insert"
+                android:id="@+id/btn_exersise_insert"
                 android:layout_width="147dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
+
                 android:layout_marginBottom="16dp"
                 android:contentDescription="@string/fab_content_desc"
                 android:onClick="showDialog"

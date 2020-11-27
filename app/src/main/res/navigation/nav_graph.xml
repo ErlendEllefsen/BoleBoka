@@ -6,12 +6,6 @@
     app:startDestination="@id/startWorkout">
 
     <fragment
-        android:id="@+id/login"
-        android:name="com.example.boleboka.LoginActivity"
-        android:label="Login"
-        tools:layout="@layout/fragment_login"
-        />
-    <fragment
         android:id="@+id/startWorkout"
         android:name="com.example.boleboka.MainPage"
         android:label="Main Page"
@@ -41,9 +35,6 @@
         android:label="Workouts"
         tools:layout="@layout/fragment_workouts">
         <action
-            android:id="@+id/action_workouts_to_make_workout"
-            app:destination="@id/make_workout" />
-        <action
             android:id="@+id/action_workouts_to_exercise"
             app:destination="@id/exercise" />
     </fragment>
@@ -56,11 +47,6 @@
             android:id="@+id/action_active_workout_to_startWorkout"
             app:destination="@id/startWorkout" />
     </fragment>
-    <fragment
-        android:id="@+id/make_workout"
-        android:name="com.example.boleboka.Make_workout"
-        android:label="Make Workout"
-        tools:layout="@layout/fragment_make_workout" />
     <fragment
         android:id="@+id/personal_info"
         android:name="com.example.boleboka.Personal_info"

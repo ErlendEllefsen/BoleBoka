@@ -40,9 +40,7 @@ class Personal_info : Fragment()  {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         logout_button.setOnClickListener { (activity as MainActivity).setupSignoutBtn() }
-        btnSave.setOnClickListener{
-            savePersonalInfo()
-        }
+
         val name: String = firebaseAuth.currentUser!!.displayName.toString()
         textView2.text = "Logged in as\n$name"
 
@@ -57,30 +55,33 @@ class Personal_info : Fragment()  {
             .into(imageView4)
 
     }
-    private fun savePersonalInfo() {
-        val currentuser = FirebaseAuth.getInstance().currentUser?.uid
-        val uID = currentuser.toString()
-        val stringW = weight.text.toString()
-        val stringH = height.text.toString()
 
-        val intW = stringW.toInt()
-        val intH = stringH.toInt()
+    // Dette skulle være kode for å lagre høyde og vekt på brukeren
+    // Skulle bli brukt til å regne ut BMI, men kom ikke så langt
+    /* private fun savePersonalInfo() {
+         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
+         val uID = currentuser.toString()
+         val stringW = weight.text.toString()
+         val stringH = height.text.toString()
 
-        val date = getCurrentDateTime()
-        val dateInString = date.toString("yyyy-MM-dd")
+         val intW = stringW.toInt()
+         val intH = stringH.toInt()
 
-        val database = FirebaseDatabase.getInstance()
-        val heightDB =
-            database.getReference("Users").child(uID).child("Userdata").child(dateInString)
-                .child("Height")
-        val weightDB =
-            database.getReference("Users").child(uID).child("Userdata").child(dateInString)
-                .child("Weight")
+         val date = getCurrentDateTime()
+         val dateInString = date.toString("yyyy-MM-dd")
 
-        heightDB.setValue(intH)
-        weightDB.setValue(intW)
+         val database = FirebaseDatabase.getInstance()
+         val heightDB =
+             database.getReference("Users").child(uID).child("Userdata").child(dateInString)
+                 .child("Height")
+         val weightDB =
+             database.getReference("Users").child(uID).child("Userdata").child(dateInString)
+                 .child("Weight")
 
-    }
+         heightDB.setValue(intH)
+         weightDB.setValue(intW)
+
+     }*/
     fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
         val formatter = SimpleDateFormat(format, locale)
         return formatter.format(this)
