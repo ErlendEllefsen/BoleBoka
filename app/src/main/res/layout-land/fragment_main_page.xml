@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        tools:context=".MainPage"
+        android:background="@color/colorPrimaryLight"
+        android:id="@+id/main_page">
+
+
+        <Button
+            android:id="@+id/startBtn"
+            android:layout_width="375dp"
+            android:layout_height="60dp"
+            android:background="@color/colorAccent"
+            android:text="@string/startWorkout"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.729" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="375dp"
+            android:layout_height="60dp"
+            android:background="@color/colorPrimary"
+            android:popupBackground="@color/colorPrimaryLight"
+            android:prompt="@string/spinnerTitle"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.524" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="329dp"
+            android:layout_height="180dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_logo_big" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
