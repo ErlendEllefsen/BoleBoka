@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
@@ -12,12 +14,14 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_main_page.*
 
 import kotlinx.android.synthetic.main.fragment_numstat.*
 
 
 class Numstat : Fragment() {
-
+    private lateinit var spinnerName: String
     private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,23 +40,20 @@ class Numstat : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        btn3.setOnClickListener {
+        getSpinnerData()
+        btn3.setOnClickListener{
             calcStats()
         }
-
-
     }
 
     private fun calcStats(){
-        if (testExercise.text.toString() == "" || dateFrom.text.toString() == "" || dateTo.text.toString() == "") {
+        if ( dateFrom.text.toString() == "" || dateTo.text.toString() == "") {
             errorMessage("Fill inn the empty fields!")
         } else {
             Log.e("Getstats", "Hallo")
             val currentuser = FirebaseAuth.getInstance().currentUser?.uid
             val uID = currentuser.toString()
             val database = FirebaseDatabase.getInstance().reference
-            val exercise = testExercise.text.toString()
             val fromDate = dateFrom.text.toString()
             val toDate = dateTo.text.toString()
 
@@ -67,17 +68,17 @@ class Numstat : Fragment() {
 
                     for (d in snapshot.children) {
 
-                        val stat1 = d.child(uID).child("Stats").child(exercise).child(fromDate)
+                        val stat1 = d.child(uID).child("Stats").child(spinnerName).child(fromDate)
                             .child("Vekt").value
-                        val rep1 = d.child(uID).child("Stats").child(exercise).child(fromDate)
+                        val rep1 = d.child(uID).child("Stats").child(spinnerName).child(fromDate)
                             .child("Reps").value
-                        val set1 = d.child(uID).child("Stats").child(exercise).child(fromDate)
+                        val set1 = d.child(uID).child("Stats").child(spinnerName).child(fromDate)
                             .child("Sets").value
-                        val stat2 = d.child(uID).child("Stats").child(exercise).child(toDate)
+                        val stat2 = d.child(uID).child("Stats").child(spinnerName).child(toDate)
                             .child("Vekt").value
-                        val rep2 = d.child(uID).child("Stats").child(exercise).child(toDate)
+                        val rep2 = d.child(uID).child("Stats").child(spinnerName).child(toDate)
                             .child("Reps").value
-                        val set2 = d.child(uID).child("Stats").child(exercise).child(toDate)
+                        val set2 = d.child(uID).child("Stats").child(spinnerName).child(toDate)
                             .child("Sets").value
                         sb4.append("$stat2")
                         sb5.append("$rep2")
@@ -118,6 +119,77 @@ class Numstat : Fragment() {
             database.addListenerForSingleValueEvent(readData)
 
         }
+    }
+    private fun getSpinnerData(): ArrayList<String> {
+        /*
+        Funksjonen henter data fra databasen og legger det inn i en Arraylist
+        som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
+        SPinner layout og dropdownlayout blir også satt her.
+         */
+        val list = ArrayList<String>()
+
+        val currentuser = FirebaseAuth.getInstance().currentUser?.uid
+        val uID = currentuser.toString()
+
+
+        val firebase =
+            FirebaseDatabase.getInstance().getReference("Users")
+                .child(uID).child("Stats")
+        firebase
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    val children = snapshot.children
+
+                    children.forEach {
+
+                        val obj = it.key.toString()
+                        list.add(obj)
+                    }
+
+                    val ad = ArrayAdapter(
+                        fragment.requireContext(),
+                        android.R.layout.simple_spinner_item, list
+                    )
+                    ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinnerNum.adapter = ad
+
+
+                    val adapter = ArrayAdapter(
+                        fragment.requireContext(),
+                        android.R.layout.simple_spinner_item, list
+                    )
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinnerNum.adapter = adapter
+
+                    spinnerNum.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>,
+                                view: View,
+                                position: Int,
+                                id: Long,
+                            ) {
+                                spinnerName = list[position]
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>) {
+                            }
+                        }
+
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                }
+
+
+
+            })
+
+        return list
+
     }
 
     private fun errorMessage(message: String) {
