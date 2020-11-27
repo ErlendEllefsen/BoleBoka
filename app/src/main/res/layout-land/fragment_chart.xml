@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tvPrice"
+            android:id="@+id/tvStats"
             android:layout_width="103dp"
             android:layout_height="37dp"
             android:layout_gravity="center"

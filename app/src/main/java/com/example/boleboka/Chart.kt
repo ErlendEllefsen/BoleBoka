@@ -345,8 +345,8 @@ class Chart : Fragment() {
         lineChart.setNoDataText("No data found")
         lineChart.animateX(1800, Easing.EaseInExpo)
 
-        //val markerView = Marker(requireActivity().applicationContext, R.layout.fragment_chart)
-        //lineChart.marker = markerView
+        val markerView = Marker(requireContext(), R.layout.marker_layout)
+        lineChart.marker = markerView
 
         return lineD
     }
