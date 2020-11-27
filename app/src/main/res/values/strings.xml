@@ -56,6 +56,9 @@
     <string name="datoSlutt">Select end date:</string>
     <string name="ovelseHint">Benkpress</string>
     <string name="dateHint">DD-MM-YYYY</string>
+    <string name="edit_workout_string">Edit Exercise</string>
+    <string name="emailPlaceholder">Email:</string>
+
 
     <string-array name="Languages">
         <item>Java</item>
