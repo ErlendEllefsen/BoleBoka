@@ -73,7 +73,7 @@ class ActiveWorkout : Fragment() {
                 val listWeight = resultsList[i].weight
                 val listReps = resultsList[i].reps
                 val listSets = resultsList[i].sets
-                setValuesFromList(listWeight, listReps, listSets)
+                setValuesFromList(listWeight.toDouble(), listReps, listSets)
             }
         }
         btnNext.setOnClickListener() {
@@ -95,7 +95,7 @@ class ActiveWorkout : Fragment() {
                         val listWeight = resultsList[i].weight
                         val listReps = resultsList[i].reps
                         val listSets = resultsList[i].sets
-                        setValuesFromList(listWeight, listReps, listSets)
+                        setValuesFromList(listWeight.toDouble(), listReps, listSets)
                     }
                     if (currentList == exerciseList.last())
                         btnFinish.visibility = View.VISIBLE
@@ -119,7 +119,7 @@ class ActiveWorkout : Fragment() {
         error.show()
     }
 
-    private fun setValuesFromList(listWeight: Int, listReps: Int, listSets: Int) {
+    private fun setValuesFromList(listWeight: Double, listReps: Int, listSets: Int) {
         numberPicker.value = listReps
         numberPickerSets.value = listSets
         weight.setText(listWeight.toString())
