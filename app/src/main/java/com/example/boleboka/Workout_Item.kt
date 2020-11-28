@@ -1,5 +1,4 @@
 package com.example.boleboka
 
-import com.google.firebase.database.DataSnapshot
-
+// Erlend: data-klasse for hvordan workout_item skal se ut
 data class Workout_Item (var text1: String, var text2: String)

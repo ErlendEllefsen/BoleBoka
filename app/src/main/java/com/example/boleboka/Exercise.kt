@@ -44,47 +44,52 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Erlend: Henter workoutname fra communicator.kt
         val model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
         workoutName = model.message.value!!.toString()
-
+        // Erlend: Viser dialogvindu når +-knappen er trykket på
         btn_exersise_insert.setOnClickListener() {
             showDialog(workoutName)
         }
+        // Erlend: Henter liste fra firebase
         exerciseList = generateExerciseList()
         adapterEx = AdapterExercise(exerciseList, this)
+        // Erlend: setter adapteret for listen
         recycler_view_exercise.adapter = adapterEx
+        // Erlend: setter layout for listen
         recycler_view_exercise.layoutManager = LinearLayoutManager(context)
-        //performance optimization
+        /* Erlend: performance optimization.
+         * Om vi vet at listen har en bestemt lengde og høyde i fragmentet
+         * kan denne metoden kalles for å spare på litt ytelse
+         */
         recycler_view_exercise.setHasFixedSize(true)
 
-        // Henter message i communicator, burde også hente ett eller annet ID
-
+        // Erlend: Henter message i communicator og setter som overskrift
         val txt = exerciseHeader as TextView
         model.message.observe(viewLifecycleOwner,
             { o -> txt.text = o!!.toString() })
-        //POSITION @Dashern
-
-       // val positionToast =
-          //  Toast.makeText(context, "Current position is: $currentPosition", Toast.LENGTH_SHORT).show()
-
     }
 
     private fun showDialog(workoutName: String) {
+        // Erlend: Bygger dialogvindu
         val dialog = Dialog(fragment.requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.add_exercise)
         val inputName = dialog.exerciseName as EditText
-        // TODO: gjøre om til numberpicker
         val inputReps = dialog.exerciseReps as EditText
         val inputSets = dialog.exerciseSets as EditText
         val addBtn = dialog.add_exersice_btn as Button
         addBtn.setOnClickListener() {
+            // Erlend: Henter ut verdiene som er blitt skrevet inn
             val exerciseName = inputName.text.toString()
             val exerciseReps = inputReps.text.toString()
             val exerciseSets = inputSets.text.toString()
             val exerciseRepsInt = exerciseReps.toInt()
             val exerciseSetsInt = exerciseSets.toInt()
 
+            /* Erlend: Er det ikke blitt skrevet inn noe navn vil det komme en feilmelding
+             * Om alt er greit vil verdiene bli sendt videre og dialogvinduet lukket
+             */
             if (exerciseName == "") {
                 val noNameToast = Toast.makeText(context, "No name", Toast.LENGTH_SHORT)
                 noNameToast.show()
@@ -97,12 +102,9 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
     }
 
     private fun insertItem(name: String, reps: Int, sets: Int, workoutName: String) {
-        /*
-        Parameter verdiene blir lagret i firebase, workotname er bare med for å få riktig path i firebas
-        recyclerviewet blir også oppdatert
+        /* Jon: Parameter verdiene blir lagret i firebase, workotname er bare med for å få riktig path i firebas
+         * recyclerviewet blir også oppdatert
          */
-
-
         val database = FirebaseDatabase.getInstance()
         val nameDB =
             database.getReference("Users").child(uID).child("Exercise").child(workoutName)
@@ -117,27 +119,32 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         repsDB.setValue(reps)
         setsDB.setValue(sets)
 
+        /* Erlend: Her settes informajonen inn i frontend.
+         * atTop sjekker om det går ann å scrolle oppover i vinduet.
+         * Om dette er mulig vil vinudet bli scrollet til toppen for at brukeren
+         * skal kunne se den nye øvelsen som ble lagt til
+         */
         val atTop = !recycler_view_exercise.canScrollVertically(-1)
         val index = exerciseList.size
         val newItem = Exercise_Item(name, reps, sets)
         exerciseList.add(index, newItem)
+        // Erlend: Her får adapteret besjked om at en ny øvelse er biltt lagt til
         adapterEx.notifyItemInserted(index)
         if (atTop) {
             recycler_view_exercise.scrollToPosition(0)
         }
     }
 
+    // Erlend: Om bruker trykker på deleteknappen i dialogvindu.
     private fun removeItem(position: Int, workoutName: String) {
-
-        //Enkel funksjon for å slette Exercise fra firebase
-
-
+        // Jon: Enkel funksjon for å slette Exercise fra firebase
         val exerciseName = exerciseList[position].name
         val db = FirebaseDatabase.getInstance()
 
         val ref = db.getReference("Users").child(uID).child("Exercise").child(workoutName).child(exerciseName)
         ref.removeValue()
 
+        // Erlend: fjerner øvelsen i frontend og sier ifra til adapter.
         exerciseList.removeAt(position)
         adapterEx.notifyItemRemoved(position)
         Toast.makeText(context, "Exercise $exerciseName deleted", Toast.LENGTH_SHORT).show()
@@ -145,7 +152,8 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
     }
     private fun changeItem(name: String, reps: Int, sets: Int, workoutName: String, position: Int){
         /*
-        Dette funksjonen legger nye verdier inn i firebase etter at brukeren har skrevet inn nye verdier i onclick menyen.
+         * Jon: Dette funksjonen legger nye verdier inn i firebase etter at brukeren har skrevet
+         * inn nye verdier i onclick menyen.
          */
         val databaseS = FirebaseDatabase.getInstance()
        val pathName = exerciseList[position].name
@@ -168,10 +176,10 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         repsDB.setValue(reps)
         setsDB.setValue(sets)
 
-
     }
 
     override fun onExerciseClick(position: Int) {
+        // Erlend: Kalles om bruker trykker på en øvelse og bygger dialogvindu
         val exerciseDialog = Dialog(fragment.requireContext())
         exerciseDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         exerciseDialog.setContentView(R.layout.edit_exercise)

@@ -9,10 +9,20 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.exercise_items.view.*
 import org.w3c.dom.Text
 
-class AdapterExercise(private val exerciseList: List<Exercise_Item>, private val listnerExercise: Exercise) : RecyclerView.Adapter<AdapterExercise.ViewHolder>() {
+/* Erlend: Ettersom workout- og exersice-list fungerer på samme måte prøvde jeg finne en måte
+ * å bruke ett adapter for begge. Dette klarte jeg ikke få til så de har separate adaptere som er
+ * helt like.
+ */
+
+class AdapterExercise(
+    private val exerciseList: List<Exercise_Item>,
+    private val listnerExercise: Exercise
+) : RecyclerView.Adapter<AdapterExercise.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.exercise_items, parent, false)
+        // Erlend: Layoutinflater gjør xlm-filer om til View-objekter
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.exercise_items, parent, false)
         return ViewHolder(itemView)
     }
 
@@ -20,9 +30,9 @@ class AdapterExercise(private val exerciseList: List<Exercise_Item>, private val
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         /*
-         *Blir called hver gang du scroller og nye views kommer inn.
-         *Ikke add noe kode i denne, da vil appen bli treg
-         *Bruk class ViewHolder
+         * Erlend: Blir called hver gang du scroller og nye views kommer inn.
+         * Ikke add noe kode i denne, da vil appen bli treg
+         * Bruk class ViewHolder
          */
         val currentItem = exerciseList[position]
         val currentRep = currentItem.reps
@@ -34,8 +44,13 @@ class AdapterExercise(private val exerciseList: List<Exercise_Item>, private val
 
     override fun getItemCount() = exerciseList.size
 
-    // "inner" gjør klassen non-static
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    /* Erlend: En "Viewholder" representerer ett punkt i listen
+     * Altså den inneholder en instanse av layouten exersice_items.xlm
+     * Den inneholder også annen data om dette punktet i listen.
+     * Som feks hvor dette punktet er i listen (posisjonen)
+     */
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         val name: TextView = itemView.name
         val reps: TextView = itemView.reps
         val sets: TextView = itemView.sets
@@ -48,7 +63,7 @@ class AdapterExercise(private val exerciseList: List<Exercise_Item>, private val
         override fun onClick(p0: View?) {
             val position = adapterPosition
             /*
-             * Når du sletter ett item har det en animasjon før det forsvinner.
+             * Erlend: Når du sletter ett item har det en animasjon før det forsvinner.
              * Om en trykker på ett item mens remove-animasjonen kjører vil den ikke ha en posisjon.
              * Derfor må vi sjekke med en if-setning for å unngå at appen krasjer
              */
@@ -58,7 +73,7 @@ class AdapterExercise(private val exerciseList: List<Exercise_Item>, private val
         }
     }
 
-    //Brukes for å sende click event til andre plasser, ikke hensiktsmessig å ha det i adapteren
+    //Erlend: Brukes for å sende click event til andre plasser, ikke hensiktsmessig å ha det i adapteren
     interface OnItemClickListener{
         fun onExerciseClick(position: Int)
     }
