@@ -198,21 +198,10 @@ class ActiveWorkout : Fragment() {
         numberPickerSets.maxValue = sets + 5
         numberPickerSets.value = sets
         weight.setText("")
-
-        /* Erlend: Sørger for at numberPicker ikke har negativ value.
-         * En numberpicker kan ikke ha negativ value, da krasjer appen
-         */
-        if (reps >= 4) {
-            numberPicker.minValue = 0
-        } else {
-            numberPicker.minValue = reps - 5
-        }
-        if (sets >= 4) {
-            numberPickerSets.minValue = 0
-        } else {
-            numberPickerSets.minValue = sets - 5
-        }
+        numberPicker.minValue = 0
+        numberPickerSets.minValue = 0
     }
+
 
     private fun storeValues(pos: Int) {
         // Erlend: Henter alle verdiene og lagrer dem i en liste.
