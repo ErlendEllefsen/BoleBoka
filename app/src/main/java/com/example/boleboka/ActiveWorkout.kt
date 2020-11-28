@@ -135,7 +135,7 @@ class ActiveWorkout : Fragment() {
         for (i in 0 until resultsList.size) {
             val database = FirebaseDatabase.getInstance()
             val sets = database.getReference("Users").child(uID).child("Stats")
-                .child(exerciseList[i].name).child(currentDate).child("Seps")
+                .child(exerciseList[i].name).child(currentDate).child("Sets")
             val reps = database.getReference("Users").child(uID).child("Stats")
                 .child(exerciseList[i].name).child(currentDate).child("Reps")
             val vekt = database.getReference("Users").child(uID).child("Stats")
