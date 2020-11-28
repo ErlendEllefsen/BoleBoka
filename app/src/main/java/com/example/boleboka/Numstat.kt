@@ -47,6 +47,11 @@ class Numstat : Fragment() {
     }
 
     private fun calcStats(){
+        /*Denne funksjonen vil hente ut en valgt øvelse i en spinner og to valgte
+        * datoer fra dato-feltene. Deretter vil den kalkulere om bruker har økt eller
+        * redusert i styrke og regne ut hvor mye de kan maksimalt løfte
+        * bare en gang.
+        * */
         if ( dateFrom.text.toString() == "" || dateTo.text.toString() == "") {
             errorMessage("Fill inn the empty fields!")
         } else {
@@ -130,8 +135,6 @@ class Numstat : Fragment() {
 
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
         val uID = currentuser.toString()
-
-
         val firebase =
             FirebaseDatabase.getInstance().getReference("Users")
                 .child(uID).child("Stats")
@@ -155,7 +158,6 @@ class Numstat : Fragment() {
                     ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     spinnerNum.adapter = ad
 
-
                     val adapter = ArrayAdapter(
                         fragment.requireContext(),
                         android.R.layout.simple_spinner_item, list
@@ -173,23 +175,14 @@ class Numstat : Fragment() {
                             ) {
                                 spinnerName = list[position]
                             }
-
                             override fun onNothingSelected(parent: AdapterView<*>) {
                             }
                         }
-
-
                 }
-
                 override fun onCancelled(error: DatabaseError) {
                 }
-
-
-
             })
-
         return list
-
     }
 
     private fun errorMessage(message: String) {
