@@ -13,12 +13,15 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import com.github.mikephil.charting.renderer.AxisRenderer
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -28,12 +31,15 @@ import kotlinx.android.synthetic.main.fragment_chart.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.absoluteValue
+import kotlin.math.roundToInt
 import kotlin.properties.Delegates
 
 
 class Chart : Fragment() {
 
     val listOfKeyDate = arrayListOf<String>()
+    private var labelCount by Delegates.notNull<Int>()
     private var end by Delegates.notNull<Int>()
     private var start by Delegates.notNull<Int>()
     private lateinit var firebaseAuth: FirebaseAuth
@@ -167,6 +173,7 @@ class Chart : Fragment() {
 
         spinner3.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
+                @SuppressLint("SetTextI18n")
                 @RequiresApi(Build.VERSION_CODES.O)
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
@@ -191,10 +198,11 @@ class Chart : Fragment() {
                                         ),
                                     )
                                 )
+                                labelCount = 10
                             }
                         }
                         else {
-                            Toast.makeText(context, "Not enough data to generate the graph line", Toast.LENGTH_LONG).show()
+                            tvStats.text = "Not enough data to generate the graph line"
                         }
                         lineChart.notifyDataSetChanged()
                         lineChart.invalidate()
@@ -214,10 +222,11 @@ class Chart : Fragment() {
                                             ),
                                         )
                                     )
+                                    labelCount = 5
                                 }
                             }
                             else {
-                                Toast.makeText(context, "Not enough data to generate the graph line", Toast.LENGTH_LONG).show()
+                                tvStats.text = "Not enough data to generate the graph line"
                             }
                             lineChart.notifyDataSetChanged()
                             lineChart.invalidate()
@@ -237,10 +246,11 @@ class Chart : Fragment() {
                                                 ),
                                             )
                                         )
+                                        labelCount = 8
                                     }
                                 }
                                 else {
-                                    Toast.makeText(context, "Not enough data to generate the graph line", Toast.LENGTH_LONG).show()
+                                    tvStats.text = "Not enough data to generate the graph line"
                                 }
                                 lineChart.notifyDataSetChanged()
                                 lineChart.invalidate()
@@ -260,10 +270,11 @@ class Chart : Fragment() {
                                                     ),
                                                 )
                                             )
+                                            labelCount = 5
                                         }
                                     }
                                     else {
-                                        Toast.makeText(context, "Not enough data to generate the graph line", Toast.LENGTH_LONG).show()
+                                        tvStats.text = "Not enough data to generate the graph line"
                                     }
                                     lineChart.notifyDataSetChanged()
                                     lineChart.invalidate()
@@ -281,6 +292,7 @@ class Chart : Fragment() {
         return listOfFilters
     }
 
+    @SuppressLint("SetTextI18n")
     private fun getDateExercise(spinnerName: String): List<String> {
         val firebaseDato = FirebaseDatabase.getInstance().getReference("Users").child(uID).child(
             "Stats"
@@ -304,6 +316,7 @@ class Chart : Fragment() {
 
         firebaseDato.addListenerForSingleValueEvent(eventListener)
         listOfKeyDate.clear()
+        tvStats.text = "Velg et punkt for å se mer data"
         return listOfKeyDate
     }
 
@@ -313,17 +326,25 @@ class Chart : Fragment() {
     private fun generateLineData(entries: ArrayList<Entry>): LineData {
 
         val xLabel = ArrayList<String>()
-        val calendar = Calendar.getInstance()
-        val dateFormat = SimpleDateFormat("MM-dd-yyyy")
+        val  calendar = Calendar.getInstance()
+       val dateFormat = SimpleDateFormat("MM-dd-yyyy")
 
-       /* for (i in 0..50) {
+        for (d in 0 until entries.size)
+            xLabel.add(listOfKeyDate[d])
+        for (f in 0 until  xLabel.size)
+        println(xLabel)
+
+
+        /*
+       for (i in 0..50) {
             calendar.add(Calendar.DAY_OF_YEAR, i)
             val date = calendar.time
             val txtDate = dateFormat.format(date)
 
             xLabel.add(txtDate)
         }
-        */
+
+         */
         val lineD = LineData()
         val dataSetl = LineDataSet(entries, "Kg")
         dataSetl.setDrawValues(false)
@@ -337,12 +358,17 @@ class Chart : Fragment() {
         lineChart.axisRight.isEnabled = false
         lineChart.setTouchEnabled(true)
         lineChart.setPinchZoom(true)
-        lineChart.description.text = ""
+        lineChart.description.text = "Date"
+        lineChart.setViewPortOffsets(80f, 0f, 85f, 100f)
 
         val xAxis = lineChart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.setDrawGridLines(true)
         xAxis.valueFormatter = IndexAxisValueFormatter(xLabel)
+        xAxis.setLabelCount(labelCount, true)
+        xAxis.isCenterAxisLabelsEnabled
+        xAxis.setAvoidFirstLastClipping(false)
+
 
         lineChart.description.textSize = 12f
         lineChart.xAxis.textSize = 12f
@@ -351,8 +377,10 @@ class Chart : Fragment() {
         lineChart.setNoDataText("No data found")
         lineChart.animateX(1800, Easing.EaseInExpo)
 
-        lineChart.isHighlightPerTapEnabled = true
+        //lineChart.setXAxisRenderer(RenderXAxis(lineChart.viewPortHandler, xAxis, lineChart.getTransformer(YAxis.AxisDependency.LEFT), labelCount = 5, IndexAxisValueFormatter(xLabel)))
 
+
+        lineChart.isHighlightPerTapEnabled = true
         lineChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
 
             @SuppressLint("SetTextI18n")
