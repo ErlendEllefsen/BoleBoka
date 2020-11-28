@@ -19,18 +19,19 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tvPrice"
-            android:layout_width="103dp"
-            android:layout_height="37dp"
+            android:id="@+id/tvStats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
             android:ellipsize="end"
             android:gravity="center"
             android:text=""
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/white"
-            android:textSize="12sp" />
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="20sp" />
+
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/lineChart"
