@@ -48,11 +48,11 @@ class ActiveWorkout : Fragment() {
         val model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
         workoutName = model.message.value!!.toString()
         generateExersices(view)
-        Toast.makeText(context, workoutName, Toast.LENGTH_LONG).show()
+
     }
 
     private fun startWorkout(view: View, exerciseList: ArrayList<Exercise_Item>) {
-        Toast.makeText(context, "YO", Toast.LENGTH_LONG).show()
+
         var currentList = exerciseList[i]
         var name = currentList.name
         var reps = currentList.reps
@@ -135,7 +135,7 @@ class ActiveWorkout : Fragment() {
         for (i in 0 until resultsList.size) {
             val database = FirebaseDatabase.getInstance()
             val sets = database.getReference("Users").child(uID).child("Stats")
-                .child(exerciseList[i].name).child(currentDate).child("Seps")
+                .child(exerciseList[i].name).child(currentDate).child("Sets")
             val reps = database.getReference("Users").child(uID).child("Stats")
                 .child(exerciseList[i].name).child(currentDate).child("Reps")
             val vekt = database.getReference("Users").child(uID).child("Stats")
