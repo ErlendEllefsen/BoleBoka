@@ -36,37 +36,36 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.06" />
 
-    <EditText
-        android:id="@+id/dateFrom"
-        android:layout_width="151dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="@string/dateHint"
-        android:inputType="textPersonName"
-        android:text=""
+
+    <Spinner
+        android:id="@+id/spinnerDate1"
+        android:layout_width="153dp"
+        android:layout_height="41dp"
+        android:background="@color/colorPrimary"
+        android:popupBackground="@color/colorPrimaryLight"
+        android:prompt="@string/spinnerTitle"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.746"
+        app:layout_constraintHorizontal_bias="0.751"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.123" />
+        app:layout_constraintVertical_bias="0.142" />
 
-    <EditText
-        android:id="@+id/dateTo"
-        android:layout_width="151dp"
-        android:layout_height="38dp"
-        android:ems="10"
-        android:hint="@string/dateHint"
-        android:inputType="textPersonName"
-        android:text=""
-
+    <Spinner
+        android:id="@+id/spinnerDate2"
+        android:layout_width="153dp"
+        android:layout_height="41dp"
+        android:background="@color/colorPrimary"
+        android:popupBackground="@color/colorPrimaryLight"
+        android:prompt="@string/spinnerTitle"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.746"
+        app:layout_constraintHorizontal_bias="0.751"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.233" />
+        app:layout_constraintVertical_bias="0.227" />
 
     <TextView
         android:id="@+id/styrkeOkning"

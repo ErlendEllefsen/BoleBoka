@@ -40,7 +40,9 @@ class Numstat : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getSpinnerData()
+        getSpinnerEx()
+        getSpinnerDateFrom()
+        getSpinnerDateTo()
         btn3.setOnClickListener{
             calcStats()
         }
@@ -125,8 +127,9 @@ class Numstat : Fragment() {
 
         }
     }
-    private fun getSpinnerData(): ArrayList<String> {
+    private fun getSpinnerEx(): ArrayList<String> {
         /*
+        Jon
         Funksjonen henter data fra databasen og legger det inn i en Arraylist
         som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
         SPinner layout og dropdownlayout blir også satt her.
@@ -166,6 +169,122 @@ class Numstat : Fragment() {
                     spinnerNum.adapter = adapter
 
                     spinnerNum.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>,
+                                view: View,
+                                position: Int,
+                                id: Long,
+                            ) {
+                            }
+                            override fun onNothingSelected(parent: AdapterView<*>) {
+                            }
+                        }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+        return list
+    }
+    private fun getSpinnerDateTo(): ArrayList<String> {
+        /*
+        Funksjonen henter data fra databasen og legger det inn i en Arraylist
+        som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
+        SPinner layout og dropdownlayout blir også satt her.
+         */
+        val list = ArrayList<String>()
+
+        val currentuser = FirebaseAuth.getInstance().currentUser?.uid
+        val uID = currentuser.toString()
+        val firebase =
+            FirebaseDatabase.getInstance().getReference("Users")
+                .child(uID).child("Stats").child(spinnerName)
+        firebase
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    val children = snapshot.children
+
+                    children.forEach {
+
+                        val obj = it.key.toString()
+                        list.add(obj)
+                    }
+
+                    val ad = ArrayAdapter(
+                        fragment.requireContext(),
+                        android.R.layout.simple_spinner_item, list
+                    )
+                    ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinnerDate1.adapter = ad
+
+                    val adapter = ArrayAdapter(
+                        fragment.requireContext(),
+                        android.R.layout.simple_spinner_item, list
+                    )
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinnerDate1.adapter = adapter
+
+                    spinnerDate1.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>,
+                                view: View,
+                                position: Int,
+                                id: Long,
+                            ) {
+                            }
+                            override fun onNothingSelected(parent: AdapterView<*>) {
+                            }
+                        }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+        return list
+    }
+    private fun getSpinnerDateFrom(): ArrayList<String> {
+        /*
+        Funksjonen henter data fra databasen og legger det inn i en Arraylist
+        som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
+        SPinner layout og dropdownlayout blir også satt her.
+         */
+        val list = ArrayList<String>()
+
+        val currentuser = FirebaseAuth.getInstance().currentUser?.uid
+        val uID = currentuser.toString()
+        val firebase =
+            FirebaseDatabase.getInstance().getReference("Users")
+                .child(uID).child("Stats").child(spinnerName)
+        firebase
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    val children = snapshot.children
+
+                    children.forEach {
+
+                        val obj = it.key.toString()
+                        list.add(obj)
+                    }
+
+                    val ad = ArrayAdapter(
+                        fragment.requireContext(),
+                        android.R.layout.simple_spinner_item, list
+                    )
+                    ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinnerDate2.adapter = ad
+
+                    val adapter = ArrayAdapter(
+                        fragment.requireContext(),
+                        android.R.layout.simple_spinner_item, list
+                    )
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinnerDate2.adapter = adapter
+
+                    spinnerDate2.onItemSelectedListener =
                         object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(
                                 parent: AdapterView<*>,
