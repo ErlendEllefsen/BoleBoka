@@ -2,11 +2,11 @@ package com.example.boleboka
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import com.google.firebase.auth.FirebaseAuth
@@ -16,8 +16,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_active_workout.*
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -53,6 +51,7 @@ class ActiveWorkout : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MainActivity?)?.hideNavBar()
         /* Erlend: Henter workoutname i communicator-klassen, for å senere bruke
          * det for å finne riktig workout i databasen
          */
@@ -95,7 +94,7 @@ class ActiveWorkout : Fragment() {
                 val listWeight = resultsList[i].weight
                 val listReps = resultsList[i].reps
                 val listSets = resultsList[i].sets
-                setValuesFromList(listWeight.toDouble(), listReps, listSets)
+                setValuesFromList(listWeight, listReps, listSets)
             }
         }
         btnNext.setOnClickListener() {
@@ -120,7 +119,7 @@ class ActiveWorkout : Fragment() {
                         val listWeight = resultsList[i].weight
                         val listReps = resultsList[i].reps
                         val listSets = resultsList[i].sets
-                        setValuesFromList(listWeight.toDouble(), listReps, listSets)
+                        setValuesFromList(listWeight, listReps, listSets)
                     }
                     // Erlend: Om brukeren har gått gjennom alle øvelsene vil det være
                     // mulig å avslutte.
@@ -138,6 +137,7 @@ class ActiveWorkout : Fragment() {
                 storeValues(i)
                 view.findNavController().navigate(R.id.action_active_workout_to_startWorkout)
                 saveToDB()
+                (activity as MainActivity?)?.showNavBar()
             }
         }
     }
@@ -148,7 +148,7 @@ class ActiveWorkout : Fragment() {
         error.show()
     }
 
-    private fun setValuesFromList(listWeight: Double, listReps: Int, listSets: Int) {
+    private fun setValuesFromList(listWeight: Int, listReps: Int, listSets: Int) {
         numberPicker.value = listReps
         numberPickerSets.value = listSets
         weight.setText(listWeight.toString())

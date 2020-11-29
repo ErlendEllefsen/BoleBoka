@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.exercise_items.view.*
-import org.w3c.dom.Text
 
 /* Erlend: Ettersom workout- og exersice-list fungerer på samme måte prøvde jeg finne en måte
  * å bruke ett adapter for begge. Dette klarte jeg ikke få til så de har separate adaptere som er
