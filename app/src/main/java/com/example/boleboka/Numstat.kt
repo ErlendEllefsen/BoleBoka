@@ -55,6 +55,7 @@ class Numstat : Fragment() {
         * redusert i styrke og regne ut hvor mye de kan maksimalt løfte
         * bare en gang.
         * */
+        var test = true
             val currentuser = FirebaseAuth.getInstance().currentUser?.uid
             val uID = currentuser.toString()
             val database = FirebaseDatabase.getInstance().reference
@@ -67,50 +68,57 @@ class Numstat : Fragment() {
                     val sb4 = StringBuilder()
                     val sb5 = StringBuilder()
                     val sb6 = StringBuilder()
+                    if (test) {
 
-                    for (d in snapshot.children) {
+                        for (d in snapshot.children) {
 
-                        val stat1 = d.child(uID).child("Stats").child(spinnerName).child(dateTo)
-                            .child("Vekt").value
-                        val rep1 = d.child(uID).child("Stats").child(spinnerName).child(dateTo)
-                            .child("Reps").value
-                        val set1 = d.child(uID).child("Stats").child(spinnerName).child(dateTo)
-                            .child("Sets").value
-                        val stat2 = d.child(uID).child("Stats").child(spinnerName).child(dateFrom)
-                            .child("Vekt").value
-                        val rep2 = d.child(uID).child("Stats").child(spinnerName).child(dateFrom)
-                            .child("Reps").value
-                        val set2 = d.child(uID).child("Stats").child(spinnerName).child(dateFrom)
-                            .child("Sets").value
-                        sb4.append("$stat2")
-                        sb5.append("$rep2")
-                        sb6.append("$set2")
-                        sb1.append("$stat1")
-                        sb2.append("$rep1")
-                        sb3.append("$set1")
+                            val stat1 = d.child(uID).child("Stats").child(spinnerName).child(dateTo)
+                                .child("Vekt").value
+                            val rep1 = d.child(uID).child("Stats").child(spinnerName).child(dateTo)
+                                .child("Reps").value
+                            val set1 = d.child(uID).child("Stats").child(spinnerName).child(dateTo)
+                                .child("Sets").value
+                            val stat2 =
+                                d.child(uID).child("Stats").child(spinnerName).child(dateFrom)
+                                    .child("Vekt").value
+                            val rep2 =
+                                d.child(uID).child("Stats").child(spinnerName).child(dateFrom)
+                                    .child("Reps").value
+                            val set2 =
+                                d.child(uID).child("Stats").child(spinnerName).child(dateFrom)
+                                    .child("Sets").value
+                            sb4.append("$stat2")
+                            sb5.append("$rep2")
+                            sb6.append("$set2")
+                            sb1.append("$stat1")
+                            sb2.append("$rep1")
+                            sb3.append("$set1")
+                        }
+                        textView4.text = sb1
+                        repFra.text = sb2
+                        setFra.text = sb3
+                        textView3.text = sb4
+                        repTil.text = sb5
+                        setTil.text = sb6
+
+
+                        val fromDateWeight = sb1.toString()
+                        val fromDateRep = sb2.toString()
+                        val repMax1 =
+                            (fromDateWeight.toDouble() / (1.0278 - 0.0278 * fromDateRep.toDouble())).toInt()
+                        val toDateVekt = sb4.toString()
+                        val toDateRep = sb5.toString()
+                        val repMax2 =
+                            (toDateVekt.toDouble() / (1.0278 - 0.0278 * toDateRep.toDouble())).toInt()
+
+                        val percentIncrease =
+                            ((repMax2.toDouble() - repMax1.toDouble()) / repMax1.toDouble()) * 100
+
+                        styrkeOkning.text = percentIncrease.toString()
+                        maxRep.text = repMax1.toString()
+                        maxRepNa.text = repMax2.toString()
                     }
-                    textView4.text = sb1
-                    repFra.text = sb2
-                    setFra.text = sb3
-                    textView3.text = sb4
-                    repTil.text = sb5
-                    setTil.text = sb6
-
-                    val fromDateWeight = sb1.toString()
-                    val fromDateRep = sb2.toString()
-                    val repMax1 =
-                        (fromDateWeight.toDouble() / (1.0278 - 0.0278 * fromDateRep.toDouble())).toInt()
-                    val toDateVekt = sb4.toString()
-                    val toDateRep = sb5.toString()
-                    val repMax2 =
-                        (toDateVekt.toDouble() / (1.0278 - 0.0278 * toDateRep.toDouble())).toInt()
-
-                    val percentIncrease =
-                        ((repMax2.toDouble() - repMax1.toDouble()) / repMax1.toDouble()) * 100
-
-                    styrkeOkning.text = percentIncrease.toString()
-                    maxRep.text = repMax1.toString()
-                    maxRepNa.text = repMax2.toString()
+                    test = false
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -122,6 +130,7 @@ class Numstat : Fragment() {
 
         }
     private fun getSpinnerEx(): ArrayList<String> {
+        var test = true
         /*
         Jon
         Funksjonen henter data fra databasen og legger det inn i en Arraylist
@@ -139,49 +148,58 @@ class Numstat : Fragment() {
             .addListenerForSingleValueEvent(object : ValueEventListener {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    if (test) {
 
-                    val children = snapshot.children
+                        val children = snapshot.children
 
-                    children.forEach {
+                        children.forEach {
 
-                        val obj = it.key.toString()
-                        list.add(obj)
-                    }
 
-                    val ad = ArrayAdapter(
-                        fragment.requireContext(),
-                        android.R.layout.simple_spinner_item, list
-                    )
-                    ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    spinnerNum.adapter = ad
-
-                    val adapter = ArrayAdapter(
-                        fragment.requireContext(),
-                        android.R.layout.simple_spinner_item, list
-                    )
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    spinnerNum.adapter = adapter
-
-                    spinnerNum.onItemSelectedListener =
-                        object : AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(
-                                parent: AdapterView<*>,
-                                view: View,
-                                position: Int,
-                                id: Long,
-                            ) {
-                                spinnerName = list[position]
-                                getSpinnerDateTo(spinnerName)
-                                getSpinnerDateFrom(spinnerName)
-                            }
-                            override fun onNothingSelected(parent: AdapterView<*>) {
-                            }
+                            val obj = it.key.toString()
+                            list.add(obj)
                         }
+                        test = false
+
+                        val ad = ArrayAdapter(
+                            fragment.requireContext(),
+                            android.R.layout.simple_spinner_item, list
+                        )
+                        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        spinnerNum.adapter = ad
+
+                        val adapter = ArrayAdapter(
+                            fragment.requireContext(),
+                            android.R.layout.simple_spinner_item, list
+                        )
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        spinnerNum.adapter = adapter
+
+                        spinnerNum.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>,
+                                    view: View,
+                                    position: Int,
+                                    id: Long,
+                                ) {
+                                    spinnerName = list[position]
+                                    getSpinnerDateTo(spinnerName)
+                                    getSpinnerDateFrom(spinnerName)
+                                }
+
+                                override fun onNothingSelected(parent: AdapterView<*>) {
+                                }
+                            }
+                    }
+                    test = false
                 }
-                override fun onCancelled(error: DatabaseError) {
+                    override fun onCancelled(error: DatabaseError) {
+
                 }
             })
+
         return list
+
     }
     private fun getSpinnerDateTo(spinnerName: String): ArrayList<String> {
         /*
@@ -189,6 +207,7 @@ class Numstat : Fragment() {
         som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
         SPinner layout og dropdownlayout blir også satt her.
          */
+        var test = true
         val list = ArrayList<String>()
 
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
@@ -200,6 +219,7 @@ class Numstat : Fragment() {
             .addListenerForSingleValueEvent(object : ValueEventListener {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    if(test){
 
                     val children = snapshot.children
 
@@ -210,6 +230,7 @@ class Numstat : Fragment() {
 
                         list.add(obj)
                     }
+                        test = false
 
                     val ad = ArrayAdapter(
                         fragment.requireContext(),
@@ -239,6 +260,8 @@ class Numstat : Fragment() {
                             }
                         }
                 }
+                test = false
+                }
                 override fun onCancelled(error: DatabaseError) {
                 }
             })
@@ -250,6 +273,7 @@ class Numstat : Fragment() {
         som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
         SPinner layout og dropdownlayout blir også satt her.
          */
+        var test = true
         val list = ArrayList<String>()
 
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
@@ -261,6 +285,7 @@ class Numstat : Fragment() {
             .addListenerForSingleValueEvent(object : ValueEventListener {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
+                    if (test) {
 
                     val children = snapshot.children
 
@@ -269,6 +294,7 @@ class Numstat : Fragment() {
                         val obj = it.key.toString()
                         list.add(obj)
                     }
+                        test = false
 
                     val ad = ArrayAdapter(
                         fragment.requireContext(),
@@ -297,6 +323,8 @@ class Numstat : Fragment() {
                             override fun onNothingSelected(parent: AdapterView<*>) {
                             }
                         }
+                }
+                test = false
                 }
                 override fun onCancelled(error: DatabaseError) {
                 }
