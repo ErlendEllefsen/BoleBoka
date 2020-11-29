@@ -77,6 +77,9 @@ class ActiveWorkout : Fragment() {
          * Også om en ønsker å gå tilbake til forrigje øvelse å redigere på det som har blitt
          * skrevet inn der bli husket, og nye verdier må overskrive de som allerede var der.
          */
+        // Erlend: Om brukeren er på siste øvelse vises finish button
+        if (currentList == exerciseList.last())
+            btnFinish.visibility = View.VISIBLE
         btnBack.setOnClickListener() {
             // Erlend: Om en prøver å gå tilbake når man er i første øvelse
             if (exerciseList[i] == exerciseList.first()) {
@@ -121,10 +124,6 @@ class ActiveWorkout : Fragment() {
                         val listSets = resultsList[i].sets
                         setValuesFromList(listWeight, listReps, listSets)
                     }
-                    // Erlend: Om brukeren har gått gjennom alle øvelsene vil det være
-                    // mulig å avslutte.
-                    if (currentList == exerciseList.last())
-                        btnFinish.visibility = View.VISIBLE
                 }
             }
         }
