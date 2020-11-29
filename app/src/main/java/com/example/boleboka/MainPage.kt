@@ -7,8 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -50,9 +48,9 @@ class MainPage : Fragment() {
 
     private fun getSpinnerData(): ArrayList<String> {
         /*
-        Funksjonen henter data fra databasen og legger det inn i en Arraylist
-        som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
-        SPinner layout og dropdownlayout blir også satt her.
+         * Funksjonen henter data fra databasen og legger det inn i en Arraylist
+         * som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
+         * SPinner layout og dropdownlayout blir også satt her.
          */
         val list = ArrayList<String>()
 
@@ -119,6 +117,7 @@ class MainPage : Fragment() {
     }
 
     private fun sendInfoToFragment(workoutName: String) {
+        // Erlend: Sender workoutname til communicator når du starter en workout.
         model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
         model!!.setMsgCommunicator(workoutName)
     }

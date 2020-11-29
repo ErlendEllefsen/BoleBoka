@@ -3,9 +3,8 @@ package com.example.boleboka
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-/*
+/* Erlend:
  * Her legges informasjon som skal deles mellom fragment
- * Nå brukes den bare til å dele info fra workouts til exersise
  */
 class Communicator : ViewModel(){
     val message = MutableLiveData<Any>()

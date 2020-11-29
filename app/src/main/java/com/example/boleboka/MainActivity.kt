@@ -6,15 +6,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.github.mikephil.charting.data.PieEntry
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_active_workout.*
 import kotlinx.android.synthetic.main.fragment_personal_info.*
 
 class MainActivity : AppCompatActivity() {
@@ -35,15 +32,24 @@ class MainActivity : AppCompatActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNav)
         val navController = findNavController(R.id.fragment)
         bottomNavigationView.setupWithNavController(navController)
+
     }
 
-     fun setupSignoutBtn () {
+    fun hideNavBar() {
+        bottomNav.visibility = View.INVISIBLE
+    }
+
+    fun showNavBar() {
+        bottomNav.visibility = View.VISIBLE
+    }
+
+    fun setupSignoutBtn() {
         logout_button.setOnClickListener() {
             logout()
         }
     }
 
-    private fun logout () {
+    private fun logout() {
         FirebaseAuth.getInstance().signOut()
         finish()
     }

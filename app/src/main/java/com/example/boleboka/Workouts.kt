@@ -51,14 +51,20 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
 
     override fun onStart() {
         super.onStart()
+        // Erlend: setter adapteret for listen
         recycler_view.adapter = adapter
+        // Erlend: setter layout for listen
         recycler_view.layoutManager = LinearLayoutManager(context)
-        //performance optimization
+        /* Erlend: performance optimization.
+        *  Om vi vet at listen har en bestemt lengde og høyde i fragmentet
+        *  kan denne metoden kalles for å spare på litt ytelse
+        */
         recycler_view.setHasFixedSize(true)
     }
 
 
     private fun showDialog(view: View) {
+        // Erlend: Bygger dialogvidnuet
         val dialog = Dialog(fragment.requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.add_workout)
@@ -69,15 +75,16 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
             val workoutName = input.text.toString()
             val workoutDesc = inputDesc.text.toString()
 
-            // Sjekker om EditText er tom
+            // Erlend: Sjekker om EditText er tom
             if (workoutName == "") {
                 val noNameToast = Toast.makeText(context, "No name", Toast.LENGTH_SHORT)
                 noNameToast.show()
             } else {
                 insertItem(workoutName, workoutDesc)
-                // Sender navnet på den nye workouten til exersise.kt
+                // Erlend: Sender navnet på den nye workouten til exersise.kt
                 sendInfoToFragment(workoutName, workoutList.size + 1)
                 dialog.dismiss()
+                // Erlend: Sender brukeren til exersice siden til workouten når en ny workout er lagd.
                 view.findNavController().navigate(R.id.action_workouts_to_exercise)
             }
         }
@@ -85,6 +92,7 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
     }
 
     private fun sendInfoToFragment(workoutName: String, position: Int) {
+        // Erlend: Sender posisjon og workoutname til communicator.kt
         model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
         model!!.setMsgCommunicator(workoutName)
         model!!.positionCommunicator(position)
@@ -110,7 +118,7 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
         val newItem = Workout_Item(name, desc)
         workoutList.add(newItem)
         adapter.notifyItemInserted(index)
-        // Sørger for item som blir lagt til ikke blir lagt til utenfor view
+        // Erlend: Sørger for item som blir lagt til ikke blir lagt til utenfor view
         if (atTop) {
             recycler_view.scrollToPosition(0)
         }
@@ -118,7 +126,6 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
 
     private fun removeItem(position: Int, nameW: String) {
         // sletter Workout fra firebase og recycleviewet
-        val output = nameW
 
         val db = FirebaseDatabase.getInstance()
         val ref = db.getReference("Users").child(uID).child("Workouts").child(nameW)
@@ -126,9 +133,10 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
         ref.removeValue()
         refE.removeValue()
 
+        // Erlend: fjerner workout i frontend og sier ifra til adapter.
         workoutList.removeAt(position)
         adapter.notifyItemRemoved(position)
-        Toast.makeText(context, "Workout $output deleted", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Workout $nameW deleted", Toast.LENGTH_SHORT).show()
 
     }
     private fun changeWorkout(workoutName: String, workoutDesc: String, position: Int){
@@ -149,6 +157,7 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
 
 
     override fun onItemClick(position: Int) {
+        // Erlend: Kalles om bruker trykker på en workout og bygger dialogvindu
         val workoutDialog = Dialog(fragment.requireContext())
         workoutDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         workoutDialog.setContentView(R.layout.edit_workout)
@@ -215,7 +224,7 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
 
 
                 override fun onCancelled(error: DatabaseError) {
-                    //  Toast.makeText(context, "Funket ikke", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Funket ikke", Toast.LENGTH_SHORT).show()
                 }
 
 

@@ -58,6 +58,8 @@
     <string name="dateHint">MM-DD-YYYY</string>
     <string name="edit_workout_string">Edit Exercise</string>
     <string name="emailPlaceholder">Email:</string>
+    <string name="line_2">Line 2</string>
+    <string name="line_1">Line 1</string>
 
 
     <string-array name="Languages">
