@@ -49,37 +49,35 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.125" />
 
-    <EditText
-        android:id="@+id/dateFrom"
-        android:layout_width="151dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="@string/dateHint"
-        android:inputType="textPersonName"
-        android:text=""
+    <Spinner
+        android:id="@+id/spinnerDate1"
+        android:layout_width="126dp"
+        android:layout_height="34dp"
+        android:background="@color/colorPrimary"
+        android:popupBackground="@color/colorPrimaryLight"
+        android:prompt="@string/spinnerTitle"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.887"
+        app:layout_constraintHorizontal_bias="0.793"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022" />
+        app:layout_constraintVertical_bias="0.071" />
 
-    <EditText
-        android:id="@+id/dateTo"
-        android:layout_width="152dp"
-        android:layout_height="43dp"
-        android:ems="10"
-        android:hint="@string/dateHint"
-        android:inputType="textPersonName"
-        android:text=""
-
+    <Spinner
+        android:id="@+id/spinnerDate2"
+        android:layout_width="127dp"
+        android:layout_height="33dp"
+        android:background="@color/colorPrimary"
+        android:popupBackground="@color/colorPrimaryLight"
+        android:prompt="@string/spinnerTitle"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.889"
+        app:layout_constraintHorizontal_bias="0.794"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.203" />
+        app:layout_constraintVertical_bias="0.198" />
 
     <TextView
         android:id="@+id/textView7"

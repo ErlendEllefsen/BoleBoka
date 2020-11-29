@@ -218,8 +218,6 @@ class Numstat : Fragment() {
                     children.forEach {
 
                         val obj = it.key.toString()
-                        Toast.makeText(context,"$obj",Toast.LENGTH_SHORT).show()
-
                         list.add(obj)
                     }
 
