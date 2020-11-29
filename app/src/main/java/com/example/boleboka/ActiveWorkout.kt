@@ -14,6 +14,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_active_workout.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -58,6 +59,7 @@ class ActiveWorkout : Fragment() {
         val model = ViewModelProviders.of(requireActivity()).get(Communicator::class.java)
         workoutName = model.message.value!!.toString()
         generateExersices(view)
+
     }
 
     // Erlend: Denne kjøres etter listen med øvelser er blitt hentet
@@ -243,11 +245,18 @@ class ActiveWorkout : Fragment() {
                         val reps = it.child("Reps").value.toString()
                         val sets = it.child("Sets").value.toString()
                         val task = Exercise_Item(name, reps.toInt(), sets.toInt())
+
                         list.add(task)
+
                     }
                     exerciseList = list
                     // Sender listen til startWorkout etter all data er blitt hentet
-                    startWorkout(view, exerciseList)
+                    if (exerciseList.size > 0) {
+                        startWorkout(view, exerciseList)
+                    } else {
+                        Toast.makeText(context, "No exercises in this workout!", Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {

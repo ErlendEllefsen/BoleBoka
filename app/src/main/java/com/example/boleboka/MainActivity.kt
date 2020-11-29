@@ -3,10 +3,9 @@ package com.example.boleboka
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -17,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_personal_info.*
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        fun getLaunchIntent (from: Context) = Intent (from, MainActivity::class.java).apply {
+        fun getLaunchIntent(from: Context) = Intent(from, MainActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
     }
@@ -26,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         // setTheme(R.style.splashScreenTheme);
         super.onCreate(savedInstanceState)
-        setTheme(R.style.AppTheme);
+        setTheme(R.style.AppTheme)
         setContentView(R.layout.activity_main)
 
 

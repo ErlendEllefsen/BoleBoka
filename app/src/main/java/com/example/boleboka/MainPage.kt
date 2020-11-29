@@ -25,7 +25,7 @@ class MainPage : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         val binding = DataBindingUtil.inflate<FragmentMainPageBinding>(
             inflater,
             R.layout.fragment_main_page, container, false
@@ -44,6 +44,11 @@ class MainPage : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity?)?.showNavBar()
     }
 
     private fun getSpinnerData(): ArrayList<String> {
