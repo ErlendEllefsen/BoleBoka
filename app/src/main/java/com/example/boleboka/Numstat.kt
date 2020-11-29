@@ -128,7 +128,6 @@ class Numstat : Fragment() {
 
         }
     private fun getSpinnerEx(): ArrayList<String> {
-        var test = true
         /*
         Jon
         Funksjonen henter data fra databasen og legger det inn i en Arraylist
@@ -146,7 +145,6 @@ class Numstat : Fragment() {
             .addListenerForSingleValueEvent(object : ValueEventListener {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (test) {
 
                         val children = snapshot.children
 
@@ -156,7 +154,6 @@ class Numstat : Fragment() {
                             val obj = it.key.toString()
                             list.add(obj)
                         }
-                        test = false
 
                         val ad = ArrayAdapter(
                             fragment.requireContext(),
@@ -188,8 +185,7 @@ class Numstat : Fragment() {
                                 override fun onNothingSelected(parent: AdapterView<*>) {
                                 }
                             }
-                    }
-                    test = false
+
                 }
                     override fun onCancelled(error: DatabaseError) {
 
@@ -205,7 +201,6 @@ class Numstat : Fragment() {
         som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
         SPinner layout og dropdownlayout blir også satt her.
          */
-        var test = true
         val list = ArrayList<String>()
 
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
@@ -217,7 +212,6 @@ class Numstat : Fragment() {
             .addListenerForSingleValueEvent(object : ValueEventListener {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if(test){
 
                     val children = snapshot.children
 
@@ -228,7 +222,6 @@ class Numstat : Fragment() {
 
                         list.add(obj)
                     }
-                        test = false
 
                     val ad = ArrayAdapter(
                         fragment.requireContext(),
@@ -258,8 +251,6 @@ class Numstat : Fragment() {
                             }
                         }
                 }
-                test = false
-                }
                 override fun onCancelled(error: DatabaseError) {
                 }
             })
@@ -271,7 +262,6 @@ class Numstat : Fragment() {
         som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
         SPinner layout og dropdownlayout blir også satt her.
          */
-        var test = true
         val list = ArrayList<String>()
 
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
@@ -283,7 +273,6 @@ class Numstat : Fragment() {
             .addListenerForSingleValueEvent(object : ValueEventListener {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    if (test) {
 
                     val children = snapshot.children
 
@@ -292,7 +281,6 @@ class Numstat : Fragment() {
                         val obj = it.key.toString()
                         list.add(obj)
                     }
-                        test = false
 
                     val ad = ArrayAdapter(
                         fragment.requireContext(),
@@ -321,8 +309,6 @@ class Numstat : Fragment() {
                             override fun onNothingSelected(parent: AdapterView<*>) {
                             }
                         }
-                }
-                test = false
                 }
                 override fun onCancelled(error: DatabaseError) {
                 }
