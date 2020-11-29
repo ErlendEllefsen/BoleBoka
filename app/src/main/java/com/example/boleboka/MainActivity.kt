@@ -43,6 +43,10 @@ class MainActivity : AppCompatActivity() {
         bottomNav.visibility = View.VISIBLE
     }
 
+    /*
+        Robin
+        fun logout kaller signout og finsih for å sende brukeren tilbake til LoginActivity.
+    */
     fun setupSignoutBtn() {
         logout_button.setOnClickListener() {
             logout()
@@ -53,14 +57,6 @@ class MainActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signOut()
         finish()
     }
-}
-
-fun AppCompatActivity.replaceFragment(fragment: Fragment) {
-    val fragmentManager = supportFragmentManager
-    val transaction = fragmentManager.beginTransaction()
-    transaction.replace(R.id.main, fragment)
-    transaction.addToBackStack(null)
-    transaction.commit()
 }
 
 

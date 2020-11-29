@@ -21,7 +21,6 @@ class LoginActivity : AppCompatActivity() {
     private val RC_SIGN_IN: Int = 1
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var mGoogleSignInOptions: GoogleSignInOptions
-
     private lateinit var firebaseAuth: FirebaseAuth
 
 
@@ -36,6 +35,11 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        /*
+            Robin
+            Om brukeren har logget it før, vil brukeren automatisk bli logget inn
+            neste gang brukeren tar i bruk appen.
+        */
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
             val name: String = firebaseAuth.currentUser!!.displayName.toString()
@@ -62,12 +66,15 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signIn() {
-        mGoogleSignInClient.signOut()
+        mGoogleSignInClient.signOut() //Gir brukeren mulighet til å velge å logge inn med samme account eller legge til en ny account.
         val signInIntent: Intent = mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        /*
+
+        */
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
@@ -84,6 +91,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
+        /*
+            Om brukeren sitt forsøk på signin er gyldig, vil brukeren få en ID token fra
+            googlesigninaccount. ID token blir byttet med en firebase attest. Denne attesten vil bli
+            brukt til å autentisere med firebase.
+        */
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         val personName: String = acct.displayName.toString()
         

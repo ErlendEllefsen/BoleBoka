@@ -120,7 +120,7 @@ class Numstat : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Log.e("Numstat", "errorrrorrorrorrorro")
+                    Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
                 }
             }
             database.addValueEventListener(readData)
@@ -188,7 +188,7 @@ class Numstat : Fragment() {
 
                 }
                     override fun onCancelled(error: DatabaseError) {
-
+                        Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
                 }
             })
 
@@ -250,6 +250,7 @@ class Numstat : Fragment() {
                         }
                 }
                 override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
                 }
             })
         return list
@@ -309,15 +310,9 @@ class Numstat : Fragment() {
                         }
                 }
                 override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
                 }
             })
         return list
     }
-
-    private fun errorMessage(message: String) {
-        val error =
-            Toast.makeText(context, message, Toast.LENGTH_SHORT)
-        error.show()
-    }
-
 }
