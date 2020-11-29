@@ -7,10 +7,20 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.workout_items.view.*
 
-class AdapterWorkout(private val workoutList: ArrayList<Workout_Item>, private val listner: Workouts) : RecyclerView.Adapter<AdapterWorkout.ViewHolder>() {
+/* Erlend: Ettersom workout- og exersice-list fungerer på samme måte prøvde jeg finne en måte
+ * å bruke ett adapter for begge. Dette klarte jeg ikke få til så de har separate adaptere som er
+ * helt like.
+ */
+
+class AdapterWorkout(
+    private val workoutList: ArrayList<Workout_Item>,
+    private val listner: Workouts
+) : RecyclerView.Adapter<AdapterWorkout.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.workout_items, parent, false)
+        // Erlend: Layoutinflater gjør xlm-filer om til View-objekter
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.workout_items, parent, false)
         return ViewHolder(itemView)
     }
 
@@ -28,11 +38,15 @@ class AdapterWorkout(private val workoutList: ArrayList<Workout_Item>, private v
 
     override fun getItemCount() = workoutList.size
 
-    // "inner" gjør klassen non-static
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    /* Erlend: En "Viewholder" representerer ett punkt i listen
+     * Altså den inneholder en instanse av layouten workout_items.xlm
+     * Den inneholder også annen data om dette punktet i listen.
+     * Som feks hvor dette punktet er i listen (posisjonen)
+     */
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         val workoutView1: TextView = itemView.text_1
         val workoutView2: TextView = itemView.text_2
-
 
         //Konstruktør
         init {
@@ -42,7 +56,7 @@ class AdapterWorkout(private val workoutList: ArrayList<Workout_Item>, private v
         override fun onClick(p0: View?) {
             val position = adapterPosition
             /*
-             * Når du sletter ett item har det en animasjon før det forsvinner.
+             * Erlend: Når du sletter ett item har det en animasjon før det forsvinner.
              * Om en trykker på ett item mens remove-animasjonen kjører vil den ikke ha en posisjon.
              * Derfor må vi sjekke med en if-setning for å unngå at appen krasjer
              */
@@ -52,7 +66,7 @@ class AdapterWorkout(private val workoutList: ArrayList<Workout_Item>, private v
         }
     }
 
-    //Brukes for å sende click event til andre plasser, ikke hensiktsmessig å ha det i adapteren
+    //Erlend: Brukes for å sende click event til andre plasser, ikke hensiktsmessig å ha det i adapteren
     interface OnItemClickListener{
         fun onItemClick(position: Int)
     }

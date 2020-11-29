@@ -1,20 +1,15 @@
 package com.example.boleboka
 
 import android.annotation.SuppressLint
-import android.content.IntentFilter
-import android.net.Uri
-
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.fragment_personal_info.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,14 +34,19 @@ class Personal_info : Fragment()  {
     @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        /* Robin
+            Henter informasjonen til brukeren som er logget inn fra google, og viser
+            denne informasjonen. (Fult navn, epost, og profilbilde)
+        */
         logout_button.setOnClickListener { (activity as MainActivity).setupSignoutBtn() }
 
         val name: String = firebaseAuth.currentUser!!.displayName.toString()
-        textView2.text = "Logged in as\n$name"
+        textView2.text = "Logged in as: \n$name"
 
         val email: String = firebaseAuth.currentUser!!.email.toString()
-        textView3.text = "Email\n$email"
+        textView3.text = "Email: \n$email"
 
+       // Benytter glide api for å vise brukeren sitt profilbilde fra google kontoen.
         val photoUrl: String = firebaseAuth.currentUser!!.photoUrl.toString()
         Glide.with(context).load(photoUrl)
             .thumbnail(0.1f)

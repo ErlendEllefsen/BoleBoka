@@ -1,18 +1,11 @@
 package com.example.boleboka
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentContainer
-import androidx.fragment.app.replace
 import androidx.navigation.findNavController
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_chart.*
 import kotlinx.android.synthetic.main.fragment_stats.*
 
 
