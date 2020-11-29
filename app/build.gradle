@@ -58,6 +58,9 @@ dependencies {
     //Firebase database connection
     implementation 'com.google.firebase:firebase-database-ktx:19.5.0'
 
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
     //Glide, brukes kun til å vise profilbilde fra google konto.
     implementation 'com.github.bumptech.glide:glide:3.7.0'
 

@@ -50,6 +50,7 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun configureGoogleSignIn() {
+        //Requester ID token og email fra brukeren.
         mGoogleSignInOptions =
             GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -73,7 +74,8 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         /*
-
+            Metoden sender brukeren som skal bli logget inn til firebaseAuthWithGoogle funksjonen
+            for å bli autentisert.
         */
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
