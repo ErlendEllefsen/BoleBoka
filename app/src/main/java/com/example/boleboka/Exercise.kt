@@ -20,7 +20,9 @@ import kotlinx.android.synthetic.main.add_exercise.*
 import kotlinx.android.synthetic.main.edit_exercise.*
 import kotlinx.android.synthetic.main.fragment_exercises.*
 
-
+/* Erlend: Hvordan recyclerview er koblet til adapteret i denne klassen er gjort med hjelp fra guide
+ * fra Coding in Flow, referanse i dokumentet.
+ */
 class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
     private val currentuser = FirebaseAuth.getInstance().currentUser?.uid
     private val uID = currentuser.toString()
