@@ -35,7 +35,7 @@ class Chart : Fragment() {
     val listOfReps = arrayListOf<String>()
     val listOfSets = arrayListOf<String>()
 
-    private var labelCount by Delegates.notNull<Int>()
+    private var labelCount: Int = 0
     private var end by Delegates.notNull<Int>()
     private var start by Delegates.notNull<Int>()
 
