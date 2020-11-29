@@ -151,6 +151,7 @@ class Chart : Fragment() {
     }
 
     private fun setFilterSpinner(listOfKeyStats: ArrayList<String>): ArrayList<String> {
+        val noData = "Not enough data to draw the graph line, minimum 5 entries"
         val listOfFilters = arrayListOf<String>()
         listOfFilters.add("Last 30 Days")
         listOfFilters.add("Last 90 Days")
@@ -173,7 +174,6 @@ class Chart : Fragment() {
 
         spinner3.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
-                @SuppressLint("SetTextI18n")
                 @RequiresApi(Build.VERSION_CODES.O)
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
@@ -202,7 +202,7 @@ class Chart : Fragment() {
                             }
                         }
                         else {
-                            tvStats.text = "Not enough data to generate the graph line"
+                            tvStats.text = noData
                         }
                         lineChart.notifyDataSetChanged()
                         lineChart.invalidate()
@@ -226,7 +226,7 @@ class Chart : Fragment() {
                                 }
                             }
                             else {
-                                tvStats.text = "Not enough data to generate the graph line"
+                                tvStats.text = noData
                             }
                             lineChart.notifyDataSetChanged()
                             lineChart.invalidate()
@@ -250,7 +250,7 @@ class Chart : Fragment() {
                                     }
                                 }
                                 else {
-                                    tvStats.text = "Not enough data to generate the graph line"
+                                    tvStats.text = noData
                                 }
                                 lineChart.notifyDataSetChanged()
                                 lineChart.invalidate()
@@ -274,7 +274,7 @@ class Chart : Fragment() {
                                         }
                                     }
                                     else {
-                                        tvStats.text = "Not enough data to generate the graph line"
+                                        tvStats.text = noData
                                     }
                                     lineChart.notifyDataSetChanged()
                                     lineChart.invalidate()
@@ -326,27 +326,12 @@ class Chart : Fragment() {
     private fun generateLineData(entries: ArrayList<Entry>): LineData {
 
         val xLabel = ArrayList<String>()
-        val  calendar = Calendar.getInstance()
-       val dateFormat = SimpleDateFormat("MM-dd-yyyy")
-
         for (d in 0 until entries.size)
             xLabel.add(listOfKeyDate[d])
-        for (f in 0 until  xLabel.size)
-        println(xLabel)
 
-
-        /*
-       for (i in 0..50) {
-            calendar.add(Calendar.DAY_OF_YEAR, i)
-            val date = calendar.time
-            val txtDate = dateFormat.format(date)
-
-            xLabel.add(txtDate)
-        }
-
-         */
         val lineD = LineData()
         val dataSetl = LineDataSet(entries, "Kg")
+
         dataSetl.setDrawValues(false)
         dataSetl.setDrawFilled(false)
         dataSetl.lineWidth = 3f
@@ -377,9 +362,6 @@ class Chart : Fragment() {
         lineChart.setNoDataText("No data found")
         lineChart.animateX(1800, Easing.EaseInExpo)
 
-        //lineChart.setXAxisRenderer(RenderXAxis(lineChart.viewPortHandler, xAxis, lineChart.getTransformer(YAxis.AxisDependency.LEFT), labelCount = 5, IndexAxisValueFormatter(xLabel)))
-
-
         lineChart.isHighlightPerTapEnabled = true
         lineChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
 
@@ -390,7 +372,7 @@ class Chart : Fragment() {
             @SuppressLint("SetTextI18n")
             override fun onValueSelected(e: Entry, h: Highlight) {
                 val dateIndex = e.x.toInt()
-                tvStats.text = e.y.toString() + "kg " +
+                tvStats.text ="Weight: " + e.y.toString() + "kg " +
                         " Dato: " + listOfKeyDate[dateIndex] +
                         " Reps: " + listOfReps[dateIndex] +
                         " Sets: " + listOfSets[dateIndex]
@@ -398,87 +380,6 @@ class Chart : Fragment() {
         })
         return lineD
     }
-
-    /*
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getTime(listOfKeyDato: ArrayList<String>) {
-        val dateformatArray = ArrayList<String>()
-        val localDate = LocalDate.now()
-        val last30Days = localDate.minusDays(30)
-        val last90Days = localDate.minusDays(90)
-        val last365Days = localDate.minusDays(365)
-
-        try {
-            val localDateFormat365 = DateTimeFormatter.ofPattern("dd-MM-yyyy").format(last365Days)
-            dateformatArray.add(localDateFormat365)
-            println(localDateFormat365)
-        } catch (e: Exception) {
-            println("Failed to format date")
-        }
-        try {
-            val localDateFormat90 = DateTimeFormatter.ofPattern("dd-MM-yyyy").format(last90Days)
-            dateformatArray.add(localDateFormat90)
-        } catch (e: Exception) {
-            println("Failed to format date")
-        }
-        try {
-            val localDateFormat30 = DateTimeFormatter.ofPattern("dd-MM-yyyy").format(last30Days)
-            dateformatArray.add(localDateFormat30)
-        } catch (e: Exception) {
-            println("Failed to format date")
-        }
-        for (i in 0 until dateformatArray.size) {
-            dateformatArray[i]
-        }
-        val test = "01-04-2020"
-        for (d in 0 until listOfKeyDato.size) {
-            println(test == listOfKeyDato[d])
-        }
-        println(dateformatArray)
-        println(dateformatArray)
-
-        //println(listOfKeyDato)
-
-    }
-
- */
-
-
-/*
-    private fun setData(count: Int) {
-        val intoLoop = input.text.toString()
-        val entries = ArrayList<Entry>()
-        val test = intoLoop.toInt()
-        for (i in 0..test )
-    }
-
-
-
-    private fun getData() {
-        Log.e("Getdata", "Hallo")
-        val currentuser = FirebaseAuth.getInstance().currentUser?.uid
-        val uID = currentuser.toString()
-        val database = FirebaseDatabase.getInstance().reference
-
-        val readData = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val sb = StringBuilder()
-                    for (d in snapshot.children){
-                        val ovelse = d.child(uID).child("Userdata").value
-                        val dato = d.child(uID).child("Workouts").value
-                        sb.append("$ovelse\n $dato\n")
-                    }
-                textView5.text = sb
-            }
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("Chart", "Noe galt!")
-            }
-        }
-        database.addValueEventListener(readData)
-        database.addListenerForSingleValueEvent(readData)
-    }
-
- */
 }
 
 
