@@ -22,6 +22,9 @@ import kotlinx.android.synthetic.main.edit_workout.*
 import kotlinx.android.synthetic.main.fragment_workouts.*
 import kotlin.collections.ArrayList
 
+/* Erlend: Hvordan recyclerview er koblet til adapteret i denne klassen er gjort med hjelp fra guide
+ * fra Coding in Flow, referanse i dokumentet.
+ */
 
 class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
 

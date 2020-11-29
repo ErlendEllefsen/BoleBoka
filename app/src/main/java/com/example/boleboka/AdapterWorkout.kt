@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.workout_items.view.*
 /* Erlend: Ettersom workout- og exersice-list fungerer på samme måte prøvde jeg finne en måte
  * å bruke ett adapter for begge. Dette klarte jeg ikke få til så de har separate adaptere som er
  * helt like.
+ * Mye av koden er skrevet med hjelp av guide fra Coding in Flow, referanse i dokumentasjon
  */
 
 class AdapterWorkout(
