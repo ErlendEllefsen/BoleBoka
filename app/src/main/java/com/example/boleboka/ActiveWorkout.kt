@@ -126,6 +126,8 @@ class ActiveWorkout : Fragment() {
                     }
                 }
             }
+            if (currentList == exerciseList.last())
+                btnFinish.visibility = View.VISIBLE
         }
         btnFinish.setOnClickListener() {
             // Erlend: Må fortsatt sjekke om vekt er tom på siste øvelse
