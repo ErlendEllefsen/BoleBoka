@@ -45,10 +45,6 @@ class Chart : Fragment() {
     private lateinit var firebaseAuth: FirebaseAuth
     private val currentuser = FirebaseAuth.getInstance().currentUser?.uid
     private val uID = currentuser.toString()
-    private val firebaseOvelse =
-        FirebaseDatabase.getInstance().getReference("Users").child(uID).child(
-            "Stats"
-        )
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -71,6 +67,10 @@ class Chart : Fragment() {
     }
 
     private fun getSpinnerData(): ArrayList<String> {
+        val firebaseOvelse =
+            FirebaseDatabase.getInstance().getReference("Users").child(uID).child(
+                "Stats"
+            )
         val listOfKeyOvelse = arrayListOf<String>()
         val eventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -109,13 +109,12 @@ class Chart : Fragment() {
                         }
 
                         override fun onNothingSelected(parent: AdapterView<*>?) {
-                            spinner2.prompt = "Velg en Øvelse"
+                            spinner2.prompt = "Pick an Exercise"
                         }
                     }
             }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                TODO("Not yet implemented")
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
             }
         }
         firebaseOvelse.addListenerForSingleValueEvent(eventListener)
@@ -142,7 +141,7 @@ class Chart : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
             }
         }
         firebaseStats.addListenerForSingleValueEvent(eventListener)
@@ -286,7 +285,7 @@ class Chart : Fragment() {
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("Not yet implemented")
+                    spinner3.prompt = "Pick a filter"
                 }
             }
         return listOfFilters
@@ -306,17 +305,17 @@ class Chart : Fragment() {
                     listOfKeyDate.add(groupKey)
                 }
                 listOfKeyDate.toString()
-                println(listOfKeyDate)
+                //println(listOfKeyDate)
 
             }
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
             }
         }
 
         firebaseDato.addListenerForSingleValueEvent(eventListener)
         listOfKeyDate.clear()
-        tvStats.text = "Velg et punkt for å se mer data"
+        tvStats.text = "Pick a value to see more data"
         return listOfKeyDate
     }
 
@@ -367,7 +366,7 @@ class Chart : Fragment() {
 
             @SuppressLint("SetTextI18n")
             override fun onNothingSelected() {
-                tvStats.text = "Velg et punkt for å se mer data"
+                tvStats.text = "Pick a value to see more data"
             }
             @SuppressLint("SetTextI18n")
             override fun onValueSelected(e: Entry, h: Highlight) {
