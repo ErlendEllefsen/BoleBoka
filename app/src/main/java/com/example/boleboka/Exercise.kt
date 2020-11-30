@@ -153,11 +153,10 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
     private fun changeItem(name: String, reps: Int, sets: Int, workoutName: String, position: Int){
 
          // Jon: Setter nye verdiene til "Name", "Reps" og "Sets" i firebase
-
+        exerciseList.removeAt(position)
         val databaseS = FirebaseDatabase.getInstance()
         // Jon : Henter exercise navnet til det itemet du har trykket på
        val pathName = exerciseList[position].name
-        Toast.makeText(context, "Exercise $pathName changed", Toast.LENGTH_SHORT).show()
 
         val nameDB =
             databaseS.getReference("Users").child(uID).child("Exercise").child(workoutName)
@@ -173,6 +172,9 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         nameDB.setValue(name)
         repsDB.setValue(reps)
         setsDB.setValue(sets)
+
+        val changedItem = Exercise_Item(name, reps, sets)
+        exerciseList.add(position, changedItem)
 
     }
 
