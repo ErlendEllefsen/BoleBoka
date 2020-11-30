@@ -134,6 +134,7 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
         val refE = db.getReference("Users").child(uID).child("Exercise").child(nameW)
         ref.removeValue()
         refE.removeValue()
+
         // Erlend: fjerner workout i frontend og sier ifra til adapter.
         workoutList.removeAt(position)
         adapter.notifyItemRemoved(position)
@@ -141,7 +142,8 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
 
     }
     private fun changeWorkout(workoutName: String, workoutDesc: String, position: Int){
-        // Jon: Bytter verdiene som ligger under "Name" og "Desc" i firebase
+        // Jon: Bytter verdiene som ligger under "Name" og "Desc" i firebase men får ikke endret key(ståre mer forklart i dokument)
+
         val database = FirebaseDatabase.getInstance()
         val pathName = workoutList[position].text1
         workoutList.removeAt(position)
@@ -190,6 +192,7 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
                 val noNameToast = Toast.makeText(context, "No name", Toast.LENGTH_SHORT)
                 noNameToast.show()
             } else {
+                adapter.notifyItemChanged(position)
                 changeWorkout(workoutName, workoutDesc, position)
                 adapter.notifyItemChanged(position)
                 workoutDialog.dismiss()
