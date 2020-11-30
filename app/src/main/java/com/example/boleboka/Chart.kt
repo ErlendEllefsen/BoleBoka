@@ -366,13 +366,13 @@ class Chart : Fragment() {
             denne datoen i en løkke.
         */
         val xLabel = ArrayList<String>()
-        for (d in 0 until entries.size)
-            xLabel.add(listOfKeyDate[d])
+        for (i in 0 until entries.size)
+            xLabel.add(listOfKeyDate[i])
 
         val lineD = LineData()
         val dataSetl = LineDataSet(entries, "Kg")
 
-        dataSetl.setDrawValues(false) //True -> Viser valuen til et punkt på grafen.
+        dataSetl.setDrawValues(false) //True -> Viser verien til et punkt på grafen.
         dataSetl.setDrawFilled(false) // True -> Fyller punktet.
         dataSetl.lineWidth = 3f
         dataSetl.valueTextSize = 15f
