@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class Personal_info : Fragment()  {
+class Personal_info : Fragment() {
     private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +28,7 @@ class Personal_info : Fragment()  {
         savedInstanceState: Bundle?,
     ): View? {
         return inflater.inflate(R.layout.fragment_personal_info, container, false)
-        }
+    }
 
 
     @SuppressLint("SetTextI18n")
@@ -46,7 +46,7 @@ class Personal_info : Fragment()  {
         val email: String = firebaseAuth.currentUser!!.email.toString()
         textView3.text = "Email: \n$email"
 
-       // Benytter glide api for å vise brukeren sitt profilbilde fra google kontoen.
+        // Benytter glide api for å vise brukeren sitt profilbilde fra google kontoen.
         val photoUrl: String = firebaseAuth.currentUser!!.photoUrl.toString()
         Glide.with(context).load(photoUrl)
             .thumbnail(0.1f)
@@ -82,16 +82,4 @@ class Personal_info : Fragment()  {
          weightDB.setValue(intW)
 
      }*/
-    fun Date.toString(format: String, locale: Locale = Locale.getDefault()): String {
-        val formatter = SimpleDateFormat(format, locale)
-        return formatter.format(this)
-    }
-
-    internal fun getCurrentDateTime(): Date {
-        return Calendar.getInstance().time
-    }
-}
-
-private fun setText(it: FragmentActivity): String {
-    return it.toString()
 }
