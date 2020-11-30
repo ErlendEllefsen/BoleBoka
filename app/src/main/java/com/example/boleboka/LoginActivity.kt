@@ -39,6 +39,7 @@ class LoginActivity : AppCompatActivity() {
             Robin
             Om brukeren har logget it før, vil brukeren automatisk bli logget inn
             neste gang brukeren tar i bruk appen.
+            Referanser kan finnes i dokumentasjonen til oppgaven.
         */
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
