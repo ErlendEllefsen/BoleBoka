@@ -38,6 +38,10 @@ class MainPage : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        /* Jon: Setter spinner verdien til "" for at variabelen skal bli initialized
+         * spinnerName får ny verdi fra funksjonen getSpinnerData om det er data i databasen
+         */
+
         spinnerName = ""
         getSpinnerData()
         startBtn.setOnClickListener { view: View ->
@@ -62,10 +66,9 @@ class MainPage : Fragment() {
     }
 
     private fun getSpinnerData(): ArrayList<String> {
-        /*
-         * Funksjonen henter data fra databasen og legger det inn i en Arraylist
+         /* Jon: Funksjonen henter data fra databasen og legger det inn i en Arraylist
          * som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
-         * SPinner layout og dropdownlayout blir også satt her.
+         * Spinner layout og dropdownlayout blir også satt her.
          */
         val list = ArrayList<String>()
 
@@ -77,17 +80,16 @@ class MainPage : Fragment() {
                 FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Workouts")
             firebase
                 .addListenerForSingleValueEvent(object : ValueEventListener {
-
                     override fun onDataChange(snapshot: DataSnapshot) {
 
                         val children = snapshot.children
-
+                        // Jon: går igjennom alle verdiene i db
                         children.forEach {
-
+                            // Jon: henter value fra plassen "Name"
                             val obj = it.child("Name").value.toString()
+                            // Jon: legger value inn i list
                             list.add(obj)
                         }
-
                         val ad = ArrayAdapter(
                             fragment.requireContext(),
                             android.R.layout.simple_spinner_item, list
@@ -95,11 +97,12 @@ class MainPage : Fragment() {
                         ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         spinner.adapter = ad
 
-
+                        //Jon: Setter arrayadapter på arraylisten list og layout på spinner
                         val adapter = ArrayAdapter(
                             fragment.requireContext(),
                             android.R.layout.simple_spinner_item, list
                         )
+                        // Jon: setter dropdown layouten til spinner
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                         spinner.adapter = adapter
 
@@ -111,6 +114,7 @@ class MainPage : Fragment() {
                                     position: Int,
                                     id: Long,
                                 ) {
+                                    // Jon: setter ny verdi på spinnerName
                                       spinnerName = list[position]
                                     sendInfoToFragment(spinnerName)
                                 }
