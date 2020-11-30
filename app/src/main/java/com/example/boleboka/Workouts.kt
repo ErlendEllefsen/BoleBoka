@@ -150,9 +150,6 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
         val nameW = database.getReference("Users").child(uID).child("Workouts").child(pathName).child("Name")
         val descW = database.getReference("Users").child(uID).child("Workouts").child(pathName).child("Desc")
 
-        workoutList[position].text1 = workoutName
-        workoutList[position].text2 = workoutDesc
-
         nameW.setValue(workoutName)
         descW.setValue(workoutDesc)
 
