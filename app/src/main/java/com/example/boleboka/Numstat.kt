@@ -119,7 +119,7 @@ class Numstat : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+
                 }
             }
             database.addValueEventListener(readData)
