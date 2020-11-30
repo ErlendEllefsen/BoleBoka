@@ -143,17 +143,19 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
     }
     private fun changeWorkout(workoutName: String, workoutDesc: String, position: Int){
         // Jon: Bytter verdiene som ligger under "Name" og "Desc" i firebase
-
         val database = FirebaseDatabase.getInstance()
-
         val pathName = workoutList[position].text1
 
-        val nameW = database.getReference("Users").child(uID).child("Workouts").child(pathName).child("Name")
-        val descW = database.getReference("Users").child(uID).child("Workouts").child(pathName).child("Desc")
+        val nameW = database.getReference("Users").child(uID).child("Workouts").child(pathName)
+            .child("Name")
+        val descW = database.getReference("Users").child(uID).child("Workouts").child(pathName)
+            .child("Desc")
 
         nameW.setValue(workoutName)
         descW.setValue(workoutDesc)
 
+        val changedItem = Workout_Item(workoutName, workoutDesc)
+        workoutList.add(position, changedItem)
     }
 
 
