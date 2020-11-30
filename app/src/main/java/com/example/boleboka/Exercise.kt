@@ -24,9 +24,11 @@ import kotlinx.android.synthetic.main.fragment_exercises.*
  * fra Coding in Flow, referanse i dokumentet.
  */
 class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
+    // Har hentet denne fra stackowerflow for å finne UserID til han som er logget på
     private val currentuser = FirebaseAuth.getInstance().currentUser?.uid
     private val uID = currentuser.toString()
     private lateinit var workoutName: String
+    private lateinit var pathRem: String
     private lateinit var exerciseList: ArrayList<Exercise_Item>
     private lateinit var adapterEx: AdapterExercise
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,7 +102,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
     }
 
     private fun insertItem(name: String, reps: Int, sets: Int, workoutName: String) {
-        /* Jon: Parameter verdiene blir lagret i firebase, workotname er bare med for å få riktig path i firebas
+        /* Jon: Parameter verdiene blir lagret i firebase, workoutname er bare med for å få riktig path i firebase
          * recyclerviewet blir også oppdatert
          */
         val database = FirebaseDatabase.getInstance()
@@ -149,11 +151,11 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
     }
     private fun changeItem(name: String, reps: Int, sets: Int, workoutName: String, position: Int){
-        /*
-         * Jon: Dette funksjonen legger nye verdier inn i firebase etter at brukeren har skrevet
-         * inn nye verdier i onclick menyen.
-         */
+
+         // Jon: Setter nye verdiene til "Name", "Reps" og "Sets" i firebase
+
         val databaseS = FirebaseDatabase.getInstance()
+        // Jon : Henter exercise navnet til det itemet du har trykket på
        val pathName = exerciseList[position].name
         Toast.makeText(context, "Exercise $exerciseName changed", Toast.LENGTH_SHORT).show()
 
@@ -166,9 +168,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val setsDB =
             databaseS.getReference("Users").child(uID).child("Exercise").child(workoutName)
                 .child(pathName).child("Sets")
-        exerciseList[position].name = name
-        exerciseList[position].reps = reps
-        exerciseList[position].sets = sets
+
 
         nameDB.setValue(name)
         repsDB.setValue(reps)
@@ -211,9 +211,9 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
     }
 
     private fun generateExerciseList(): ArrayList<Exercise_Item> {
-        /*
-        Funksjonen henter data ut fra firebase on lagrer det i en arraylist
-         arraylisten har en dataklassen exercise_item somm er koblett opp mot recyclerviewet.
+
+        /* Jon: Funksjonen henter data ut fra firebase on lagrer det i en arraylist
+         * arraylisten har en dataklassen exercise_item som er koblett opp mot recyclerviewet.
          */
         val list = ArrayList<Exercise_Item>()
         val firebase =
@@ -225,9 +225,11 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
                     adapterEx.notifyDataSetChanged()
                     val children = snapshot.children
                     children.forEach {
+                        // Jon: henter verdiene fra riktig posisjon og legger de inn i en val
                         val name = it.child("Name").value.toString()
                         val reps = it.child("Reps").value.toString()
                         val sets = it.child("Sets").value.toString()
+                        // Jon: legger verdiene inn i Exercise_item
                         val task = Exercise_Item(name, reps.toInt(), sets.toInt())
                         list.add(task)
                     }
