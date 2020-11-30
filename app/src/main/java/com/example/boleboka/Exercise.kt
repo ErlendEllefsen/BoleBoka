@@ -151,12 +151,12 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
     }
     private fun changeItem(name: String, reps: Int, sets: Int, workoutName: String, position: Int){
-
          // Jon: Setter nye verdiene til "Name", "Reps" og "Sets" i firebase
         val databaseS = FirebaseDatabase.getInstance()
+        // Jon : Henter exercise navnet til det itemet du har trykket på
         val pathName = exerciseList[position].name
         exerciseList.removeAt(position)
-        // Jon : Henter exercise navnet til det itemet du har trykket på
+
 
         val ref = databaseS.getReference("Users").child(uID).child("Exercise").child(workoutName).child(pathName)
         ref.removeValue()

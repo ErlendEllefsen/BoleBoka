@@ -142,7 +142,7 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
 
     }
     private fun changeWorkout(workoutName: String, workoutDesc: String, position: Int){
-        // Jon: Bytter verdiene som ligger under "Name" og "Desc" i firebase men får ikke endret key(ståre mer forklart i dokument)
+        // Jon: Bytter verdiene som ligger under "Name" og "Desc" i firebase,
 
         val database = FirebaseDatabase.getInstance()
         var pathName = workoutList[position].text1
