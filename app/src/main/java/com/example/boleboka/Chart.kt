@@ -35,7 +35,6 @@ class Chart : Fragment() {
     val listOfReps = arrayListOf<String>()
     val listOfSets = arrayListOf<String>()
 
-    private var labelCount: Int = 0
     private var end by Delegates.notNull<Int>()
     private var start by Delegates.notNull<Int>()
 
@@ -69,6 +68,7 @@ class Chart : Fragment() {
             Denne funskjonen henter alle øvelsene fra databasen, og legger disse øvelsene i en array.
             Arrayen med øvelser blir deretter lagt til spinneren ved hjelp av et array adapter.
             Layouten til spinneren og dropdown layouten blir også satt i denne funksjonen.
+            Referanser kan finnes i dokumentasjonen til oppgaven.
         */
         val firebaseOvelse =
             FirebaseDatabase.getInstance().getReference("Users").child(uID).child(
@@ -77,11 +77,12 @@ class Chart : Fragment() {
         val listOfKeyOvelse = arrayListOf<String>()
         val eventListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                //Her blir øvelsene hentet ifra databasen og lagt i en array.
                 for (ds in dataSnapshot.children) {
                     val groupKey = ds.key as String
                     listOfKeyOvelse.add(groupKey)
                 }
-
+                //Spinneren og adaptere er kodet på samme måte som i MainPage, kun tilpasset.
                 val ad = ArrayAdapter(
                     requireContext(),
                     android.R.layout.simple_spinner_item, listOfKeyOvelse
@@ -104,7 +105,7 @@ class Chart : Fragment() {
                             position: Int,
                             id: Long
                         ) {
-                            val spinnerName = listOfKeyOvelse[position]
+                            val spinnerExercise = listOfKeyOvelse[position]
                             /*
                                 Når brukeren velger en øvelse i spinneren blir grafen som er tegnet slettet,
                                 grafen får vite at datasettet har blitt endret også blir grafen oppdatert
@@ -113,7 +114,7 @@ class Chart : Fragment() {
                             lineChart.clear()
                             lineChart.notifyDataSetChanged()
                             lineChart.invalidate()
-                            getStatsExercise(spinnerName)
+                            getStatsExercise(spinnerExercise)
                         }
 
                         override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -129,10 +130,10 @@ class Chart : Fragment() {
         return listOfKeyOvelse
     }
 
-    private fun getStatsExercise(spinnerName: String): ArrayList<String> {
+    private fun getStatsExercise(spinnerExercise: String): ArrayList<String> {
         val listOfKeyStats = arrayListOf<String>()
         val firebaseStats = FirebaseDatabase.getInstance().getReference("Users")
-            .child(uID).child("Stats").child(spinnerName)
+            .child(uID).child("Stats").child(spinnerExercise)
         /*
             Denne funksjonen henter informasjonen til den øvelsen som ble valgt av brukeren i
             funksjonen getSpinnerData. Informasjonen blir lagt i lister som senere brukes til å vise
@@ -156,7 +157,7 @@ class Chart : Fragment() {
             }
         }
         firebaseStats.addListenerForSingleValueEvent(eventListener)
-        getDateExercise(spinnerName)
+        getDateExercise(spinnerExercise)
         return listOfKeyStats
     }
 
@@ -205,12 +206,17 @@ class Chart : Fragment() {
                         setning. Dataen blir filtrert basert på posisjonen til spinneren.
                         Om listen av data ikke er større enn 4 vil ikke grafen ha nok data til å
                         bli tegnet. Listen entries er listen grafen blir tegnet av.
-                        LabeCount setter labels på x-aksen.
                     */
                     if (position == 0){
                         start = 35
                         end = listOfKeyStats.size
                         val entries = ArrayList<Entry>()
+                        /*
+                            Om listen med data fra databasen er større en 4 vil for løkken
+                            legge denne dataen i en arraylist som blir parset til float.
+                            Grafen leser bare float verdier. Om det ikke er nok verdier i listen vil
+                            den returnere noData stringen.
+                        */
                         if (listOfKeyStats.size > 4) {
                             for (index in start until end) {
                                 entries.add(
@@ -221,7 +227,6 @@ class Chart : Fragment() {
                                         ),
                                     )
                                 )
-                                labelCount = 10
                             }
                         }
                         else {
@@ -245,7 +250,6 @@ class Chart : Fragment() {
                                             ),
                                         )
                                     )
-                                    labelCount = 5
                                 }
                             }
                             else {
@@ -269,7 +273,6 @@ class Chart : Fragment() {
                                                 ),
                                             )
                                         )
-                                        labelCount = 8
                                     }
                                 }
                                 else {
@@ -293,7 +296,6 @@ class Chart : Fragment() {
                                                     ),
                                                 )
                                             )
-                                            labelCount = 5
                                         }
                                     }
                                     else {
@@ -316,7 +318,7 @@ class Chart : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun getDateExercise(spinnerName: String): List<String> {
+    private fun getDateExercise(spinnerExercise: String): List<String> {
         /*
              Denne funksjonen henter alle datoene der den øvelsen som ble valgt i spinneren ble
              gjennomført. Disse datoene blir lagret i en array. Listen blir slettet hver gang
@@ -324,11 +326,12 @@ class Chart : Fragment() {
         */
         val firebaseDato = FirebaseDatabase.getInstance().getReference("Users").child(uID).child(
             "Stats"
-        ).child(spinnerName)
+        ).child(spinnerExercise)
 
         val eventListener = object : ValueEventListener {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                //Her hentes alle datoene fra databasen, disse blir lagt i en array.
                 for (ds in dataSnapshot.children) {
                     val groupKey = ds.key as String
                     listOfKeyDate.add(groupKey)
@@ -359,7 +362,7 @@ class Chart : Fragment() {
         */
 
         /*
-            For løkken settet dato som tilhørerer veriden som blir satt på grafen og legger
+            For løkken settet dato som tilhørerer veriden som blir tegnet på grafen og legger
             denne datoen i en løkke.
         */
         val xLabel = ArrayList<String>()
@@ -387,7 +390,7 @@ class Chart : Fragment() {
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.setDrawGridLines(true)
         xAxis.valueFormatter = IndexAxisValueFormatter(xLabel) //Setter custom labels.
-        xAxis.setLabelCount(labelCount, true) //Angir hvor mange labels soms kal vises.
+        xAxis.setLabelCount(5, true) //Angir hvor mange labels soms kal vises.
         xAxis.isCenterAxisLabelsEnabled
         xAxis.setAvoidFirstLastClipping(false) //True -> Flytter labels inn på skjermbildet om disse er utenfor.
 
@@ -401,7 +404,7 @@ class Chart : Fragment() {
 
         lineChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             /*
-                Når brukeren trykker på en value/punkt på grafen får brukeren mer informasjon
+                Når brukeren trykker på et punkt på grafen får brukeren mer informasjon
                 i et tekst felt over grafen.
             */
             @SuppressLint("SetTextI18n")

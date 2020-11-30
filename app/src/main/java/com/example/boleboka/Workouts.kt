@@ -102,9 +102,8 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
     }
 
     private fun insertItem(name: String, desc: String) {
-        /*
-        Funksjon som lagrer parameter verdiene på hver sin plass i firebase
-        Her blir det også lagt en verdi under Exercise for å kunne lagre øvelser under riktig økt
+         /*Jon: Funksjon som lagrer parameter verdiene på hver sin plass i firebase
+         * Her blir det også lagt en verdi under Exercise for å kunne lagre øvelser under riktig økt
          */
 
         val database = FirebaseDatabase.getInstance()
@@ -128,7 +127,7 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
     }
 
     private fun removeItem(position: Int, nameW: String) {
-        // sletter Workout fra firebase og recycleviewet
+        // Jon: sletter Workout fra firebase og recycleviewet
 
         val db = FirebaseDatabase.getInstance()
         val ref = db.getReference("Users").child(uID).child("Workouts").child(nameW)
@@ -143,15 +142,14 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
 
     }
     private fun changeWorkout(workoutName: String, workoutDesc: String, position: Int){
+        // Jon: Bytter verdiene som ligger under "Name" og "Desc" i firebase
+
         val database = FirebaseDatabase.getInstance()
 
         val pathName = workoutList[position].text1
 
         val nameW = database.getReference("Users").child(uID).child("Workouts").child(pathName).child("Name")
         val descW = database.getReference("Users").child(uID).child("Workouts").child(pathName).child("Desc")
-
-        workoutList[position].text1 = workoutName
-        workoutList[position].text2 = workoutDesc
 
         nameW.setValue(workoutName)
         descW.setValue(workoutDesc)
@@ -199,9 +197,8 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
     }
 
     private fun generateWorkoutList(): ArrayList<Workout_Item> {
-        /*
-        Funksjonen henter ut data fra firebase ved hjelp av en singlevaluelistener og legger de i en arraylist
-        arraylisten har en dataklasse som er koblett opp mot recyclerviewet
+         /* Jon:Funksjonen henter ut data fra firebase ved hjelp av en singlevaluelistener og legger de i en arraylist
+         * arraylisten har en dataklasse som er koblett opp mot recyclerviewet
          */
 
         val list = ArrayList<Workout_Item>()

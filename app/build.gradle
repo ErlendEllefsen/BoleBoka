@@ -4,6 +4,14 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 
 android {
+    signingConfigs {
+        test {
+            storeFile file('C:\\Users\\robin\\Desktop\\release\\app-release.apk')
+            storePassword 'test123'
+            keyAlias 'key0'
+            keyPassword 'test123'
+        }
+    }
     buildFeatures {
         dataBinding = true
     }

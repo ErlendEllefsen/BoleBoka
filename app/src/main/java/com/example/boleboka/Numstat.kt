@@ -1,6 +1,7 @@
 package com.example.boleboka
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,7 @@ class Numstat : Fragment() {
     private lateinit var dateFrom: String
     private lateinit var firebaseAuth: FirebaseAuth
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
@@ -40,23 +42,34 @@ class Numstat : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        spinnerName = ""
+        dateFrom = ""
+        dateTo = ""
         getSpinnerEx()
+        //Daniel: Test for å sjekke om spinnerne har verdier, feilmelding v. Toast ved null data i databasen.
         btn3.setOnClickListener{
-            calcStats()
-        }
+            if (spinnerName != "") {
+                calcStats()
+            }else {
+                Toast.makeText(context, "You have no data", Toast.LENGTH_SHORT).show()
+            }
+            }
+
     }
 
-    private fun calcStats(){
-        /*Denne funksjonen vil hente ut en valgt øvelse i en spinner og to valgte
+       /* Daniel
+        * Denne funksjonen vil hente ut en valgt øvelse i en spinner og to valgte
         * datoer fra dato-feltene. Deretter vil den kalkulere om bruker har økt eller
         * redusert i styrke og regne ut hvor mye de kan maksimalt løfte
         * bare en gang.
-        * */
-        var test = true
+        */
+    private fun calcStats(){
+
+            var test = true
             val currentuser = FirebaseAuth.getInstance().currentUser?.uid
             val uID = currentuser.toString()
             val database = FirebaseDatabase.getInstance().reference
-
+            //Daniel: Data blir lest gjennom og presentert for bruker
             val readData = object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val sb1 = StringBuilder()
@@ -66,9 +79,9 @@ class Numstat : Fragment() {
                     val sb5 = StringBuilder()
                     val sb6 = StringBuilder()
                     if (test) {
-
+                        //Daniel: Her blir alle rader i databasen lest gjennom for å finne rett data for spørringen.
                         for (d in snapshot.children) {
-
+                            //Daniel: Spørringer mot databasen
                             val stat1 = d.child(uID).child("Stats").child(spinnerName).child(dateTo)
                                 .child("Vekt").value
                             val rep1 = d.child(uID).child("Stats").child(spinnerName).child(dateTo)
@@ -91,6 +104,7 @@ class Numstat : Fragment() {
                             sb2.append("$rep1")
                             sb3.append("$set1")
                         }
+                        //Daniel: Tekst blir sendt til fragment for å vise vekt, ant reps og sets for begge datoene.
                         textView4.text = sb1
                         repFra.text = sb2
                         setFra.text = sb3
@@ -98,11 +112,17 @@ class Numstat : Fragment() {
                         repTil.text = sb5
                         setTil.text = sb6
 
-
+                        /* Daniel
+                         * Her blir det kalkulert hvor mye økning i styrke du har hatt fra en gitt
+                         * start måned og til en gitt slutt måned.
+                         * Formel for utregning:
+                         * %Økning = ((((vektløftNå / (1.0278 - 0.0278 * antReps)) - (vektløftFør / (1.0278 - 0.0278 * antReps))) / (vektløftFør / (1.0278 - 0.0278 * antReps)))* 100
+                         * */
                         val fromDateWeight = sb1.toString()
                         val fromDateRep = sb2.toString()
                         val repMax1 =
                             (fromDateWeight.toDouble() / (1.0278 - 0.0278 * fromDateRep.toDouble())).toInt()
+
                         val toDateVekt = sb4.toString()
                         val toDateRep = sb5.toString()
                         val repMax2 =
@@ -119,20 +139,20 @@ class Numstat : Fragment() {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-
+                    Log.e("Numbstats", "$error")
                 }
             }
             database.addValueEventListener(readData)
             database.addListenerForSingleValueEvent(readData)
 
         }
+    /*  Daniel
+     *  Spinneren som blir brukt her er tatt i bruk fra MainPage sin spinner.
+     *  Spinneren vil hente ut og vise data fra databasen inn i en ArrayList og vil
+     *  vise bruker alle datoer som valgt økt har blitt utført på.
+     */
     private fun getSpinnerEx(): ArrayList<String> {
-        /*
-        Jon
-        Funksjonen henter data fra databasen og legger det inn i en Arraylist
-        som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
-        SPinner layout og dropdownlayout blir også satt her.
-         */
+
         val list = ArrayList<String>()
 
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
@@ -176,9 +196,12 @@ class Numstat : Fragment() {
                                     position: Int,
                                     id: Long,
                                 ) {
+
                                     spinnerName = list[position]
-                                    getSpinnerDateTo(spinnerName)
-                                    getSpinnerDateFrom(spinnerName)
+                                    if(spinnerName != "" && spinnerNum != null) {
+                                        getSpinnerDateTo(spinnerName)
+                                        getSpinnerDateFrom(spinnerName)
+                                    }
                                 }
 
                                 override fun onNothingSelected(parent: AdapterView<*>) {
@@ -194,12 +217,13 @@ class Numstat : Fragment() {
         return list
 
     }
+    /*  Daniel
+    *  Spinneren som blir brukt her er tatt i bruk fra MainPage sin spinner.
+    *  Spinneren vil hente ut og vise data fra databasen inn i en ArrayList og vil
+    *  vise bruker alle datoer som valgt økt har blitt utført på.
+    */
     private fun getSpinnerDateTo(spinnerName: String): ArrayList<String> {
-        /*
-        Funksjonen henter data fra databasen og legger det inn i en Arraylist
-        som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
-        SPinner layout og dropdownlayout blir også satt her.
-         */
+
         val list = ArrayList<String>()
 
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
@@ -254,12 +278,13 @@ class Numstat : Fragment() {
             })
         return list
     }
-    private fun getSpinnerDateFrom(spinnerName: String): ArrayList<String> {
-        /*
-        Funksjonen henter data fra databasen og legger det inn i en Arraylist
-        som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
-        SPinner layout og dropdownlayout blir også satt her.
+        /*  Daniel
+         *  Spinneren som blir brukt her er tatt i bruk fra MainPage sin spinner.
+         *  Spinneren vil hente ut og vise data fra databasen inn i en ArrayList og vil
+         *  vise bruker alle datoer som valgt økt har blitt utført på.
          */
+    private fun getSpinnerDateFrom(spinnerName: String): ArrayList<String> {
+
         val list = ArrayList<String>()
 
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
