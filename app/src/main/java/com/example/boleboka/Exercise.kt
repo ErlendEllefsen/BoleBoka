@@ -82,16 +82,16 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
             val exerciseName = inputName.text.toString()
             val exerciseReps = inputReps.text.toString()
             val exerciseSets = inputSets.text.toString()
-            val exerciseRepsInt = exerciseReps.toInt()
-            val exerciseSetsInt = exerciseSets.toInt()
 
             /* Erlend: Er det ikke blitt skrevet inn noe navn vil det komme en feilmelding
              * Om alt er greit vil verdiene bli sendt videre og dialogvinduet lukket
              */
-            if (exerciseName == "") {
-                val noNameToast = Toast.makeText(context, "No name", Toast.LENGTH_SHORT)
+            if (exerciseName == "" || exerciseReps == "" || exerciseSets == "") {
+                val noNameToast = Toast.makeText(context, "Write in all fields", Toast.LENGTH_SHORT)
                 noNameToast.show()
             } else {
+                val exerciseRepsInt = exerciseReps.toInt()
+                val exerciseSetsInt = exerciseSets.toInt()
                 insertItem(exerciseName, exerciseRepsInt, exerciseSetsInt, workoutName)
                 dialog.dismiss()
             }
@@ -196,12 +196,13 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
             val exName = changeName.text.toString()
             val exReps = changeReps.text.toString()
             val exSets = changeSets.text.toString()
-            val exRepsInt = exReps.toInt()
-            val exSetsInt = exSets.toInt()
-            if (exName == "") {
-                val noNameToast = Toast.makeText(context, "No name", Toast.LENGTH_SHORT)
+
+            if (exName == "" || exReps == "" || exSets == "") {
+                val noNameToast = Toast.makeText(context, "Write in all fields", Toast.LENGTH_SHORT)
                 noNameToast.show()
             } else {
+                val exRepsInt = exReps.toInt()
+                val exSetsInt = exSets.toInt()
                 adapterEx.notifyItemChanged(position)
                 changeItem(exName, exRepsInt, exSetsInt, workoutName, position)
                 exerciseDialog.dismiss()
