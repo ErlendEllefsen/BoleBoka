@@ -145,13 +145,19 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
         // Jon: Bytter verdiene som ligger under "Name" og "Desc" i firebase men får ikke endret key(ståre mer forklart i dokument)
 
         val database = FirebaseDatabase.getInstance()
-        val pathName = workoutList[position].text1
+        var pathName = workoutList[position].text1
         workoutList.removeAt(position)
+        val db = FirebaseDatabase.getInstance()
+        val ref = db.getReference("Users").child(uID).child("Workouts").child(pathName)
+        val refE = db.getReference("Users").child(uID).child("Exercise").child(pathName)
+        ref.removeValue()
+        refE.removeValue()
 
-        val nameW = database.getReference("Users").child(uID).child("Workouts").child(pathName)
+        val nameW = database.getReference("Users").child(uID).child("Workouts").child(workoutName)
             .child("Name")
-        val descW = database.getReference("Users").child(uID).child("Workouts").child(pathName)
+        val descW = database.getReference("Users").child(uID).child("Workouts").child(workoutName)
             .child("Desc")
+
 
         nameW.setValue(workoutName)
         descW.setValue(workoutDesc)

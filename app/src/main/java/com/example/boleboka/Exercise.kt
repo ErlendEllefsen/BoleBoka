@@ -157,17 +157,21 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val databaseS = FirebaseDatabase.getInstance()
         // Jon : Henter exercise navnet til det itemet du har trykket på
        val pathName = exerciseList[position].name
+        val exerciseName = exerciseList[position].name
         Toast.makeText(context, "Exercise $pathName changed", Toast.LENGTH_SHORT).show()
+
+        val ref = databaseS.getReference("Users").child(uID).child("Exercise").child(workoutName).child(exerciseName)
+        ref.removeValue()
 
         val nameDB =
             databaseS.getReference("Users").child(uID).child("Exercise").child(workoutName)
-                .child(pathName).child("Name")
+                .child(name).child("Name")
         val repsDB =
             databaseS.getReference("Users").child(uID).child("Exercise").child(workoutName)
-                .child(pathName).child("Reps")
+                .child(name).child("Reps")
         val setsDB =
             databaseS.getReference("Users").child(uID).child("Exercise").child(workoutName)
-                .child(pathName).child("Sets")
+                .child(name).child("Sets")
 
 
         nameDB.setValue(name)
