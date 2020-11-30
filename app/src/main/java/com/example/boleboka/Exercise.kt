@@ -155,7 +155,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
          */
         val databaseS = FirebaseDatabase.getInstance()
        val pathName = exerciseList[position].name
-        Toast.makeText(context, "Exercise $exerciseName changed", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Exercise $pathName changed", Toast.LENGTH_SHORT).show()
 
         val nameDB =
             databaseS.getReference("Users").child(uID).child("Exercise").child(workoutName)
