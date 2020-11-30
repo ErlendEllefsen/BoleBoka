@@ -134,7 +134,6 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
         val refE = db.getReference("Users").child(uID).child("Exercise").child(nameW)
         ref.removeValue()
         refE.removeValue()
-
         // Erlend: fjerner workout i frontend og sier ifra til adapter.
         workoutList.removeAt(position)
         adapter.notifyItemRemoved(position)
