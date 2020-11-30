@@ -154,6 +154,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
 
          // Jon: Setter nye verdiene til "Name", "Reps" og "Sets" i firebase
         exerciseList.removeAt(position)
+        val exerciseName = exerciseList[position].name
         val databaseS = FirebaseDatabase.getInstance()
         // Jon : Henter exercise navnet til det itemet du har trykket på
        val pathName = exerciseList[position].name
