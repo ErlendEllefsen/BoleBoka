@@ -15,11 +15,35 @@
       },
       "oauth_client": [
         {
-          "client_id": "830245232430-7iv2a3580edv662v1votd67d3a40euld.apps.googleusercontent.com",
+          "client_id": "830245232430-rjugm4s0ca6ntgvecnp6v1lse1ldploc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.boleboka",
-            "certificate_hash": "6004a1d0afed24d054f69e10c6b4a3ff387277b5"
+            "certificate_hash": "01a56a3fb913227bf4f2d1884e0e954894bfcf88"
+          }
+        },
+        {
+          "client_id": "830245232430-cjalcc4359ceqi5u2dnkulvn1v2bc380.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.boleboka",
+            "certificate_hash": "838d0632c78da3ad63b48a337e6998c094630e76"
+          }
+        },
+        {
+          "client_id": "830245232430-ej2v78aaa4to8t4sqsjmj2fjamfl7pf2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.boleboka",
+            "certificate_hash": "6c2aa9322990a87f954809408add6ccb8fd5dd51"
+          }
+        },
+        {
+          "client_id": "830245232430-5ocso43enhm516ab8cnm1nni6dqo8cgg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.boleboka",
+            "certificate_hash": "f4d01a3f0a303d95917231425097c72052844663"
           }
         },
         {
