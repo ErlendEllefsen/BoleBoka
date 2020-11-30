@@ -23,6 +23,7 @@ class Numstat : Fragment() {
     private lateinit var dateFrom: String
     private lateinit var firebaseAuth: FirebaseAuth
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
@@ -40,10 +41,19 @@ class Numstat : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        spinnerName = ""
+        dateFrom = ""
+        dateTo = ""
         getSpinnerEx()
+
         btn3.setOnClickListener{
-            calcStats()
-        }
+            if (spinnerName != "") {
+                calcStats()
+            }else {
+                Toast.makeText(context, "You have no data", Toast.LENGTH_SHORT).show()
+            }
+            }
+
     }
 
     private fun calcStats(){
@@ -176,9 +186,12 @@ class Numstat : Fragment() {
                                     position: Int,
                                     id: Long,
                                 ) {
+
                                     spinnerName = list[position]
-                                    getSpinnerDateTo(spinnerName)
-                                    getSpinnerDateFrom(spinnerName)
+                                    if(spinnerName != "" && spinnerNum != null) {
+                                        getSpinnerDateTo(spinnerName)
+                                        getSpinnerDateFrom(spinnerName)
+                                    }
                                 }
 
                                 override fun onNothingSelected(parent: AdapterView<*>) {

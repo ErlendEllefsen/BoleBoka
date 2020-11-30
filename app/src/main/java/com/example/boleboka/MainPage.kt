@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -22,6 +23,8 @@ import kotlinx.android.synthetic.main.fragment_main_page.*
 class MainPage : Fragment() {
 
     private var model: Communicator? = null
+    private lateinit var spinnerName: String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -30,16 +33,23 @@ class MainPage : Fragment() {
             inflater,
             R.layout.fragment_main_page, container, false
         )
-        binding.startBtn.setOnClickListener { view: View ->
-            view.findNavController().navigate(R.id.action_startWorkout_to_active_workout)
-            Log.e("Chart", "Noe galt!")
-        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        spinnerName = ""
         getSpinnerData()
+        startBtn.setOnClickListener { view: View ->
+            if (spinnerName != "") {
+                view.findNavController()
+                    .navigate(R.id.action_startWorkout_to_active_workout)
+                Log.e("Chart", "Noe galt!")
+
+            } else {
+                Toast.makeText(context, "You have no workouts", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,7 +111,7 @@ class MainPage : Fragment() {
                                     position: Int,
                                     id: Long,
                                 ) {
-                                    val spinnerName = list[position]
+                                      spinnerName = list[position]
                                     sendInfoToFragment(spinnerName)
                                 }
 

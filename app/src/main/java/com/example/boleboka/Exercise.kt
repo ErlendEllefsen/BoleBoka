@@ -27,6 +27,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
     private val currentuser = FirebaseAuth.getInstance().currentUser?.uid
     private val uID = currentuser.toString()
     private lateinit var workoutName: String
+    private lateinit var pathRem: String
     private lateinit var exerciseList: ArrayList<Exercise_Item>
     private lateinit var adapterEx: AdapterExercise
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -166,9 +167,7 @@ class Exercise : Fragment(), AdapterExercise.OnItemClickListener {
         val setsDB =
             databaseS.getReference("Users").child(uID).child("Exercise").child(workoutName)
                 .child(pathName).child("Sets")
-        exerciseList[position].name = name
-        exerciseList[position].reps = reps
-        exerciseList[position].sets = sets
+
 
         nameDB.setValue(name)
         repsDB.setValue(reps)
