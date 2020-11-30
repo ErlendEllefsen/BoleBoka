@@ -12,7 +12,6 @@
         android:roundIcon="@drawable/ic_logo_small"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask" />
@@ -26,5 +25,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

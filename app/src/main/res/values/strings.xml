@@ -63,6 +63,7 @@
     <string name="todo">TODO</string>
     <string name="profilbilde">Profilbilde</string>
     <string name="logo">Logo</string>
+    <string name="dialog_info_exercise">Add a Exercise!</string>
 
 
     <string-array name="Languages">
