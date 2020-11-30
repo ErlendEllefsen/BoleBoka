@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.fragment_main_page.*
 
 
 
+@Suppress("NAME_SHADOWING")
 class MainPage : Fragment() {
 
     private var model: Communicator? = null
@@ -66,72 +67,72 @@ class MainPage : Fragment() {
     }
 
     private fun getSpinnerData(): ArrayList<String> {
-         /* Jon: Funksjonen henter data fra databasen og legger det inn i en Arraylist
-         * som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
-         * Spinner layout og dropdownlayout blir også satt her.
-         */
+        /* Jon: Funksjonen henter data fra databasen og legger det inn i en Arraylist
+        * som derretter blir brukt til å legge informasjon inn i en spinner ved hjelp av en arrayadapter.
+        * Spinner layout og dropdownlayout blir også satt her.
+        */
         val list = ArrayList<String>()
 
         val currentuser = FirebaseAuth.getInstance().currentUser?.uid
-            val uID = currentuser.toString()
+        val uID = currentuser.toString()
 
 
-            val firebase =
-                FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Workouts")
-            firebase
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
+        val firebase =
+            FirebaseDatabase.getInstance().getReference("Users").child(uID).child("Workouts")
+        firebase
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
 
-                        val children = snapshot.children
-                        // Jon: går igjennom alle verdiene i db
-                        children.forEach {
-                            // Jon: henter value fra plassen "Name"
-                            val obj = it.child("Name").value.toString()
-                            // Jon: legger value inn i list
-                            list.add(obj)
-                        }
-                        val ad = ArrayAdapter(
-                                fragment.requireContext(),
-                                android.R.layout.simple_spinner_item, list
-                                )
-                        ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        spinner?.adapter = ad
+                    val children = snapshot.children
+                    // Jon: går igjennom alle verdiene i db
+                    children.forEach {
+                        // Jon: henter value fra plassen "Name"
+                        val obj = it.child("Name").value.toString()
+                        // Jon: legger value inn i list
+                        list.add(obj)
+                    }
+                    val ad = ArrayAdapter(
+                        fragment.requireContext(),
+                        android.R.layout.simple_spinner_item, list
+                    )
+                    ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinner?.adapter = ad
 
-                        //Jon: Setter arrayadapter på arraylisten list og layout på spinner
-                        val adapter = ArrayAdapter(
-                            fragment.requireContext(),
-                            android.R.layout.simple_spinner_item, list
-                        )
-                        // Jon: setter dropdown layouten til spinner
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        spinner?.adapter = adapter
+                    //Jon: Setter arrayadapter på arraylisten list og layout på spinner
+                    val adapter = ArrayAdapter(
+                        fragment.requireContext(),
+                        android.R.layout.simple_spinner_item, list
+                    )
+                    // Jon: setter dropdown layouten til spinner
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    spinner?.adapter = adapter
 
-                        spinner?.onItemSelectedListener =
-                            object : AdapterView.OnItemSelectedListener {
-                                override fun onItemSelected(
-                                    parent: AdapterView<*>,
-                                    view: View,
-                                    position: Int,
-                                    id: Long,
-                                ) {
-                                    // Jon: setter ny verdi på spinnerName
-                                      spinnerName = list[position]
-                                    sendInfoToFragment(spinnerName)
-                                }
-
-                                override fun onNothingSelected(parent: AdapterView<*>) {
-                                    spinner.prompt = "Getting data"
-                                }
+                    spinner?.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>,
+                                view: View,
+                                position: Int,
+                                id: Long,
+                            ) {
+                                // Jon: setter ny verdi på spinnerName
+                                spinnerName = list[position]
+                                sendInfoToFragment(spinnerName)
                             }
 
-                    }
+                            override fun onNothingSelected(parent: AdapterView<*>) {
+                                spinner.prompt = "Getting data"
+                            }
+                        }
 
-                    override fun onCancelled(error: DatabaseError) {
-                        Log.e("MainPage", "$error")
-                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("MainPage", "$error")
+                }
 
 
-                })
+            })
 
         return list
 
