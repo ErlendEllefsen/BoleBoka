@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import android.widget.Toast.makeText
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -118,9 +119,8 @@ class Numstat : Fragment() {
                     }
                     test = false
                 }
-
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireParentFragment().requireContext(), "$error", Toast.LENGTH_LONG).show()
                 }
             }
             database.addValueEventListener(readData)
@@ -188,7 +188,7 @@ class Numstat : Fragment() {
 
                 }
                     override fun onCancelled(error: DatabaseError) {
-                        Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+                        makeText(context, "$error", Toast.LENGTH_LONG).show()
                 }
             })
 
@@ -250,7 +250,7 @@ class Numstat : Fragment() {
                         }
                 }
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+                    makeText(context, "$error", Toast.LENGTH_LONG).show()
                 }
             })
         return list
@@ -310,7 +310,7 @@ class Numstat : Fragment() {
                         }
                 }
                 override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(context, "$error", Toast.LENGTH_LONG).show()
+                    makeText(context, "$error", Toast.LENGTH_LONG).show()
                 }
             })
         return list
