@@ -144,6 +144,7 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
         // Jon: Bytter verdiene som ligger under "Name" og "Desc" i firebase
         val database = FirebaseDatabase.getInstance()
         val pathName = workoutList[position].text1
+        workoutList.removeAt(position)
 
         val nameW = database.getReference("Users").child(uID).child("Workouts").child(pathName)
             .child("Name")
@@ -189,8 +190,8 @@ class Workouts : Fragment(), AdapterWorkout.OnItemClickListener {
                 val noNameToast = Toast.makeText(context, "No name", Toast.LENGTH_SHORT)
                 noNameToast.show()
             } else {
-                adapter.notifyItemChanged(position)
                 changeWorkout(workoutName, workoutDesc, position)
+                adapter.notifyItemChanged(position)
                 workoutDialog.dismiss()
             }
         }
