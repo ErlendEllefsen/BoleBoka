@@ -91,11 +91,11 @@ class MainPage : Fragment() {
                             list.add(obj)
                         }
                         val ad = ArrayAdapter(
-                            fragment.requireContext(),
-                            android.R.layout.simple_spinner_item, list
-                        )
+                                fragment.requireContext(),
+                                android.R.layout.simple_spinner_item, list
+                                )
                         ad.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        spinner.adapter = ad
+                        spinner?.adapter = ad
 
                         //Jon: Setter arrayadapter på arraylisten list og layout på spinner
                         val adapter = ArrayAdapter(
@@ -104,9 +104,9 @@ class MainPage : Fragment() {
                         )
                         // Jon: setter dropdown layouten til spinner
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                        spinner.adapter = adapter
+                        spinner?.adapter = adapter
 
-                        spinner.onItemSelectedListener =
+                        spinner?.onItemSelectedListener =
                             object : AdapterView.OnItemSelectedListener {
                                 override fun onItemSelected(
                                     parent: AdapterView<*>,
@@ -120,12 +120,14 @@ class MainPage : Fragment() {
                                 }
 
                                 override fun onNothingSelected(parent: AdapterView<*>) {
+                                    spinner.prompt = "Getting data"
                                 }
                             }
 
                     }
 
                     override fun onCancelled(error: DatabaseError) {
+                        Log.e("MainPage", "$error")
                     }
 
 
